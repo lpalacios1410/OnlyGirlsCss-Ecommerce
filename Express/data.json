@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "nombre": "Oso de Felpa Miel",
+    "tipo": "peluche",
+    "precio": 24.99,
+    "descripcion": "Oso clásico extra suave con lazo decorativo.",
+    "data": {
+      "cantidadDisponible": 15,
+      "image": "https://images.unsplash.com/photo-1559440666-3744383f9817?w=500"
+    }
+  },
+  {
+    "id": 2,
+    "nombre": "Termo Titanium Pro 1L",
+    "tipo": "termo",
+    "precio": 32.50,
+    "descripcion": "Mantiene el calor por 24 horas garantizado.",
+    "data": {
+      "cantidadDisponible": 10,
+      "image": "https://images.unsplash.com/photo-1590518712716-e421062b1df6?w=500"
+    }
+  },
+  {
+    "id": 3,
+    "nombre": "Mochila Explorer 30L",
+    "tipo": "bolso",
+    "precio": 55.00,
+    "descripcion": "Resistente al agua con compartimento para laptop.",
+    "data": {
+      "cantidadDisponible": 8,
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500"
+    }
+  },
+  {
+    "id": 4,
+    "nombre": "Lego City Set Básico",
+    "tipo": "juguete",
+    "precio": 45.90,
+    "descripcion": "Set de construcción con 500 piezas coloridas.",
+    "data": {
+      "cantidadDisponible": 12,
+      "image": "https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?w=500"
+    }
+  },
+  {
+    "id": 5,
+    "nombre": "Pingüino de Peluche 'Pipo'",
+    "tipo": "peluche",
+    "precio": 18.00,
+    "descripcion": "Pingüino pequeño ideal para bebés.",
+    "data": {
+      "cantidadDisponible": 25,
+      "image": "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=500"
+    }
+  },
+  {
+    "id": 6,
+    "nombre": "Botella Térmica Slim 500ml",
+    "tipo": "termo",
+    "precio": 15.99,
+    "descripcion": "Diseño elegante y ligero para el gimnasio.",
+    "data": {
+      "cantidadDisponible": 30,
+      "image": "https://images.unsplash.com/photo-1602143393494-13175399587f?w=500"
+    }
+  },
+  {
+    "id": 7,
+    "nombre": "Bolso de Mano Elegance",
+    "tipo": "bolso",
+    "precio": 89.99,
+    "descripcion": "Cuero genuino color café con herrajes dorados.",
+    "data": {
+      "cantidadDisponible": 5,
+      "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500"
+    }
+  },
+  {
+    "id": 8,
+    "nombre": "Dron SkyHawk Mini",
+    "tipo": "juguete",
+    "precio": 120.00,
+    "descripcion": "Dron con cámara HD y estabilización automática.",
+    "data": {
+      "cantidadDisponible": 4,
+      "image": "https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=500"
+    }
+  },
+  {
+    "id": 9,
+    "nombre": "Dinosaurio T-Rex Soft",
+    "tipo": "peluche",
+    "precio": 22.50,
+    "descripcion": "Peluche de dinosaurio con texturas realistas.",
+    "data": {
+      "cantidadDisponible": 18,
+      "image": "https://images.unsplash.com/photo-1560272591-383040d17ee3?w=500"
+    }
+  },
+  {
+    "id": 10,
+    "nombre": "Vaso Café To-Go 400ml",
+    "tipo": "termo",
+    "precio": 12.00,
+    "descripcion": "Acero inoxidable con tapa de seguridad.",
+    "data": {
+      "cantidadDisponible": 40,
+      "image": "https://images.unsplash.com/photo-1577937927133-66ef06ac992a?w=500"
+    }
+  },
+  {
+    "id": 11,
+    "nombre": "Riñonera Deportiva Neon",
+    "tipo": "bolso",
+    "precio": 19.50,
+    "descripcion": "Ideal para corredores, resistente al sudor.",
+    "data": {
+      "cantidadDisponible": 22,
+      "image": "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=500"
+    }
+  },
+  {
+    "id": 12,
+    "nombre": "Tren de Madera Educativo",
+    "tipo": "juguete",
+    "precio": 35.00,
+    "descripcion": "Piezas encajables para desarrollar motricidad.",
+    "data": {
+      "cantidadDisponible": 10,
+      "image": "https://images.unsplash.com/photo-1515488403636-ee00c1febd99?w=500"
+    }
+  },
+  {
+    "id": 13,
+    "nombre": "Unicornio de Fantasía",
+    "tipo": "peluche",
+    "precio": 21.00,
+    "descripcion": "Con cuerno brillante y crines de colores.",
+    "data": {
+      "cantidadDisponible": 14,
+      "image": "https://images.unsplash.com/photo-1558679908-541bcf1249ff?w=500"
+    }
+  },
+  {
+    "id": 14,
+    "nombre": "Termo Infantil 'Monster'",
+    "tipo": "termo",
+    "precio": 17.50,
+    "descripcion": "Diseño divertido con sorbete de silicona.",
+    "data": {
+      "cantidadDisponible": 15,
+      "image": "https://images.unsplash.com/photo-1523362628242-4a65853b14d8?w=500"
+    }
+  },
+  {
+    "id": 15,
+    "nombre": "Maletín Ejecutivo Cuero",
+    "tipo": "bolso",
+    "precio": 110.00,
+    "descripcion": "Elegante maletín para oficina y documentos.",
+    "data": {
+      "cantidadDisponible": 6,
+      "image": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500"
+    }
+  },
+  {
+    "id": 16,
+    "nombre": "Puzzle de 1000 Piezas",
+    "tipo": "juguete",
+    "precio": 28.00,
+    "descripcion": "Imagen artística de la Vía Láctea.",
+    "data": {
+      "cantidadDisponible": 9,
+      "image": "https://images.unsplash.com/photo-1587653263995-422546a74569?w=500"
+    }
+  },
+  {
+    "id": 17,
+    "nombre": "Conejo de Orejas Largas",
+    "tipo": "peluche",
+    "precio": 16.50,
+    "descripcion": "Peluche de conejo gris de 30cm.",
+    "data": {
+      "cantidadDisponible": 20,
+      "image": "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=500"
+    }
+  },
+  {
+    "id": 18,
+    "nombre": "Botella de Vidrio Reforzado",
+    "tipo": "termo",
+    "precio": 14.00,
+    "descripcion": "Vidrio borosilicato con funda de silicona.",
+    "data": {
+      "cantidadDisponible": 35,
+      "image": "https://images.unsplash.com/photo-1602143393494-13175399587f?w=500"
+    }
+  },
+  {
+    "id": 19,
+    "nombre": "Bolso de Playa XXL",
+    "tipo": "bolso",
+    "precio": 22.00,
+    "descripcion": "Material de red fácil de lavar y secar.",
+    "data": {
+      "cantidadDisponible": 13,
+      "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500"
+    }
+  },
+  {
+    "id": 20,
+    "nombre": "Set de Magia Profesional",
+    "tipo": "juguete",
+    "precio": 39.99,
+    "descripcion": "Incluye manual y 25 trucos sorprendentes.",
+    "data": {
+      "cantidadDisponible": 7,
+      "image": "https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=500"
+    }
+  }
+]
