@@ -19,9 +19,10 @@ export class ProductController{
         const productGet = await ProductModel.getById(id)
         
         if (!productGet) {
-            return res.status(404).json({error: `Producto no encontrado!`})
+            return res.status(404).json({error: `Producto con id ${id} no encontrado!`})
         }
-        return res.json({ message: `Producto encontrado exitosamente ${productGet}` })
+        return res.json({ message: `Producto encontrado exitosamente`,
+            data: productGet })
     }
 
     static async create (req, res) {

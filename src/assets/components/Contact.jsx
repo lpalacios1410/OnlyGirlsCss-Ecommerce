@@ -1,13 +1,10 @@
-import { Footer } from "./Footer";
-import { Header } from "./Header";
 import { useContactForm } from "../../hooks/useContactForm";
 
-export function ContactPage() {
+export default function ContactPage() {
   const { handleSubmit } = useContactForm();
 
   return (
     <>
-      <Header />
       <main className="flex-1 max-w-[1200px] mx-auto px-6 py-12 lg:py-20 w-full">
         <div className="mb-16 text-center">
           <h1 className="text-4xl lg:text-6xl font-black mb-4 tracking-tighter text-[#171214]">
@@ -175,7 +172,6 @@ export function ContactPage() {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

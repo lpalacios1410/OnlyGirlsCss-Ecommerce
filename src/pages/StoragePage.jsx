@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { Header } from "../assets/components/Header.jsx";
 import { FiltersProducts } from "../assets/components/FiltersProducts.jsx";
 import { ProductListing } from "../assets/components/ProductListing.jsx";
 import { Pagination } from "../assets/components/Pagination.jsx";
-import { Footer } from "../assets/components/Footer.jsx";
 import { SpinnerLoading } from "../assets/components/SpinnerLoading.jsx";
 
 import { useFilters } from "../hooks/useFilters.jsx";
 
-export function StoragePage() {
+export default function StoragePage() {
   const [selectedColor, setSelectedColor] = useState(null);
 
   const {
@@ -28,7 +26,6 @@ export function StoragePage() {
 
   return (
     <>
-      <Header />
       <title>{title}</title>
       <main className="sm:px-30 px-12 xl:flex lg:items-center lg:gap-8 py-8 bg-gray-200 ">
         <FiltersProducts
@@ -57,7 +54,6 @@ export function StoragePage() {
           />
         </div>
       </main>
-      <Footer />
     </>
   );
 }

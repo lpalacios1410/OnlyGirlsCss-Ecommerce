@@ -13,7 +13,7 @@ export function Link({
   const handleClick = (e) => {
     e.preventDefault();
 
-    window.history.pushState({}, "", href);
+    // React Router already updates browser history; avoid pushing twice.
     navigateTo(href);
   };
 

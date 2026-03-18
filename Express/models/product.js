@@ -21,7 +21,7 @@ export class ProductModel {
         return {paginatedProducts, total}
     }
     static  async getById(id) {
-        const productGet = products.find(product => product.id === (id))
+        const productGet = products.find(product => product.id === Number(id))
         return productGet
     }
 

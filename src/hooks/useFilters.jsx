@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "./useRouter.jsx";
+import { useSearchParams } from "react-router";
 
 export function useFilters() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [categorySelected, setCategorySelected] = useState(() => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("tipo") || "todos";
+    return searchParams.get("tipo") || "todos";
   });
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
@@ -13,18 +14,19 @@ export function useFilters() {
   const [currentPage, setCurrentPage] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     const page = Number(params.get("page"));
-    return Number.isNaN(page) ? page : 1;
+    return Number.isNaN(page) || page < 1 ? 1 : page;
   });
 
-  const { navigateTo } = useRouter();
+  // Persist filters + pagination through URL query params
 
   const RESULT_PER_PAGE = 6;
+
   useEffect(() => {
     async function fetchProducts() {
       try {
         setLoading(true);
         // Simulate a delay for loading state
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        // await new Promise((resolve) => setTimeout(resolve, 2000));
 
         const params = new URLSearchParams();
 
@@ -53,18 +55,24 @@ export function useFilters() {
     fetchProducts();
   }, [categorySelected, currentPage]);
 
+  //
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (categorySelected !== "todos") params.append("tipo", categorySelected);
+    setSearchParams((params) => {
+      if (categorySelected !== "todos") {
+        params.set("tipo", categorySelected);
+      } else {
+        params.delete("tipo");
+      }
 
-    if (currentPage > 1) params.append("page", currentPage);
+      if (currentPage > 1) {
+        params.set("page", currentPage);
+      } else {
+        params.delete("page");
+      }
 
-    const newUrl = params.toString()
-      ? `${window.location.pathname}?${params.toString()}`
-      : window.location.pathname;
-
-    navigateTo(newUrl);
-  }, [currentPage, categorySelected, navigateTo]);
+      return params;
+    });
+  }, [currentPage, categorySelected, setSearchParams]);
 
   const totalPages = Math.ceil(total / RESULT_PER_PAGE);
 

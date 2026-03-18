@@ -1,3 +1,5 @@
+import { Link } from "./Link";
+
 export function ProductCard({ product }) {
   return (
     <>
@@ -15,9 +17,13 @@ export function ProductCard({ product }) {
             <button className="bg-primary/70 hover:bg-primary text-white px-6 py-2 rounded-full opacity-0 group-hover:opacity-100 duration-300 cursor-pointer">
               Add to Cart
             </button>
-            <button className="bg-primary/70 hover:bg-primary text-white px-6 py-2 rounded-full opacity-0 group-hover:opacity-100 duration-300 cursor-pointer">
+            <Link
+              href={`/products/${product.id}`}
+              className="bg-primary/70 hover:bg-primary text-white px-6 py-2 rounded-full opacity-0 group-hover:opacity-100 duration-300 cursor-pointer"
+              arial-label={`View details of ${product.nombre}`}
+            >
               View Details
-            </button>
+            </Link>
           </div>
         </div>
         <div className="p-4">
