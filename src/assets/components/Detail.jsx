@@ -1,8 +1,11 @@
 import { useParams, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { SpinnerLoading } from "./SpinnerLoading";
+import { useAuthStore } from "../../store/authStore";
 
 export default function ProductDetail() {
+  const { isLoggedIn } = useAuthStore();
+
   const { productId } = useParams();
   const navigate = useNavigate();
 
@@ -136,12 +139,13 @@ export default function ProductDetail() {
                   ></button>
                 </div>
               </div>
-              <div className="w-1/2 flex flex-col sm:flex-row gap-4">
-                <button className="flex-1  text-white font-bold py-3 px-6 rounded shadow-lg bg-primary hover:bg-primary/90 transition-transform transform hover:scale-105 flex items-center justify-center gap-3">
-                  <span className="material-icons"></span>
-                  Add to Cart
-                </button>
-              </div>
+              <button
+                disabled={!isLoggedIn}
+                className="flex-1 text-white font-bold p-3 rounded shadow-lg bg-primary hover:bg-primary/90 transition-transform transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed"
+              >
+                <span className="material-icons"></span>
+                {isLoggedIn ? "Add to cart" : "Please log in to add to cart"}
+              </button>
             </div>
           </div>
         </main>

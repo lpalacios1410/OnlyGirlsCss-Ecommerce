@@ -1,7 +1,9 @@
 import logo from "../images/logo.jpg";
 import { Link } from "./Link.jsx";
+import { useAuthStore } from "../../store/authStore.js";
 
 export function Header() {
+  const { isLoggedIn, login, logout } = useAuthStore();
   return (
     <div>
       <header className="border-b border-gray-200">
@@ -62,41 +64,41 @@ export function Header() {
 
             <div className="flex items-center gap-4">
               <div className="sm:flex sm:gap-4">
-                <Link
-                  className="rounded-md bg-pink-400 px-5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-pink-300 transition"
-                  href="#"
+                {isLoggedIn ? (
+                  <button
+                    className="w-full p-2 rounded-xl bg-primary cursor-pointer hover:bg-primary/90 transition text-white font-semibold "
+                    onClick={logout}
+                  >
+                    Log out
+                  </button>
+                ) : (
+                  <button
+                    className="w-full p-2 rounded-xl bg-primary cursor-pointer hover:bg-primary/90 transition text-white font-semibold "
+                    onClick={login}
+                  >
+                    Log in
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="block md:hidden">
+              <button className="rounded-sm bg-pink-400 p-2 hover:bg-pink-300 hover:text-pink-500 hover:cursor-pointer transition text-white ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="size-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
                 >
-                  Login
-                </Link>
-
-                <div className="hidden sm:flex">
-                  <Link
-                    className="rounded-md px-5 py-2.5 text-sm font-medium  bg-pink-400 hover:bg-pink-300 transition text-white "
-                    href="#"
-                  >
-                    Register
-                  </Link>
-                </div>
-              </div>
-
-              <div className="block md:hidden">
-                <button className="rounded-sm bg-pink-400 p-2 hover:bg-pink-300 hover:text-pink-500 hover:cursor-pointer transition text-white ">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4 6h16M4 12h16M4 18h16"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  ></path>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
