@@ -5,6 +5,7 @@ export function ProductCard({ product }) {
     <>
       <div
         key={product.id}
+        data-testid="product-card"
         className="w-full bg-white rounded-lg overflow-hidden group shadow-md hover:shadow-xl transition-shadow"
       >
         <div className="relative">
@@ -18,6 +19,7 @@ export function ProductCard({ product }) {
               Add to Cart
             </button>
             <Link
+              data-testid="viewButton"
               href={`/products/${product.id}`}
               className="bg-primary/70 hover:bg-primary text-white px-6 py-2 rounded-full opacity-0 group-hover:opacity-100 duration-300 cursor-pointer"
               arial-label={`View details of ${product.nombre}`}
