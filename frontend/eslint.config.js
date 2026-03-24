@@ -8,8 +8,8 @@ export default defineConfig([
   globalIgnores(['dist']),
   {
     files: ['**/*.{js,jsx}'],
-    // Eliminamos la carpeta Express de la configuración general del navegador
-    ignores: ['Express/**/*'], 
+    // Ignoramos la carpeta backend de la configuración general del navegador
+    ignores: ['../backend/**/*', 'backend/**/*'], 
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,

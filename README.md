@@ -1,16 +1,37 @@
-# React + Vite
+# Estructura del Proyecto OnlyGirlsCCS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este repositorio está organizado en tres áreas principales:
 
-Currently, two official plugins are available:
+- **frontend/**: Aplicación React (Vite) y recursos estáticos.
+- **backend/**: API y lógica de servidor (Express).
+- **tests/**: Pruebas end-to-end y automatizadas (Playwright).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Instrucciones rápidas
 
-## React Compiler
+### Frontend
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+```bash
+cd frontend
+pnpm install # o npm install
+yarn dev     # o pnpm dev / npm run dev
+```
 
-## Expanding the ESLint configuration
+### Backend
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+cd backend/Express
+npm install
+node app.js
+```
+
+### Tests
+
+```bash
+cd tests
+npm install
+npx playwright test
+```
+
+---
+
+Ajusta las rutas y configuraciones según tus necesidades. Consulta los README de cada subcarpeta para detalles adicionales.

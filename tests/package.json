@@ -1,0 +1,20 @@
+{
+  "name": "test-e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:pw": "npx playwright test",
+    "test:ia": "node --env-file=.env tests/example.spec.js"},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.5.0"
+  },
+  "dependencies": {
+    "@browserbasehq/stagehand": "^3.2.0"
+  }
+}
