@@ -1,32 +1,62 @@
 @import "tailwindcss";
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: black;
-  background-color: #fff;
+  color-scheme: light;
+  color: #1a1a1a;
+  background-color: #fefefe;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-
-
 }
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.8s;
-  animation-timing-function: ease-in-out;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8f4f6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4a5b9;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #A9597E;
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid #A9597E;
+  outline-offset: 2px;
+}
+
+/* Selection styling */
+::selection {
+  background-color: #F6D7E3;
+  color: #A9597E;
+}
 
 @theme {
-
   --color-primary: #A9597E;
   --color-secondary: #F2D77E;
   --color-wine: #A9597E;
@@ -34,4 +64,9 @@
   --color-gold: #F2D77E;
   --color-skylight: #8EDCE6;
 
+  /* Extended palette */
+  --color-cream: #FDF8F5;
+  --color-soft-gray: #F5F3F4;
+  --color-dark: #2D2327;
+  --color-muted: #6B5B62;
 }

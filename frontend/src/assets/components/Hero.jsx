@@ -4,8 +4,8 @@ import { useRouter } from "../../hooks/useRouter";
 
 export function Hero() {
   const { navigateTo } = useRouter();
+  const [isFocused, setIsFocused] = useState(false);
 
-  const [focusedField, setFocusedField] = useState(null);
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -18,72 +18,124 @@ export function Hero() {
   };
 
   return (
-    <main className="mt-12 sm:mt-28">
-      <section className="text-center flex flex-col justify-center items-center gap-6 ">
+    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 z-0">
         <img
           src={logoSection}
-          alt="Logo Section"
-          className="w-full size-120 z-1 object-cover absolute top-16 opacity-50 "
+          alt=""
+          aria-hidden="true"
+          className="w-full h-full object-cover"
         />
-        <div className="z-2 w-100 sm:w-160 text-gray-900 p-4 text-xl">
-          <h1>
-            Encuentra tu próximo compañero{" "}
-            <strong className="text-skylight text-2xl font-extrabold">
-              ADORABLE
-            </strong>{" "}
-            con nosotros
-          </h1>
-          <p>
-            Descubre un mundo de ternura. Desde peluches adorables hasta bolsos
-            con estilo, tenemos todo para alegrarte el día.
-          </p>
+        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-white/90" />
+      </div>
+
+      {/* Decorative Elements */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-pinklight/30 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-40 h-40 bg-skylight/20 rounded-full blur-3xl" />
+      <div className="absolute top-1/3 right-1/4 w-24 h-24 bg-gold/20 rounded-full blur-2xl" />
+
+      {/* Content */}
+      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pinklight/60 backdrop-blur-sm text-primary text-sm font-medium mb-6 animate-pulse">
+          <span className="size-2 bg-primary rounded-full" />
+          Envio gratis en compras +$50
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="flex w-3/4 p-2 mb-41 rounded-xl bg-pinklight z-2 sm:w-1/2"
-        >
-          <div className="flex w-full items-center gap-2 justify-between z-2 text-wine">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="26"
-              height="26"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="icon icon-tabler icons-tabler-outline icon-tabler-search"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-              <path d="M21 21l-6 -6" />
-            </svg>
+        {/* Heading */}
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-dark leading-tight mb-6">
+          Encuentra tu proximo{" "}
+          <span className="relative inline-block">
+            <span className="relative z-10 text-primary">companero</span>
+            <span className="absolute bottom-2 left-0 w-full h-3 bg-gold/40 -rotate-1 rounded" />
+          </span>{" "}
+          <span className="text-skylight">adorable</span>
+        </h1>
 
+        {/* Description */}
+        <p className="text-lg sm:text-xl text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
+          Descubre un mundo de ternura. Desde peluches adorables hasta bolsos
+          con estilo, tenemos todo para alegrarte el dia.
+        </p>
+
+        {/* Search Form */}
+        <form onSubmit={handleSubmit} className="max-w-xl mx-auto mb-8">
+          <div
+            className={`flex items-center gap-3 p-2 rounded-2xl bg-white shadow-xl shadow-primary/10 border-2 transition-all duration-300 ${
+              isFocused
+                ? "border-primary shadow-2xl shadow-primary/20"
+                : "border-transparent"
+            }`}
+          >
+            <div className="pl-3 text-muted">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="size-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
             <input
               name="search"
               type="text"
-              placeholder="Busca peluches, bolsos y más!"
-              className="w-full p-2 focus:outline-none transition duration-700 rounded-xl"
-              onFocus={() => setFocusedField("search")}
-              onBlur={() => setFocusedField(null)}
-              style={{
-                outline:
-                  focusedField === "search" ? "2px solid #A9597E" : "none",
-              }}
+              placeholder="Busca peluches, bolsos y mas..."
+              className="flex-1 py-3 px-2 text-dark placeholder:text-muted/60 bg-transparent focus:outline-none text-base"
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
             />
-            {focusedField === "search" && (
-              <small className="input-hint text-gray-500">
-                Presiona enter para buscar
-              </small>
-            )}
-            <button className="p-2 border-2 rounded-xl cursor-pointer hover:bg-wine hover:text-white hover:border-wine transition">
+            <button
+              type="submit"
+              className="px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-wine transition-all duration-200 hover:shadow-lg hover:shadow-primary/25 active:scale-95 cursor-pointer"
+            >
               Buscar
             </button>
           </div>
         </form>
-      </section>
-    </main>
+
+        {/* Quick Links */}
+        <div className="flex flex-wrap items-center justify-center gap-3 text-sm">
+          <span className="text-muted">Popular:</span>
+          {["Peluches", "Bolsos", "Termos", "Juguetes"].map((tag) => (
+            <button
+              key={tag}
+              onClick={() => navigateTo(`/products?text=${tag.toLowerCase()}`)}
+              className="px-4 py-1.5 rounded-full bg-soft-gray hover:bg-pinklight/50 text-muted hover:text-primary transition-all duration-200 cursor-pointer"
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+        <div className="flex flex-col items-center gap-2 text-muted">
+          <span className="text-xs font-medium">Explora</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="size-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
+        </div>
+      </div>
+    </section>
   );
 }
