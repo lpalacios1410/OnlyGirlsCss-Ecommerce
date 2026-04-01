@@ -1,4 +1,5 @@
 import { useAuthStore } from "../../store/authStore";
+import { AddShoppingCar } from "./AddShoppingCar";
 import { FavoriteApplyButton } from "./FavoriteApplyButton";
 import { Link } from "./Link";
 
@@ -18,19 +19,21 @@ export function ProductCard({ product }) {
           src={product.data?.image || product.image}
         />
 
-        <div className="absolute inset-0 bg-dark/10 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3">
-          <button className="px-6 py-2.5 bg-white text-primary rounded-full font-semibold text-sm shadow-lg hover:bg-primary hover:text-white transition-all duration-200 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 cursor-pointer active:scale-95">
-            Agregar al Carrito
-          </button>
-          <Link
-            data-testid="viewButton"
-            href={`/products/${product.id}`}
-            className="px-6 py-2.5 bg-primary/90 text-white rounded-full font-semibold text-sm shadow-lg hover:bg-wine transition-all duration-200 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 delay-75"
-            aria-label={`Ver detalles de ${product.nombre}`}
-          >
-            Ver Detalles
-          </Link>
-        </div>
+        {isLoggedIn ? (
+          <div className="absolute inset-0 bg-dark/10 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3">
+            <AddShoppingCar product={product} />
+            <Link
+              data-testid="viewButton"
+              href={`/products/${product.id}`}
+              className="px-6 py-2.5 bg-primary/90 text-white rounded-full font-semibold text-sm shadow-lg hover:bg-wine transition-all duration-200 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 delay-75"
+              aria-label={`Ver detalles de ${product.nombre}`}
+            >
+              Ver Detalles
+            </Link>
+          </div>
+        ) : (
+          ""
+        )}
 
         {/* Wishlist Button */}
         {isLoggedIn ? <FavoriteApplyButton product={product} /> : ""}

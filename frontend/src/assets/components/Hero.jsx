@@ -119,7 +119,7 @@ export function Hero() {
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
         <div className="flex flex-col items-center gap-2 text-muted">
-          <span className="text-xs font-medium">Explora</span>
+          <span className="text-lg font-medium">Explora</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="size-5"

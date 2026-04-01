@@ -110,9 +110,6 @@ export default function ContactPage() {
           <div className="bg-accent-pink/30 p-8 rounded-2xl border-2 border-dashed border-accent-pink relative overflow-hidden">
             <div className="relative z-10">
               <h3 className="text-2xl font-black mb-6 flex items-center gap-2 text-primary">
-                <span className="material-symbols-outlined text-primary">
-                  celebration
-                </span>
                 ¡Conéctate!
               </h3>
               <div className="space-y-6">
@@ -171,26 +168,27 @@ export default function ContactPage() {
                   href="#"
                   aria-label="Email"
                 >
-                  <div className="size-12 rounded-full bg-primary flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
+                  <div className="size-12 rounded-full border-red-700 border-1 bg-black flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
                     {/* Email SVG */}
                     <svg
-                      className="size-6"
-                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
                       viewBox="0 0 24 24"
-                      aria-hidden="true"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M2.25 6.75A2.25 2.25 0 014.5 4.5h15a2.25 2.25 0 012.25 2.25v10.5A2.25 2.25 0 0119.5 19.5h-15A2.25 2.25 0 012.25 17.25V6.75zm1.5 0v.638l8.25 5.775 8.25-5.775V6.75a.75.75 0 00-.75-.75h-15a.75.75 0 00-.75.75zm16.5 1.862l-7.728 5.41a1.25 1.25 0 01-1.444 0l-7.728-5.41V17.25c0 .414.336.75.75.75h15a.75.75 0 00.75-.75V8.612z"
-                        clipRule="evenodd"
-                      />
+                      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
                     </svg>
                   </div>
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
-                      Email
+                      Tiktok
                     </p>
-                    <p className="font-bold text-lg">hello@onlygirlsccs.com</p>
+                    <p className="font-bold text-lg">@onlygirlccs</p>
                   </div>
                 </a>
               </div>
