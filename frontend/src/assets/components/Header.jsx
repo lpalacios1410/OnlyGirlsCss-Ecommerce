@@ -3,13 +3,27 @@ import logo from "../images/logo.jpg";
 import { Link } from "./Link.jsx";
 import { useAuthStore } from "../../store/authStore.js";
 import { useFavoritesStore } from "../../store/favoritesStore.js";
+import { useShoppingStore } from "../../store/shoppingStore.js";
+import { CartModal } from "./CartModal.jsx";
 
 export function Header() {
   const { isLoggedIn, login, logout } = useAuthStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { countFavorites } = useFavoritesStore();
+  const { countFavorites, clearFavorites } = useFavoritesStore();
+  const { countShoppingCart, shoppingCart } = useShoppingStore();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleCart = () => {
+    setIsOpen(!isOpen);
+  };
+  const handleLogout = () => {
+    logout();
+    clearFavorites();
+  };
 
   const favoriteCount = countFavorites();
+  const inShoppingCartCount = countShoppingCart();
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-pinklight/30 shadow-sm">
@@ -53,13 +67,14 @@ export function Header() {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
-            {/* Favorite Icon */}
+          <div className="flex relative items-center gap-3">
+            {/* Favorite Icon and ShoppingCartButton */}
             {isLoggedIn && (
               <>
                 <button
                   className="relative p-2.5 rounded-full hover:bg-pinklight/30 transition-colors duration-200 text-muted hover:text-primary"
                   aria-label="Favoritos"
+                  onClick={toggleCart}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -79,10 +94,12 @@ export function Header() {
                     {favoriteCount}
                   </span>
                 </button>
+
                 {/* Shopping Cart Button */}
                 <button
-                  className="relative p-2.5 rounded-full hover:bg-pinklight/30 transition-colors duration-200 text-muted hover:text-primary"
+                  className="relative p-2.5 rounded-full cursor-pointer hover:bg-pinklight/30 transition-colors duration-200 text-muted hover:text-primary"
                   aria-label="Carrito de compras"
+                  onClick={toggleCart}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -99,8 +116,15 @@ export function Header() {
                     />
                   </svg>
                   <span className="absolute -top-0.5 -right-0.5 size-4 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                    0
+                    {inShoppingCartCount}
                   </span>
+                  {isOpen && (
+                    <CartModal
+                      isOpen={isOpen}
+                      onClose={() => setIsOpen(false)}
+                      product={shoppingCart}
+                    />
+                  )}
                 </button>
               </>
             )}
@@ -110,7 +134,7 @@ export function Header() {
               {isLoggedIn ? (
                 <button
                   className="px-5 py-2.5 rounded-full bg-soft-gray text-dark font-medium text-sm hover:bg-pinklight/50 transition-all duration-200 cursor-pointer"
-                  onClick={logout}
+                  onClick={handleLogout}
                 >
                   Cerrar Sesion
                 </button>

@@ -73,7 +73,7 @@ export default function ProductDetail() {
             <button
               type="button"
               onClick={goBack}
-              className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-primary rounded hover:bg-primary/80 transition"
+              className="inline-flex cursor-pointer items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-primary rounded hover:bg-primary/80 transition"
             >
               <svg
                 className="w-4 h-4"
@@ -87,7 +87,7 @@ export default function ProductDetail() {
                   clipRule="evenodd"
                 />
               </svg>
-              Products
+              <span className="text-lg">Products</span>
             </button>
           </div>
         </header>
