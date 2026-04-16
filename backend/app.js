@@ -9,6 +9,7 @@ const app = express();
 
 app.use(corsMiddleware())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/products', productsRouter)
 

@@ -6,7 +6,7 @@
   "directories": {
     "test": "tests"
   },
-  "workspaces":[
+  "workspaces": [
     "frontend",
     "backend"
   ],
@@ -25,6 +25,6 @@
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce/issues"
-  },
-  "homepage": "https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce#readme"
+  }
+  
 }
