@@ -10,6 +10,7 @@ const StoragePage = lazy(() => import("./pages/StoragePage.jsx"));
 const ContactPage = lazy(() => import("./assets/components/Contact.jsx"));
 const ProductDetail = lazy(() => import("./assets/components/Detail.jsx"));
 const NotFoundPage = lazy(() => import("./pages/404.jsx"));
+const DashboardOg = lazy(() => import("./assets/components/DashboardOG.jsx"));
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Header />
       <Suspense fallback={<SpinnerLoading />}>
         <Routes>
+          <Route path="/dashboardAdmin" element={<DashboardOg />} />
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<StoragePage />} />
           <Route path="/contact" element={<ContactPage />} />
