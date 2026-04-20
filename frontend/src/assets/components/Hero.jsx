@@ -27,7 +27,7 @@ export function Hero() {
           aria-hidden="true"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-white/90" />
+        <div className="absolute inset-0 bg-linear-to-b from-white/70 via-white/50 to-white/90" />
       </div>
 
       {/* Decorative Elements */}
