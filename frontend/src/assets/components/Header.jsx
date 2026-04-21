@@ -1,5 +1,4 @@
 import { useState } from "react";
-import logo from "../images/logo.jpg";
 import { Link } from "./Link.jsx";
 import { useAuthStore } from "../../store/authStore.js";
 import { useFavoritesStore } from "../../store/favoritesStore.js";
@@ -33,7 +32,7 @@ export function Header() {
           <Link className="flex items-center gap-3 group" href="/">
             <span className="sr-only">Home</span>
             <img
-              src={logo}
+              src="/images/logo.jpg"
               alt="OnlyGirlsCcs Logo"
               width={50}
               height={50}

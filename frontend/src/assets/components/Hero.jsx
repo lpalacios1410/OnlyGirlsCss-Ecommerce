@@ -1,5 +1,4 @@
 import { useState } from "react";
-import logoSection from "./../images/section.jpg";
 import { useRouter } from "../../hooks/useRouter";
 
 export function Hero() {
@@ -22,7 +21,7 @@ export function Hero() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src={logoSection}
+          src="/images/section.jpg"
           alt=""
           aria-hidden="true"
           className="w-full h-full object-cover"
