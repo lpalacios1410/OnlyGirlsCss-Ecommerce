@@ -1,5 +1,3 @@
-import logoFooter from "../images/logo.jpg";
-
 export function Footer() {
   return (
     <footer className="border-t border-gray-300 ">
@@ -8,7 +6,7 @@ export function Footer() {
           <div>
             <div>
               <img
-                src={logoFooter}
+                src="/images/logo.jpg"
                 className="w-20 border-pinklight border-3 rounded-full"
               />
             </div>
