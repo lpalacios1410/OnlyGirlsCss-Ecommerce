@@ -40,7 +40,8 @@ export function useFilters() {
         const queryParams = params.toString();
 
         const response = await fetch(
-          `https://backendogc.vercel.app/products?${queryParams}`,
+          // `https://backendogc.vercel.app/products?${queryParams}`,
+          `http://localhost:1234/products?${queryParams}`,
         );
         const json = await response.json();
 

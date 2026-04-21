@@ -9,7 +9,6 @@ export class ProductController{
     const {paginatedProducts, total} = await ProductModel.getAll({limit, offset, tipo, nombre})
     const limitNumber = Number(limit)
     const offsetNumber = Number(offset)
-
     console.log({ limit, tipo, nombre })
     return res.json({data: paginatedProducts, total, limit:limitNumber, offset:offsetNumber})
     }
@@ -25,26 +24,31 @@ export class ProductController{
             data: productGet })
     }
 
-    static async create (req, res) {
-        const { nombre, tipo, precio, descripcion } = req.body;
+  static async create (req, res) {
+        const { nombre, tipo, precio, descripcion, stock, image_url } = req.body;
+
         
-          if (!nombre || !tipo || !precio || !descripcion) {
-            return res.status(400).json({ error: "Faltan campos requeridos" });
-          }
+        if (!nombre || !tipo || !precio || !descripcion || !stock || !image_url) {
+            return res.status(400).json({ error: "Faltan campos requeridos, incluyendo el objeto data" });
+        }
         
-          const newProduct = await ProductModel.create({nombre, tipo, precio, descripcion})
-          
-        
-        
-          return res.status(201).json({ message: "Producto creado exitosamente", product: newProduct })
-        
-    }
+        try {
+            const newProduct = await ProductModel.create(req.body);
+
+            return res.status(201).json({ 
+                message: "Producto creado exitosamente", 
+                product: newProduct 
+            });
+        } catch (e) {
+            return res.status(500).json({ error: e.message });
+        }
+}
 
     static async update (req, res) {
         const { id } = req.params;
-        const { nombre, tipo, precio, descripcion } = req.body;
+        const { nombre, tipo, precio, descripcion, stock, image_url } = req.body;
  
-       const updatedProduct = await ProductModel.update({id, nombre, tipo, precio, descripcion})
+       const updatedProduct = await ProductModel.update({id, nombre, tipo, precio, descripcion, stock, image_url})
        if (!updatedProduct) {
         return res.status(404).json({ message: "Producto no encontrado" });
     }

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FiltersProducts } from "../assets/components/FiltersProducts.jsx";
 import { ProductListing } from "../assets/components/ProductListing.jsx";
 import { Pagination } from "../assets/components/Pagination.jsx";
@@ -7,8 +6,6 @@ import { SpinnerLoading } from "../assets/components/SpinnerLoading.jsx";
 import { useFilters } from "../hooks/useFilters.jsx";
 
 export default function StoragePage() {
-  const [selectedColor, setSelectedColor] = useState(null);
-
   const {
     currentPage,
     categorySelected,
@@ -29,8 +26,6 @@ export default function StoragePage() {
       <title>{title}</title>
       <main className="sm:px-30 px-12 xl:flex lg:items-center lg:gap-8 py-8 bg-gray-200 ">
         <FiltersProducts
-          selectedColor={selectedColor}
-          onColorChange={setSelectedColor}
           activeCategory={categorySelected}
           onCategoryChange={handleCategoryChange}
         />
