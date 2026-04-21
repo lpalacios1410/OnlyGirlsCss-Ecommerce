@@ -4,6 +4,7 @@ const ACCEPTED_ORIGINS = [
     'http://localhost:5173',
     'http://localhost:3000',
     'http://localhost:1234',
+    'https://onlygirlsccs-ecommerce-frontend.vercel.app/'
 ]
 
 export const corsMiddleware =({ acceptedOrigins = ACCEPTED_ORIGINS } = {}) =>{
