@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { ProductController } from '../controllers/products.js';
 import { validateProduct } from '../schemas/products.js';
+import { checkAdminKey } from '../controllers/auth.js';
 
 export const productsRouter = Router();
 
@@ -14,10 +15,12 @@ function validateCreate(req, res, next) {
 
 }
 
+
+
 // Paginated products with filtering
 productsRouter.get("/", ProductController.getAll)
 productsRouter.get("/:id", ProductController.getById)
-productsRouter.post("/",validateCreate, ProductController.create)
+productsRouter.post("/",validateCreate, checkAdminKey, ProductController.create)
 productsRouter.put("/:id", ProductController.update)
 productsRouter.delete("/:id", ProductController.delete )
 

@@ -1,71 +1,97 @@
 import products from "../data.json" with {type: 'json'};
+import { supabase } from '../config/supabaseClient.js';
 
 export class ProductModel {
     static async getAll({limit = 10, offset = 0, tipo, nombre}) {
-        let filteredProducts = products
+        const from = Number(offset);
+        const to = from + Number(limit) - 1;
 
-        if (nombre) {
-        const nombreTerm = nombre.toLowerCase();
-        filteredProducts = filteredProducts.filter(product => product.nombre.toLowerCase().includes(nombreTerm))
-        }
-        if (tipo) {
-        filteredProducts = filteredProducts.filter(product => product.tipo.includes(tipo))
-        }
+        let query = supabase
+        .from('products')
+        .select('*', { count: 'exact' });
 
-        const total = filteredProducts.length
-        const limitNumber = Number(limit)
-        const offsetNumber = Number(offset)
+        // Aplicamos filtros si existen
+        if (tipo) query = query.eq('tipo', tipo);
+        if (nombre) query = query.ilike('nombre', `%${nombre}%`); // Búsqueda parcial e insensible a mayúsculas
 
-        const paginatedProducts = filteredProducts.slice(offsetNumber, offsetNumber + limitNumber)
+        const { data, count, error } = await query
+        .range(from, to)
+        .order('id', { ascending: true });
+
+        if (error) throw new Error(error.message);
         
-        return {paginatedProducts, total}
-    }
-    static  async getById(id) {
-        const productGet = products.find(product => product.id === Number(id))
-        return productGet
-    }
+        const paginatedProducts = data.map(p => ({
+            id: p.id,
+            nombre: p.nombre,
+            tipo: p.tipo,
+            precio: p.precio,
+            descripcion: p.descripcion,
+            data: {
+                cantidadDisponible: p.stock, // Transformamos columna a propiedad del JSON
+                image: p.image_url
+            }
+            }));
 
-    static async create({ nombre, tipo, precio, descripcion }) {
-        if (!nombre || !tipo || !precio || !descripcion) {
-            return ({ error: "Faltan campos requeridos" });
-          }
-        
-          const newProduct ={
-            id: crypto.randomUUID(),
-            // id: products.length + 1,
-            nombre,
-            tipo,
-            precio,
-            descripcion,
-          }
-        
-          products.push(newProduct)
+    return { paginatedProducts, total: count };
+  }
 
-          return newProduct
-    }
-    static async update({id, nombre, tipo, precio, descripcion}) {
-        const getProduct = products.findIndex(p => p.id === (id))
+    static async getById(id) {
+        const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('id', id)
+        .single();
 
-        if(getProduct === -1){
-        return ({ error: "Producto no encontrado" })
+        if (error) return null;
+        return data;
+  }
+
+   static async create(input) {
+        // 1. Extraemos los datos del JSON que envías por Postman
+        const { nombre, tipo, precio, descripcion, stock, image_url } = input;
+        console.log("¿Qué hay en data.image?:", image_url);
+        // 2. Insertamos en Supabase mapeando los nombres
+        const { data: record, error } = await supabase
+            .from('products')
+            .insert([
+            {
+                nombre,
+                tipo,
+                precio,
+                descripcion,
+                stock, // <-- Mapeo: de 'cantidadDisponible' a 'stock'
+                image_url,      // <-- Mapeo: de 'image' a 'image_url'
+            }
+            ])
+            .select()
+            .single();
+
+        if (error) {
+            console.error("Error al insertar:", error.message);
+            throw new Error(error.message);
         }
 
-        products[getProduct] ={
-        ...products[getProduct],
-        nombre: nombre || products[getProduct].nombre,
-        tipo: tipo || products[getProduct].tipo,
-        precio: precio || products[getProduct].precio,
-        descripcion: descripcion || products[getProduct].descripcion
-        }
-        return products[getProduct]
-    }
+        return record;
+}
+
+    static async update({ id, ...fields }) {
+        const { data, error } = await supabase
+        .from('products')
+        .update(fields)
+        .eq('id', id)
+        .select()
+        .single();
+
+        if (error) return null;
+    return data;
+  }
+
     static async delete(id) {
-        const getProduct = products.findIndex(p => p.id === (id))
+        const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', id);
 
-        if(getProduct === -1){
-            return ({ error: "Producto no encontrado" })
-        }
-
-        products.splice(getProduct, 1)
-    }
+    return !error;
+  }
 }
