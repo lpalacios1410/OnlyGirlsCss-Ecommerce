@@ -1,0 +1,30 @@
+{
+  "name": "onlygirlsccs",
+  "version": "1.0.0",
+  "description": "Este repositorio está organizado en tres áreas principales:",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "workspaces":[
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev:backend": "npm run watch --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce/issues"
+  },
+  "homepage": "https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce#readme"
+}

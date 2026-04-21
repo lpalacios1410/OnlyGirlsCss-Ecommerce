@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { SpinnerLoading } from "./SpinnerLoading";
 import { useAuthStore } from "../../store/authStore";
+import { DetailFavoriteButton } from "./DetailFavoriteButton";
 
 export default function ProductDetail() {
   const { isLoggedIn } = useAuthStore();
@@ -72,7 +73,7 @@ export default function ProductDetail() {
             <button
               type="button"
               onClick={goBack}
-              className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-primary rounded hover:bg-primary/80 transition"
+              className="inline-flex cursor-pointer items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-primary rounded hover:bg-primary/80 transition"
             >
               <svg
                 className="w-4 h-4"
@@ -86,21 +87,24 @@ export default function ProductDetail() {
                   clipRule="evenodd"
                 />
               </svg>
-              Products
+              <span className="text-lg">Products</span>
             </button>
           </div>
         </header>
         <main>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             <div className="flex flex-col-reverse md:flex-row gap-4">
-              <div className="flex-1">
+              <div className="flex-1 relative">
                 <img
                   alt="product"
                   className="w-full h-100 object-cover rounded-lg shadow-lg"
                   src={product.data.image}
                 />
+                {isLoggedIn ? <DetailFavoriteButton product={product} /> : ""}
               </div>
             </div>
+
+            {/* Product Info */}
             <div className="flex flex-col items-center lg:items-start">
               <h2 className="text-4xl lg:text-5xl font-bold mt-2 mb-4 text-slate-900">
                 {product.nombre}
