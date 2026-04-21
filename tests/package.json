@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test:pw": "npx playwright test",
-    "test:ia": "node --env-file=.env tests/example.spec.js"},
+    "test:ia": "node --env-file=.env tests/example.spec.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "@types/node": "^25.5.0"
   },
   "dependencies": {
-    "@browserbasehq/stagehand": "^3.2.0"
+    "@browserbasehq/stagehand": "^3.2.0",
+    "dotenv": "^17.3.1"
   }
 }
