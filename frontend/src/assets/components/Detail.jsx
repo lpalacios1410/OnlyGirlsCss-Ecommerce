@@ -31,7 +31,9 @@ export default function ProductDetail() {
 
     // const controller = new AbortController();
 
-    fetch(`https://backendogc.vercel.app/products/${productId}`)
+    fetch(
+      `https://onlygirlsccs-ecommerce-backend.vercel.app/products/${productId}`,
+    )
       .then((res) => {
         if (!res.ok) throw new Error("Error al obtener el producto");
 
