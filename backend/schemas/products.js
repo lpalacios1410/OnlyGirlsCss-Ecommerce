@@ -5,9 +5,8 @@ import * as z from 'zod'
 //     "tipo": "peluche",
 //     "precio": 24.99,
 //     "descripcion": "Oso clásico extra suave con lazo decorativo.",
-//     "data": {
-//       "cantidadDisponible": 15,
-//       "image": "https://images.unsplash.com/photo-1559440666-3744383f9817?w=500"
+//      "stock": 15,
+//      "image_url": "https://images.unsplash.com/photo-1559440666-3744383f9817?w=500"
 //     }
 //   },
 export const productSchema = z.object({
@@ -27,11 +26,9 @@ export const productSchema = z.object({
     .min(1, {message:'El nombre es requerido'})
     .max(100, {message:'El nombre no puede exceder 100 caracteres'}),
 
-    data: z.object({
-        cantidadDisponible: z.number().int().nonnegative({message: 'La cantidad disponible debe ser un numero entero positivo o igual a 0'}),
-        // Aun debo aprender a validar el tipo de imagen, por ahora solo validare que sea una url
-        // image: z.string().url({message: 'La imagen debe ser una url valida'})
-    })
+    stock: z.number().int().nonnegative({ message: 'El stock debe ser un entero positivo' }),
+    
+    image_url: z.string().url({ message: 'La imagen debe ser una URL válida' })
 })
 
 export function validateProduct(input){
