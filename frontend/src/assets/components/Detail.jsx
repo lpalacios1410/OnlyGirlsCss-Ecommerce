@@ -100,7 +100,7 @@ export default function ProductDetail() {
                 <img
                   alt="product"
                   className="w-full h-100 object-cover rounded-lg shadow-lg"
-                  src={product.data.image}
+                  src={product.image}
                 />
                 {isLoggedIn ? <DetailFavoriteButton product={product} /> : ""}
               </div>
