@@ -16,7 +16,7 @@ export const corsMiddleware = ({ acceptedOrigins = ACCEPTED_ORIGINS } = {}) => {
       return callback(new Error('Not allowed by CORS'));
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'ADMIN_SECRET_KEY'],
+    allowedHeaders: ['Content-Type', 'x-admin-key'],
     credentials: true
   });
 };
