@@ -31,7 +31,7 @@ export function FiltersProducts({ onCategoryChange, activeCategory }) {
     <aside className="w-full lg:w-72 shrink-0">
       <div className="sticky top-24 space-y-6">
         {/* Categories */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-pinklight/30">
+        <div className="bg-white  rounded-2xl p-6 shadow-sm border border-pinklight/30">
           <h3 className="font-bold text-dark text-lg mb-4 flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
