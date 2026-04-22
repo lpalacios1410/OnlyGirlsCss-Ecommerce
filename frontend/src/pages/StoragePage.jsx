@@ -24,7 +24,7 @@ export default function StoragePage() {
   return (
     <>
       <title>{title}</title>
-      <main className="sm:px-30 px-12 xl:flex lg:items-center lg:gap-8 py-8 bg-gray-200 ">
+      <main className="sm:px-30 px-12 lg:flex lg:items-center lg:gap-8 py-8 bg-gray-200 ">
         <FiltersProducts
           activeCategory={categorySelected}
           onCategoryChange={handleCategoryChange}

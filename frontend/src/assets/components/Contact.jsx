@@ -18,7 +18,7 @@ export default function ContactPage() {
 
       <div className="grid lg:grid-cols-5 gap-12 items-start">
         {/* Formulario */}
-        <div className="lg:col-span-3 bg-white p-8 rounded-2xl shadow-xl shadow-primary/10 border border-pinklight/20">
+        <div className="lg:col-span-3  bg-white p-8 rounded-2xl shadow-xl shadow-primary/10 border-2 border-primary/50">
           <form
             className="space-y-7"
             onSubmit={handleSubmit}
@@ -66,14 +66,14 @@ export default function ContactPage() {
               <textarea
                 id="message"
                 name="message"
-                className="w-full rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-gray-400 min-h-[120px] resize-y"
+                className="w-full rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-gray-400 min-h-30 resize-y"
                 placeholder="Cuéntanos en detalle cómo podemos ayudarte"
                 rows={5}
                 aria-label="Mensaje"
               ></textarea>
             </label>
             <button
-              className="w-full bg-primary text-white py-4 rounded-full font-extrabold text-lg shadow-lg shadow-primary/20 hover:scale-[1.03] transition-transform active:scale-95 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full cursor-pointer bg-primary text-white py-4 rounded-full font-extrabold text-lg shadow-lg shadow-primary/20 hover:scale-[1.03] transition-transform active:scale-95 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               type="submit"
               disabled={isLoading}
               aria-busy={isLoading}
@@ -110,12 +110,12 @@ export default function ContactPage() {
           <div className="bg-accent-pink/30 p-8 rounded-2xl border-2 border-dashed border-accent-pink relative overflow-hidden">
             <div className="relative z-10">
               <h3 className="text-2xl font-black mb-6 flex items-center gap-2 text-primary">
-                ¡Conéctate!
+                ¡Contactanos o visitanos en alguna de nuestras redes!
               </h3>
               <div className="space-y-6">
                 <a
                   className="flex items-center gap-4 group"
-                  href="#"
+                  href="https://wa.me/c/584122154987"
                   aria-label="WhatsApp"
                 >
                   <div className="size-12 rounded-full bg-green-600 flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
@@ -133,15 +133,15 @@ export default function ContactPage() {
                     <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
                       WhatsApp
                     </p>
-                    <p className="font-bold text-lg">+1 (555) 000-0000</p>
+                    <p className="font-bold text-lg">+58 (424) 172-8767</p>
                   </div>
                 </a>
                 <a
                   className="flex items-center gap-4 group"
-                  href="#"
+                  href="https://www.instagram.com/onlygirlsccs?igshid=OGQ2MjdiOTE%3D"
                   aria-label="Instagram"
                 >
-                  <div className="size-12 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
+                  <div className="size-12 rounded-full bg-linear-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
                     {/* Instagram SVG */}
                     <svg
                       className="size-6"
@@ -165,23 +165,16 @@ export default function ContactPage() {
                 </a>
                 <a
                   className="flex items-center gap-4 group"
-                  href="#"
-                  aria-label="Email"
+                  href="https://www.tiktok.com/@onlygirlccs"
+                  aria-label="Tiktok"
                 >
-                  <div className="size-12 rounded-full border-red-700 border-1 bg-black flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
-                    {/* Email SVG */}
+                  <div class="flex items-center justify-center p-3 bg-gray-900 rounded-full group-hover:scale-110 transition-transform">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
+                      class="size-6 fill-current text-white drop-shadow-[2px_0_0_rgba(255,0,80,1)] filter shadow-[ -2px_0_0_rgba(0,242,234,1)]"
                       viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                      <path d="M12.525.02c1.31-.032 2.612.011 3.911-.024.031 1.745.567 3.438 1.554 4.877.931 1.341 2.23 2.42 3.715 3.103V12c-1.637-.021-3.23-.497-4.597-1.378-.621-.402-1.17-.894-1.632-1.464V17.03a6.974 6.974 0 0 1-1.22 3.844c-1.218 1.706-3.155 2.793-5.228 2.92-2.188.134-4.383-.75-5.748-2.483A7.221 7.221 0 0 1 1.107 15.6c.118-2.31 1.48-4.48 3.52-5.59a6.932 6.932 0 0 1 3.42-.87c.018 1.35-.04 2.704-.002 4.053-.284-.04-.572-.053-.857-.035-1.077.067-2.106.634-2.73 1.516a3.228 3.228 0 0 0-.497 2.502c.245 1.18 1.112 2.188 2.25 2.593.992.353 2.13.23 3.033-.317a3.195 3.195 0 0 0 1.564-2.416c.074-1.127.027-2.258.04-3.387V0h.682z" />
                     </svg>
                   </div>
                   <div>
@@ -195,7 +188,7 @@ export default function ContactPage() {
             </div>
             <div className="absolute -right-8 -bottom-8 size-32 bg-accent-yellow/20 rounded-full blur-2xl"></div>
           </div>
-          <div className="rounded-2xl overflow-hidden shadow-lg h-48 relative">
+          {/* <div className="rounded-2xl overflow-hidden shadow-lg h-48 relative">
             <img
               className="w-full h-full object-cover"
               alt="Mapa abstracto de Caracas"
@@ -214,12 +207,12 @@ export default function ContactPage() {
                 </span>
               </div>
             </div>
-          </div>
-          <div className="flex justify-center gap-4">
+          </div> */}
+          {/* <div className="flex justify-center gap-4">
             <button className="bg-gray-200 text-gray-700 px-6 py-2 rounded-full text-sm font-bold hover:bg-primary/10 hover:text-primary transition-colors">
               Ver Preguntas Frecuentes
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </main>

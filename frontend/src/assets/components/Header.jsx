@@ -30,7 +30,6 @@ export function Header() {
         <div className="flex h-18 items-center justify-between">
           {/* Logo */}
           <Link className="flex items-center gap-3 group" href="/">
-            <span className="sr-only">Home</span>
             <img
               src="/images/logo.jpg"
               alt="OnlyGirlsCcs Logo"
@@ -49,7 +48,6 @@ export function Header() {
               {[
                 { href: "/", label: "Inicio" },
                 { href: "/products", label: "Tienda" },
-                { href: "#", label: "Historia" },
                 { href: "/contact", label: "Contacto" },
               ].map((item) => (
                 <li key={item.label}>
@@ -191,7 +189,6 @@ export function Header() {
               {[
                 { href: "/", label: "Inicio" },
                 { href: "/products", label: "Tienda" },
-                { href: "#", label: "Historia" },
                 { href: "/contact", label: "Contacto" },
               ].map((item) => (
                 <li key={item.label}>
