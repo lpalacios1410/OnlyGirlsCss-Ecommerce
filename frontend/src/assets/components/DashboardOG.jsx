@@ -24,7 +24,7 @@ export default function DashboardOg() {
 
     try {
       const response = await fetch(
-        "https://onlygirlsccs-ecommerce-frontend.vercel.app",
+        "https://onlygirlsccs-ecommerce-backend.vercel.app/products",
         {
           // Cambiar url de vercel luego
           method: "POST",
