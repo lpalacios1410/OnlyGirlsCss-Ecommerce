@@ -30,7 +30,7 @@ export default function DashboardOg() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            ADMIN_SECRET_KEY: import.meta.env.ADMIN_SECRET_KEY,
+            VITE_ADMIN_SECRET_KEY: import.meta.env.VITE_ADMIN_SECRET_KEY,
           },
           body: JSON.stringify(formData),
         },
