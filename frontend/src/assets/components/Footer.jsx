@@ -1,55 +1,48 @@
 export function Footer() {
   return (
     <footer className="border-t border-gray-300 ">
-      <div className="mx-auto max-w-7xl space-y-8 px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <div className="mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:space-y-6 lg:px-8">
+        <div className="flex flex-col md:flex-row justify-between w-full">
           <div>
-            <div>
-              <img
-                src="/images/logo.jpg"
-                className="w-20 border-pinklight border-3 rounded-full"
-              />
-            </div>
+            <img
+              src="/images/logo.jpg"
+              className="w-20 border-pinklight border-3 rounded-full"
+            />
+          </div>
 
-            <p className="mt-4 max-w-xs text-gray-500">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse non
-              cupiditate quae nam molestias.
-            </p>
+          <p className="mt-4 max-w-xs text-gray-500">
+            Mucho más que una tienda. Peluches, termos y accesorios
+            seleccionados con amor para acompañar tu día a día. Variedad,
+            calidad y envíos garantizados.
+          </p>
 
-            <ul className="mt-8 flex gap-6">
-              <li>
-                <a
-                  href="#"
-                  rel="noreferrer"
-                  target="_blank"
-                  className="text-gray-700 transition hover:opacity-75"
-                >
-                  <span className="sr-only">Facebook</span>
-
+          <ul className="flex gap-6">
+            <li>
+              <a
+                className="flex items-center gap-4 group"
+                href="https://www.tiktok.com/@onlygirlccs"
+                aria-label="Tiktok"
+              >
+                <div className="flex items-center justify-center p-3 bg-gray-900 rounded-full group-hover:scale-110 transition-transform">
                   <svg
-                    className="size-6"
-                    fill="currentColor"
+                    className="size-6 fill-current text-white drop-shadow-[2px_0_0_rgba(255,0,80,1)] filter shadow-[ -2px_0_0_rgba(0,242,234,1)]"
                     viewBox="0 0 24 24"
-                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                      clipRule="evenodd"
-                    ></path>
+                    <path d="M12.525.02c1.31-.032 2.612.011 3.911-.024.031 1.745.567 3.438 1.554 4.877.931 1.341 2.23 2.42 3.715 3.103V12c-1.637-.021-3.23-.497-4.597-1.378-.621-.402-1.17-.894-1.632-1.464V17.03a6.974 6.974 0 0 1-1.22 3.844c-1.218 1.706-3.155 2.793-5.228 2.92-2.188.134-4.383-.75-5.748-2.483A7.221 7.221 0 0 1 1.107 15.6c.118-2.31 1.48-4.48 3.52-5.59a6.932 6.932 0 0 1 3.42-.87c.018 1.35-.04 2.704-.002 4.053-.284-.04-.572-.053-.857-.035-1.077.067-2.106.634-2.73 1.516a3.228 3.228 0 0 0-.497 2.502c.245 1.18 1.112 2.188 2.25 2.593.992.353 2.13.23 3.033-.317a3.195 3.195 0 0 0 1.564-2.416c.074-1.127.027-2.258.04-3.387V0h.682z" />
                   </svg>
-                </a>
-              </li>
+                </div>
+              </a>
+            </li>
 
-              <li>
-                <a
-                  href="#"
-                  rel="noreferrer"
-                  target="_blank"
-                  className="text-gray-700 transition hover:opacity-75"
-                >
-                  <span className="sr-only">Instagram</span>
-
+            <li>
+              <a
+                className="flex items-center gap-4 group"
+                href="https://www.instagram.com/onlygirlsccs?igshid=OGQ2MjdiOTE%3D"
+                aria-label="Instagram"
+              >
+                <div className="size-12 rounded-full bg-linear-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
+                  {/* Instagram SVG */}
                   <svg
                     className="size-6"
                     fill="currentColor"
@@ -62,18 +55,18 @@ export function Footer() {
                       clipRule="evenodd"
                     ></path>
                   </svg>
-                </a>
-              </li>
+                </div>
+              </a>
+            </li>
 
-              <li>
-                <a
-                  href="#"
-                  rel="noreferrer"
-                  target="_blank"
-                  className="text-gray-700 transition hover:opacity-75"
-                >
-                  <span className="sr-only">Whatsapp</span>
-
+            <li>
+              <a
+                className="flex items-center gap-4 group"
+                href="https://wa.me/c/584122154987"
+                aria-label="WhatsApp"
+              >
+                <div className="size-12 rounded-full bg-green-600 flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
+                  {/* WhatsApp SVG */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -82,101 +75,10 @@ export function Footer() {
                   >
                     <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
                   </svg>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
-            <div>
-              <p className="font-medium text-gray-900">Services</p>
-
-              <ul className="mt-6 space-y-4 text-sm">
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    1on1 Coaching{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Company Review{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    Accounts Review
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    HR Consulting{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    SEO Optimisation
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="font-medium text-gray-900">Company</p>
-
-              <ul className="mt-6 space-y-4 text-sm">
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    About{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Meet the Team{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    Accounts Review
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+                </div>
+              </a>
+            </li>
+          </ul>
         </div>
 
         <p className="text-xs text-gray-500">
