@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://onlygirlsccs-ecommerce-frontend.vercel.app/sitemap.xml
