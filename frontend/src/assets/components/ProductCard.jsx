@@ -17,6 +17,7 @@ export function ProductCard({ product }) {
           alt={product.nombre || "Producto"}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           src={product.data?.image || product.image}
+          loading="lazy"
         />
 
         {isLoggedIn ? (
