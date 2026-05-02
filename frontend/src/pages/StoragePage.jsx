@@ -24,21 +24,31 @@ export default function StoragePage() {
       : `OnlyGirlsCcs - Tienda (Página ${currentPage})`;
   }, [loading, currentPage]);
   return (
-    <main id="main-content" className="px-4 sm:px-6 lg:px-8 xl:flex xl:items-start xl:gap-8 py-8 bg-soft-gray">
-      <FiltersProducts
-        activeCategory={categorySelected}
-        onCategoryChange={handleCategoryChange}
-      />
-      <div className="w-full">
-        <div className="flex flex-col gap-6 w-full">
-          <p className="text-dark font-medium">
-            Mostrando {products.length} de {total} resultados
-          </p>
-          {loading ? (
-            <SpinnerLoading />
-          ) : (
-            <ProductListing products={products} total={total} />
-          )}
+    <>
+      <title>{title}</title>
+      <main className="sm:px-30 px-12 lg:flex lg:items-center lg:gap-8 py-8 bg-gray-200 ">
+        <FiltersProducts
+          activeCategory={categorySelected}
+          onCategoryChange={handleCategoryChange}
+        />
+        <div className="w-full">
+          <div className="flex">
+            <div className="flex flex-col gap-6 w-full">
+              <p>
+                Showing 1-{products.length} of {products.length} results
+              </p>
+              {loading ? (
+                <SpinnerLoading />
+              ) : (
+                <ProductListing products={products} total={total} />
+              )}
+            </div>
+          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
         </div>
         <Pagination
           currentPage={currentPage}

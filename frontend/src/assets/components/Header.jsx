@@ -1,15 +1,14 @@
 import { useState } from "react";
-import logo from "../images/logo.jpg";
 import { Link } from "./Link.jsx";
 import { useAuthStore } from "../../store/authStore.js";
-import { useFavoritesStore } from "../../store/favoritesStore.js";
+// import { useFavoritesStore } from "../../store/favoritesStore.js";
 import { useShoppingStore } from "../../store/shoppingStore.js";
 import { CartModal } from "./CartModal.jsx";
 
 export function Header() {
   const { isLoggedIn, login, logout } = useAuthStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { countFavorites, clearFavorites } = useFavoritesStore();
+  // const { countFavorites, clearFavorites } = useFavoritesStore();
   const { countShoppingCart, shoppingCart } = useShoppingStore();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -17,12 +16,12 @@ export function Header() {
   const toggleCart = () => {
     setIsOpen(!isOpen);
   };
-  const handleLogout = () => {
-    logout();
-    clearFavorites();
-  };
+  // const handleLogout = () => {
+  //   logout();
+  //   clearFavorites();
+  // };
 
-  const favoriteCount = countFavorites();
+  // const favoriteCount = countFavorites();
   const inShoppingCartCount = countShoppingCart();
 
   return (
@@ -31,9 +30,8 @@ export function Header() {
         <div className="flex h-18 items-center justify-between">
           {/* Logo */}
           <Link className="flex items-center gap-3 group" href="/">
-            <span className="sr-only">Home</span>
             <img
-              src={logo}
+              src="/images/logo.jpg"
               alt="OnlyGirlsCcs Logo"
               width={50}
               height={50}
@@ -50,7 +48,6 @@ export function Header() {
               {[
                 { href: "/", label: "Inicio" },
                 { href: "/products", label: "Tienda" },
-                { href: "#", label: "Historia" },
                 { href: "/contact", label: "Contacto" },
               ].map((item) => (
                 <li key={item.label}>
@@ -74,7 +71,6 @@ export function Header() {
                 <button
                   className="relative p-2.5 rounded-full hover:bg-pinklight/30 transition-colors duration-200 text-muted hover:text-primary"
                   aria-label="Favoritos"
-                  onClick={toggleCart}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -90,9 +86,9 @@ export function Header() {
                       d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
                     />
                   </svg>
-                  <span className="absolute -top-0.5 -right-0.5 size-4 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  {/* <span className="absolute -top-0.5 -right-0.5 size-4 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center">
                     {favoriteCount}
-                  </span>
+                  </span> */}
                 </button>
 
                 {/* Shopping Cart Button */}
@@ -129,8 +125,8 @@ export function Header() {
               </>
             )}
 
-            {/* Auth Button */}
-            <div className="hidden sm:block">
+            {/* Auth Button / IN PRODUCTION */}
+            {/* <div className="hidden sm:block">
               {isLoggedIn ? (
                 <button
                   className="px-5 py-2.5 rounded-full bg-soft-gray text-dark font-medium text-sm hover:bg-pinklight/50 transition-all duration-200 cursor-pointer"
@@ -146,7 +142,7 @@ export function Header() {
                   Iniciar Sesion
                 </button>
               )}
-            </div>
+            </div> */}
 
             {/* Mobile Menu Button */}
             <button
@@ -192,7 +188,6 @@ export function Header() {
               {[
                 { href: "/", label: "Inicio" },
                 { href: "/products", label: "Tienda" },
-                { href: "#", label: "Historia" },
                 { href: "/contact", label: "Contacto" },
               ].map((item) => (
                 <li key={item.label}>
