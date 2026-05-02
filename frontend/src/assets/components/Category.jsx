@@ -1,6 +1,6 @@
 import plushToys from "../images/plushToys.jpg";
 import bags from "../images/Bags.jpg";
-import toys from "../images/toys.jpg";
+import toys from "../images/Toys.jpg";
 import termos from "../images/Termos.jpg";
 import { Link } from "./Link";
 
