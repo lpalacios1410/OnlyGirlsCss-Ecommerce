@@ -5,8 +5,8 @@ import * as z from 'zod'
 //     "tipo": "peluche",
 //     "precio": 24.99,
 //     "descripcion": "Oso clásico extra suave con lazo decorativo.",
-//       "stock": 15,
-//       "image_url": "https://images.unsplash.com/photo-1559440666-3744383f9817?w=500"
+//      "stock": 15,
+//      "image_url": "https://images.unsplash.com/photo-1559440666-3744383f9817?w=500"
 //     }
 //   },
 export const productSchema = z.object({

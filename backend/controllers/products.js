@@ -25,18 +25,14 @@ export class ProductController{
     }
 
   static async create (req, res) {
-        // 1. Extraemos los campos básicos y el objeto 'data'
         const { nombre, tipo, precio, descripcion, stock, image_url } = req.body;
 
         
-        // 2. Validamos que existan los campos básicos Y el objeto data
         if (!nombre || !tipo || !precio || !descripcion || !stock || !image_url) {
             return res.status(400).json({ error: "Faltan campos requeridos, incluyendo el objeto data" });
         }
         
         try {
-            // 3. Pasamos todo al modelo. 
-            // El modelo es el que se encargará de mapear stock e image_url.
             const newProduct = await ProductModel.create(req.body);
 
             return res.status(201).json({ 
