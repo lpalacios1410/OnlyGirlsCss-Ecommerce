@@ -13,7 +13,7 @@ const categories = [
 
 export function Category() {
   return (
-    <section className="bg-gradient-to-b from-white to-soft-gray py-16 sm:py-24">
+    <section className="bg-linear-to-b from-white to-soft-gray py-16 sm:py-24">
       {/* Section Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
@@ -24,7 +24,7 @@ export function Category() {
             Nuestras Categorias
           </h2>
           <p className="mt-3 text-muted max-w-lg mx-auto">
-            Encuentra exactamente lo que buscas en nuestras colecciones curadas
+            Encuentra exactamente lo que buscas en nuestras colecciones
           </p>
         </div>
 
@@ -34,7 +34,7 @@ export function Category() {
             <li key={cat.id} className="group">
               <Link
                 href="/products"
-                className="block relative aspect-[4/5] rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:shadow-primary/15 transition-all duration-500"
+                className="block relative aspect-4/5 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:shadow-primary/15 transition-all duration-500"
               >
                 <img
                   src={cat.img}
@@ -43,7 +43,7 @@ export function Category() {
                   loading="lazy"
                 />
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-t from-dark/80 via-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
 
                 {/* Content */}
                 <div className="absolute inset-0 flex flex-col justify-end p-5">

@@ -1,4 +1,3 @@
-import products from "../data.json" with {type: 'json'};
 import { supabase } from '../config/supabaseClient.js';
 
 export class ProductModel {
