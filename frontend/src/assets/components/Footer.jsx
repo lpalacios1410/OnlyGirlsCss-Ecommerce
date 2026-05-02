@@ -81,8 +81,8 @@ export function Footer() {
           </ul>
         </div>
 
-        <p className="text-xs text-gray-500">
-          © 2025. Company Luis. All rights reserved.
+        <p className="text-xs text-gray-400 border-t border-pinklight/20 pt-6">
+          © 2025. OnlyGirlsCcs. Todos los derechos reservados.
         </p>
       </div>
     </footer>

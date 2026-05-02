@@ -1,4 +1,7 @@
-import { ArrivalsSection } from "./ArrivalsSection";
+import plushToys from "../images/plushToys.jpg";
+import bags from "../images/Bags.jpg";
+import toys from "../images/Toys.jpg";
+import termos from "../images/Termos.jpg";
 import { Link } from "./Link";
 
 const categories = [
@@ -41,7 +44,7 @@ export function Category() {
             Nuestras Categorias
           </h2>
           <p className="mt-3 text-muted max-w-lg mx-auto">
-            Encuentra exactamente lo que buscas en nuestras colecciones curadas
+            Encuentra exactamente lo que buscas en nuestras colecciones
           </p>
         </div>
 
@@ -57,6 +60,7 @@ export function Category() {
                   src={cat.img}
                   alt={cat.title}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                  loading="lazy"
                 />
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-linear-to-t from-dark/80 via-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
