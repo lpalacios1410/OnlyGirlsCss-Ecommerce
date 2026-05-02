@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export function useContactForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const [_, setDataForm] = useState({
     name: "",
     email: "",
@@ -9,31 +10,29 @@ export function useContactForm() {
   });
 
   const onSubmiteSuccess = () => {
-    alert("Message sent successfully!");
+    alert("Mensaje enviado con éxito!");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formData = new FormData(e.currentTarget);
     const FinalData = Object.fromEntries(formData.entries());
 
     if (!FinalData.name || !FinalData.email || !FinalData.message) {
-      alert("Please fill in all required fields.");
-    } else {
-      onSubmiteSuccess();
+      alert("Por favor completa todos los campos requeridos.");
+      setIsLoading(false);
+      return;
     }
 
-    setDataForm({
-      name: "",
-      email: "",
-      title: "",
-      message: "",
-    });
-    console.log(FinalData);
+    // Simulate sending
+    setTimeout(() => {
+      onSubmiteSuccess();
+      setIsLoading(false);
+      setDataForm({ name: "", email: "", title: "", message: "" });
+      console.log(FinalData);
+    }, 1000);
   };
 
-  useEffect(() => {
-    document.title = "Contact Us - OnlyGirlsCCS";
-  }, []);
-  return { handleSubmit };
+  return { handleSubmit, isLoading };
 }

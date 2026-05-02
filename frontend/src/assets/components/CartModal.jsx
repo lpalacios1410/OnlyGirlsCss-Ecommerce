@@ -9,12 +9,12 @@ export function CartModal({ onClose, isOpen, product }) {
         onClick={onClose}
       />
 
-      {/* Panel Lateral */}
-      <div
-        className={`absolute flex flex-col w-55 h-150 top-14 bg-gray-200 rounded-2xl z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "-translate-x-40 xl:translate-x-0" : "translate-x-full"
-        }`}
-      >
+       {/* Panel Lateral */}
+       <div
+         className={`absolute flex flex-col w-72 sm:w-80 h-[calc(100vh-4rem)] top-14 right-0 bg-white rounded-2xl z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
+           isOpen ? "translate-x-0" : "translate-x-full"
+         }`}
+       >
         {/* Header */}
         <div className="p-1 flex border-b">
           <button
@@ -25,8 +25,8 @@ export function CartModal({ onClose, isOpen, product }) {
           </button>
         </div>
 
-        {/* Contenido de productos (con scroll) */}
-        <div className="p-3 overflow-y-auto h-100">
+         {/* Contenido de productos (con scroll) */}
+         <div className="flex-1 overflow-y-auto p-4">
           {product.length === 0 ? (
             <div className="flex flex-col items-center mt-20 text-gray-400">
               <p className="text-lg">El carrito está vacío</p>
@@ -37,11 +37,12 @@ export function CartModal({ onClose, isOpen, product }) {
                 key={product.id}
                 className="flex gap-2 mb-5 items-center border-b pb-4"
               >
-                <img
-                  src={product.data.image}
-                  alt={product.nombre}
-                  className="w-20 h-20 object-cover rounded-lg"
-                />
+                 <img
+                   src={product.data.image}
+                   alt={product.nombre}
+                   className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
+                   loading="lazy"
+                 />
                 <div className="flex-1">
                   <h3 className="font-semibold text-black text-base">
                     {product.nombre}
@@ -53,8 +54,8 @@ export function CartModal({ onClose, isOpen, product }) {
           )}
         </div>
 
-        {/* Footer fijo al fondo del panel */}
-        <div className="absolute bottom-0 w-full p-4 border-t bg-white">
+         {/* Footer fijo al fondo del panel */}
+         <div className="border-t p-4 bg-white mt-auto">
           <div className="flex justify-between mb-2">
             <span className="text-black border-b">Total:</span>
             <span className="font-bold text-black/80 text-xl">

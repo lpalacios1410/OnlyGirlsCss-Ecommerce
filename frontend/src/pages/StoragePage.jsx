@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FiltersProducts } from "../assets/components/FiltersProducts.jsx";
 import { ProductListing } from "../assets/components/ProductListing.jsx";
 import { Pagination } from "../assets/components/Pagination.jsx";
@@ -17,10 +18,11 @@ export default function StoragePage() {
     products,
   } = useFilters();
 
-  const title = loading
-    ? "Cargando..."
-    : `Storage - Products ${total}, Page ${currentPage}`;
-
+  useEffect(() => {
+    document.title = loading
+      ? "Cargando..."
+      : `OnlyGirlsCcs - Tienda (Página ${currentPage})`;
+  }, [loading, currentPage]);
   return (
     <>
       <title>{title}</title>
@@ -48,7 +50,12 @@ export default function StoragePage() {
             onPageChange={handlePageChange}
           />
         </div>
-      </main>
-    </>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      </div>
+    </main>
   );
 }
