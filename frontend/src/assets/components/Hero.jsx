@@ -1,5 +1,4 @@
 import { useState } from "react";
-import logoSection from "./../images/section.jpg";
 import { useRouter } from "../../hooks/useRouter";
 
 export function Hero() {
@@ -22,7 +21,7 @@ export function Hero() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src={logoSection}
+          src="/section.jpg"
           alt=""
           aria-hidden="true"
           className="w-full h-full object-cover"
@@ -40,14 +39,14 @@ export function Hero() {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pinklight/60 backdrop-blur-sm text-primary text-sm font-medium mb-6 animate-pulse">
           <span className="size-2 bg-primary rounded-full" />
-          Envio gratis en compras +$50
+          Delivery gratis en compras +$50
         </div>
 
         {/* Heading */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-dark leading-tight mb-6">
           Encuentra tu proximo{" "}
           <span className="relative inline-block">
-            <span className="relative z-10 text-primary">companero</span>
+            <span className="relative z-10 text-primary">compañero</span>
             <span className="absolute bottom-2 left-0 w-full h-3 bg-gold/40 -rotate-1 rounded" />
           </span>{" "}
           <span className="text-skylight">adorable</span>
@@ -55,8 +54,8 @@ export function Hero() {
 
         {/* Description */}
         <p className="text-lg sm:text-xl text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
-          Descubre un mundo de ternura. Desde peluches adorables hasta bolsos
-          con estilo, tenemos todo para alegrarte el dia.
+          Descubre un mundo de ternura. Desde tiernos peluches hasta bolsos con
+          estilo, tenemos todo para alegrarte el dia.
         </p>
 
         {/* Search Form */}
