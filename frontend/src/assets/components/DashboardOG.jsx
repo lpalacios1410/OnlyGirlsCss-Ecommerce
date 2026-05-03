@@ -23,15 +23,18 @@ export default function DashboardOg() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:1234/products", {
-        // Cambiar url de vercel luego
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ADMIN_SECRET_KEY: import.meta.env.ADMIN_SECRET_KEY,
+      const response = await fetch(
+        "https://onlygirlsccs-ecommerce-backend.vercel.app/products",
+        {
+          // Cambiar url de vercel luego
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-admin-key": import.meta.env.VITE_ADMIN_SECRET_KEY,
+          },
+          body: JSON.stringify(formData),
         },
-        body: JSON.stringify(formData),
-      });
+      );
 
       if (response.ok) {
         alert("✨ ¡Producto creado con éxito en OnlyGirlsCcs!");

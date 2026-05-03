@@ -11,7 +11,7 @@ export default function ContactPage() {
   return (
     <main id="main-content" className="min-h-screen bg-white">
       {/* Título principal */}
-      <div className="bg-gradient-to-b from-pinklight/20 to-white py-16 lg:py-24">
+      <div className="bg-linear-to-b from-pinklight/20 to-white py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-4xl lg:text-6xl font-black mb-4 tracking-tight text-dark">
             ¡Ponte en <span className="text-primary">Contacto!</span>

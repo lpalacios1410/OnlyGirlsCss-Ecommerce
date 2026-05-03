@@ -29,7 +29,9 @@ export default function ProductDetail() {
   }, [product]);
 
   useEffect(() => {
-    fetch(`https://backendogc.vercel.app/products/${productId}`)
+    fetch(
+      `https://onlygirlsccs-ecommerce-backend.vercel.app/products/${productId}`,
+    )
       .then((res) => {
         if (!res.ok) throw new Error("Error al obtener el producto");
         return res.json();
@@ -87,14 +89,15 @@ export default function ProductDetail() {
           </button>
         </header>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-          <div className="relative">
-            <img
-              alt={product.nombre}
-              className="w-full h-96 lg:h-125 object-cover rounded-2xl shadow-xl"
-              src={product.data.image}
-              loading="lazy"
-            />
-            {isLoggedIn && <DetailFavoriteButton product={product} />}
+          <div className="flex flex-col-reverse md:flex-row gap-4">
+            <div className="flex-1 relative">
+              <img
+                alt="product"
+                className="w-full h-100 object-cover rounded-lg shadow-lg"
+                src={product.image}
+              />
+              {isLoggedIn ? <DetailFavoriteButton product={product} /> : ""}
+            </div>
           </div>
 
           {/* Product Info */}
