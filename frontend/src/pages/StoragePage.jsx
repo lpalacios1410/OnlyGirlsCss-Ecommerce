@@ -32,21 +32,23 @@ export default function StoragePage() {
         activeCategory={categorySelected}
         onCategoryChange={handleCategoryChange}
       />
-      <div className="flex flex-col gap-6 w-full">
-        <p className="text-dark font-medium">
-          Mostrando {products.length} de {total} resultados
-        </p>
-        {loading ? (
-          <SpinnerLoading />
-        ) : (
-          <ProductListing products={products} total={total} />
-        )}
+      <div className="w-full">
+        <div className="flex flex-col gap-6 w-full">
+          <p className="text-dark font-medium">
+            Mostrando {products.length} de {total} resultados
+          </p>
+          {loading ? (
+            <SpinnerLoading />
+          ) : (
+            <ProductListing products={products} total={total} />
+          )}
+        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
     </main>
   );
 }

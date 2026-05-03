@@ -23,7 +23,9 @@ export default function ProductDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    document.title = product ? `${product.nombre} | OnlyGirlsCcs` : "Cargando producto...";
+    document.title = product
+      ? `${product.nombre} | OnlyGirlsCcs`
+      : "Cargando producto...";
   }, [product]);
 
   useEffect(() => {
@@ -47,7 +49,7 @@ export default function ProductDetail() {
 
   if (error || !product) {
     return (
-      <main id="main-content" className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
+      <main className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
         <h1 className="text-2xl font-bold text-dark">Error</h1>
         <p className="text-muted">{error || "Producto no encontrado"}</p>
         <button
@@ -61,7 +63,7 @@ export default function ProductDetail() {
   }
 
   return (
-    <main id="main-content">
+    <main>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <header className="flex items-center mb-12">
           <button
@@ -88,7 +90,7 @@ export default function ProductDetail() {
           <div className="relative">
             <img
               alt={product.nombre}
-              className="w-full h-96 lg:h-[500px] object-cover rounded-2xl shadow-xl"
+              className="w-full h-96 lg:h-125 object-cover rounded-2xl shadow-xl"
               src={product.data.image}
               loading="lazy"
             />
@@ -118,7 +120,10 @@ export default function ProductDetail() {
                   { label: "Rosa", class: "bg-primary" },
                   { label: "Celeste", class: "bg-skylight" },
                   { label: "Dorado", class: "bg-gold" },
-                  { label: "Morado", class: "bg-pinklight border-2 border-primary" },
+                  {
+                    label: "Morado",
+                    class: "bg-pinklight border-2 border-primary",
+                  },
                 ].map((color) => (
                   <button
                     key={color.label}
