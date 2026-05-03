@@ -1,4 +1,4 @@
-import plushToys from "../images/plushToys.jpg";
+import plushToys from "../images/PlushToys.jpg";
 import bags from "../images/Bags.jpg";
 import toys from "../images/Toys.jpg";
 import termos from "../images/Termos.jpg";
