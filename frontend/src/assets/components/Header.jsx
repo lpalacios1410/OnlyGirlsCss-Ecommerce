@@ -31,7 +31,7 @@ export function Header() {
           {/* Logo */}
           <Link className="flex items-center gap-3 group" href="/">
             <img
-              src="/images/logo.jpg"
+              src="/logo.jpg"
               alt="OnlyGirlsCcs Logo"
               width={50}
               height={50}

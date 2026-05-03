@@ -1,34 +1,14 @@
-import plushToys from "../images/plushToys.jpg";
+import plushToys from "../images/PlushToys.jpg";
 import bags from "../images/Bags.jpg";
 import toys from "../images/Toys.jpg";
 import termos from "../images/Termos.jpg";
 import { Link } from "./Link";
 
 const categories = [
-  {
-    id: 1,
-    title: "Peluches",
-    subtitle: "Suaves y adorables",
-    img: "/images/PlushToys.jpg",
-  },
-  {
-    id: 2,
-    title: "Bolsos",
-    subtitle: "Estilo kawaii",
-    img: "/images/Bags.jpg",
-  },
-  {
-    id: 3,
-    title: "Juguetes",
-    subtitle: "Diversion sin fin",
-    img: "/images/Toys.jpg",
-  },
-  {
-    id: 4,
-    title: "Termos",
-    subtitle: "Mantente hidratada",
-    img: "/images/Termos.jpg",
-  },
+  { id: 1, title: "Peluches", subtitle: "Suaves y adorables", img: plushToys },
+  { id: 2, title: "Bolsos", subtitle: "Estilo kawaii", img: bags },
+  { id: 3, title: "Juguetes", subtitle: "Diversion sin fin", img: toys },
+  { id: 4, title: "Termos", subtitle: "Mantente hidratada", img: termos },
 ];
 
 export function Category() {
@@ -99,7 +79,7 @@ export function Category() {
           ))}
         </ul>
       </div>
-      {/* coming soon.. <ArrivalsSection /> */}
+      {/* New Arrivals Section */}
     </section>
   );
 }

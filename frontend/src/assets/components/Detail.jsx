@@ -23,11 +23,12 @@ export default function ProductDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    document.title = product ? `${product.nombre} | OnlyGirlsCcs` : "Cargando producto...";
+    document.title = product
+      ? `${product.nombre} | OnlyGirlsCcs`
+      : "Cargando producto...";
   }, [product]);
 
   useEffect(() => {
-
     fetch(
       `https://onlygirlsccs-ecommerce-backend.vercel.app/products/${productId}`,
     )
@@ -50,7 +51,7 @@ export default function ProductDetail() {
 
   if (error || !product) {
     return (
-      <main id="main-content" className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
+      <main className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
         <h1 className="text-2xl font-bold text-dark">Error</h1>
         <p className="text-muted">{error || "Producto no encontrado"}</p>
         <button
@@ -64,7 +65,7 @@ export default function ProductDetail() {
   }
 
   return (
-    <main id="main-content">
+    <main>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <header className="flex items-center mb-12">
           <button
@@ -87,18 +88,17 @@ export default function ProductDetail() {
             Volver a productos
           </button>
         </header>
-        <main>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-            <div className="flex flex-col-reverse md:flex-row gap-4">
-              <div className="flex-1 relative">
-                <img
-                  alt="product"
-                  className="w-full h-100 object-cover rounded-lg shadow-lg"
-                  src={product.image}
-                />
-                {isLoggedIn ? <DetailFavoriteButton product={product} /> : ""}
-              </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+          <div className="flex flex-col-reverse md:flex-row gap-4">
+            <div className="flex-1 relative">
+              <img
+                alt="product"
+                className="w-full h-100 object-cover rounded-lg shadow-lg"
+                src={product.image}
+              />
+              {isLoggedIn ? <DetailFavoriteButton product={product} /> : ""}
             </div>
+          </div>
 
           {/* Product Info */}
           <div className="flex flex-col">
@@ -123,7 +123,10 @@ export default function ProductDetail() {
                   { label: "Rosa", class: "bg-primary" },
                   { label: "Celeste", class: "bg-skylight" },
                   { label: "Dorado", class: "bg-gold" },
-                  { label: "Morado", class: "bg-pinklight border-2 border-primary" },
+                  {
+                    label: "Morado",
+                    class: "bg-pinklight border-2 border-primary",
+                  },
                 ].map((color) => (
                   <button
                     key={color.label}

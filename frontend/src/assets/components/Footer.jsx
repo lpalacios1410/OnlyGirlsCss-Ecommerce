@@ -5,7 +5,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between w-full">
           <div>
             <img
-              src="/images/logo.jpg"
+              src="/logo.jpg"
               className="w-20 border-pinklight border-3 rounded-full"
             />
           </div>
