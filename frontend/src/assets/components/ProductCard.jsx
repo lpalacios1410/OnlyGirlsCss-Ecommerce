@@ -45,6 +45,18 @@ export function ProductCard({ product }) {
         <h4 className="font-bold text-dark text-lg mb-1 group-hover:text-primary transition-colors line-clamp-1">
           {product.nombre}
         </h4>
+        <h4 className="font-bold text-dark text-sm mb-1 group-hover:text-primary transition-colors line-clamp-1">
+          {product.tipo}
+        </h4>
+        {product.medidas?.length > 0 && (
+          <div className="flex flex-wrap gap-1 mb-2">
+            {product.medidas.map((m) => (
+              <span key={m} className="text-xs bg-pink-100 text-pink-800 px-2 py-0.5 rounded-full">
+                {m}
+              </span>
+            ))}
+          </div>
+        )}
         {product.descripcion && (
           <p className="text-muted text-sm mb-3 line-clamp-2">
             {product.descripcion}
