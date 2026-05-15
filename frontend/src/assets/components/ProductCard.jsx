@@ -16,7 +16,7 @@ export function ProductCard({ product }) {
         <img
           alt={product.nombre || "Producto"}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          src={product.data?.image || product.image}
+          src={product.image}
           loading="lazy"
         />
 
@@ -52,8 +52,10 @@ export function ProductCard({ product }) {
         )}
         <div className="flex items-center justify-between">
           <p className="text-xl font-black text-primary">${product.precio}</p>
-          <span className="text-xs text-muted bg-soft-gray px-2 py-1 rounded-full">
-            En stock
+          <span
+            className={`text-xs px-2 py-1 rounded-full ${product.disponible ? "text-green-700 bg-green-100" : "text-red-600 bg-red-100"}`}
+          >
+            {product.disponible ? "Disponible" : "No disponible"}
           </span>
         </div>
       </div>
