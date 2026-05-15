@@ -25,11 +25,10 @@ export class ProductController{
     }
 
   static async create (req, res) {
-        const { nombre, tipo, precio, descripcion, stock, image_url } = req.body;
+        const { nombre, tipo, precio, image_url } = req.body;
 
-        
-        if (!nombre || !tipo || !precio || !descripcion || !stock || !image_url) {
-            return res.status(400).json({ error: "Faltan campos requeridos, incluyendo el objeto data" });
+        if (!nombre || !tipo || !precio || !image_url) {
+            return res.status(400).json({ error: "Faltan campos requeridos: nombre, tipo, precio, image_url" });
         }
         
         try {
@@ -46,9 +45,9 @@ export class ProductController{
 
     static async update (req, res) {
         const { id } = req.params;
-        const { nombre, tipo, precio, descripcion, stock, image_url } = req.body;
+        const { nombre, tipo, precio, descripcion, disponible, medidas, image_url } = req.body;
  
-       const updatedProduct = await ProductModel.update({id, nombre, tipo, precio, descripcion, stock, image_url})
+       const updatedProduct = await ProductModel.update({id, nombre, tipo, precio, descripcion, disponible, medidas, image_url})
        if (!updatedProduct) {
         return res.status(404).json({ message: "Producto no encontrado" });
     }
