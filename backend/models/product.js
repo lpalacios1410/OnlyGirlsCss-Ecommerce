@@ -10,7 +10,7 @@ export class ProductModel {
         .select('*', { count: 'exact' });
         
         // Aplicamos filtros si existen
-        if (tipo) query = query.eq('tipo', tipo);
+        if (tipo) query = query.ilike('tipo', tipo);
         if (nombre) query = query.ilike('nombre', `%${nombre}%`); // Búsqueda parcial e insensible a mayúsculas
 
         const { data, count, error } = await query
