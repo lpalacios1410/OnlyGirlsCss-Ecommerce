@@ -38,7 +38,7 @@ export function CartModal({ onClose, isOpen, product }) {
                 className="flex gap-2 mb-5 items-center border-b pb-4"
               >
                  <img
-                   src={product.data.image}
+                   src={product.image}
                    alt={product.nombre}
                    className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
                    loading="lazy"

@@ -8,7 +8,7 @@ export class ProductModel {
         let query = supabase
         .from('products')
         .select('*', { count: 'exact' });
-
+        
         // Aplicamos filtros si existen
         if (tipo) query = query.eq('tipo', tipo);
         if (nombre) query = query.ilike('nombre', `%${nombre}%`); // Búsqueda parcial e insensible a mayúsculas
@@ -18,18 +18,17 @@ export class ProductModel {
         .order('id', { ascending: true });
 
         if (error) throw new Error(error.message);
-        
+
         const paginatedProducts = data.map(p => ({
             id: p.id,
             nombre: p.nombre,
             tipo: p.tipo,
             precio: p.precio,
             descripcion: p.descripcion,
-            data: {
-                cantidadDisponible: p.stock, // Transformamos columna a propiedad del JSON
-                image: p.image_url
-            }
-            }));
+            disponible: p.disponible,
+            medidas: p.medidas ?? [],
+            image: p.image_url
+        }));
 
     return { paginatedProducts, total: count };
   }
@@ -42,14 +41,15 @@ export class ProductModel {
         .single();
 
         if (error) return null;
-        return data;
+        return {
+            ...data,
+            medidas: data.medidas ?? [],
+            image: data.image_url
+        };
   }
 
    static async create(input) {
-        // 1. Extraemos los datos del JSON que envías por Postman
-        const { nombre, tipo, precio, descripcion, stock, image_url } = input;
-        console.log("¿Qué hay en data.image?:", image_url);
-        // 2. Insertamos en Supabase mapeando los nombres
+        const { nombre, tipo, precio, descripcion, disponible, medidas, image_url } = input;
         const { data: record, error } = await supabase
             .from('products')
             .insert([
@@ -58,8 +58,9 @@ export class ProductModel {
                 tipo,
                 precio,
                 descripcion,
-                stock, // <-- Mapeo: de 'cantidadDisponible' a 'stock'
-                image_url,      // <-- Mapeo: de 'image' a 'image_url'
+                disponible: disponible ?? true,
+                medidas: medidas ?? [],
+                image_url,
             }
             ])
             .select()
@@ -70,19 +71,33 @@ export class ProductModel {
             throw new Error(error.message);
         }
 
-        return record;
+        return {
+            ...record,
+            medidas: record.medidas ?? [],
+            image: record.image_url
+        };
 }
 
     static async update({ id, ...fields }) {
+        const updateData = { ...fields };
+        if (updateData.image) {
+            updateData.image_url = updateData.image;
+            delete updateData.image;
+        }
+
         const { data, error } = await supabase
         .from('products')
-        .update(fields)
+        .update(updateData)
         .eq('id', id)
         .select()
         .single();
 
         if (error) return null;
-    return data;
+        return {
+            ...data,
+            medidas: data.medidas ?? [],
+            image: data.image_url
+        };
   }
 
     static async delete(id) {

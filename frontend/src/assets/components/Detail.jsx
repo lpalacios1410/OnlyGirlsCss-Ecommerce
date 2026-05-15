@@ -111,36 +111,47 @@ export default function ProductDetail() {
             <p className="text-3xl font-black text-primary mb-8">
               ${product.precio}
             </p>
-            <div className="mb-8">
-              <label
-                className="block text-sm font-medium text-dark mb-3"
-                htmlFor="color"
+            <div className="mb-6">
+              <span
+                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${product.disponible ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
               >
-                Color disponible
-              </label>
-              <div className="flex items-center gap-3">
-                {[
-                  { label: "Rosa", class: "bg-primary" },
-                  { label: "Celeste", class: "bg-skylight" },
-                  { label: "Dorado", class: "bg-gold" },
-                  {
-                    label: "Morado",
-                    class: "bg-pinklight border-2 border-primary",
-                  },
-                ].map((color) => (
-                  <button
-                    key={color.label}
-                    aria-label={`Seleccionar color ${color.label}`}
-                    className={`w-8 h-8 rounded-full ${color.class} transition-transform hover:scale-110`}
-                  />
-                ))}
-              </div>
+                <span
+                  className={`w-2 h-2 rounded-full ${product.disponible ? "bg-green-500" : "bg-red-500"}`}
+                />
+                {product.disponible ? "Disponible" : "No disponible"}
+              </span>
             </div>
+
+            {product.medidas?.length > 0 && (
+              <div className="mb-8">
+                <label
+                  className="block text-sm font-medium text-dark mb-3"
+                  htmlFor="medida"
+                >
+                  Medida disponible
+                </label>
+                <select
+                  id="medida"
+                  className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-primary outline-none bg-white"
+                >
+                  <option value="">Selecciona una medida</option>
+                  {product.medidas.map((m) => (
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <button
-              disabled={!isLoggedIn}
+              disabled={!isLoggedIn || !product.disponible}
               className="w-full text-white font-bold py-3.5 rounded-xl shadow-lg bg-primary hover:bg-wine transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
             >
-              {isLoggedIn ? "Agregar al carrito" : "Inicia sesión para comprar"}
+              {!product.disponible
+                ? "Agotado"
+                : isLoggedIn
+                  ? "Agregar al carrito"
+                  : "Inicia sesión para comprar"}
             </button>
           </div>
         </div>
