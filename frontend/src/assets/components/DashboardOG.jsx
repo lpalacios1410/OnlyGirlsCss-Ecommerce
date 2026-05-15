@@ -6,45 +6,68 @@ export default function DashboardOg() {
     tipo: "peluche",
     precio: "",
     descripcion: "",
-    stock: "",
+    disponible: true,
+    medidas: [],
     image_url: "",
   });
 
+  const [medidaInput, setMedidaInput] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    const val = name === "precio" || name === "stock" ? Number(value) : value;
+    const { name, value, type, checked } = e.target;
+    const val =
+      type === "checkbox" ? checked : name === "precio" ? Number(value) : value;
     setFormData({ ...formData, [name]: val });
+  };
+
+  const agregarMedida = () => {
+    const m = medidaInput.trim().toUpperCase();
+    if (m && !formData.medidas.includes(m)) {
+      setFormData({ ...formData, medidas: [...formData.medidas, m] });
+    }
+    setMedidaInput("");
+  };
+
+  const eliminarMedida = (idx) => {
+    setFormData({
+      ...formData,
+      medidas: formData.medidas.filter((_, i) => i !== idx),
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    const payload = {
+      ...formData,
+      precio: Number(formData.precio),
+    };
+
     try {
       const response = await fetch(
         "https://onlygirlsccs-ecommerce-backend.vercel.app/products",
         {
-          // Cambiar url de vercel luego
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "x-admin-key": import.meta.env.VITE_ADMIN_SECRET_KEY,
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(payload),
         },
       );
 
       if (response.ok) {
-        alert("✨ ¡Producto creado con éxito en OnlyGirlsCcs!");
-        e.target.reset(); // Limpia el formulario visualmente
+        alert("Producto creado con éxito en OnlyGirlsCcs!");
+        e.target.reset();
         setFormData({
           nombre: "",
           tipo: "peluche",
           precio: "",
           descripcion: "",
-          stock: "",
+          disponible: true,
+          medidas: [],
           image_url: "",
         });
       } else {
@@ -128,7 +151,7 @@ export default function DashboardOg() {
               >
                 <option value="Peluche">🧸 Peluche</option>
                 <option value="Bolso">👜 Bolso</option>
-                <option value="Accesorio">🎀 Accesorio</option>
+                <option value="Termo">🎀 Termo</option>
                 <option value="Juguete">🎮 Juguete</option>
               </select>
             </div>
@@ -149,18 +172,66 @@ export default function DashboardOg() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Stock Inicial
+                <label className="flex items-center gap-2 mt-6">
+                  <input
+                    name="disponible"
+                    type="checkbox"
+                    checked={formData.disponible}
+                    onChange={handleChange}
+                    className="w-5 h-5 accent-pink-500"
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    Disponible
+                  </span>
                 </label>
-                <input
-                  required
-                  name="stock"
-                  type="number"
-                  onChange={handleChange}
-                  className="w-full border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none"
-                  placeholder="10"
-                />
               </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Medidas disponibles
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={medidaInput}
+                  onChange={(e) => setMedidaInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      agregarMedida();
+                    }
+                  }}
+                  className="flex-1 border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none"
+                  placeholder="Ej: S, M, L, XL..."
+                />
+                <button
+                  type="button"
+                  onClick={agregarMedida}
+                  className="px-4 py-2.5 bg-pink-100 text-pink-700 rounded-lg font-medium hover:bg-pink-200 transition-colors"
+                >
+                  Agregar
+                </button>
+              </div>
+              {formData.medidas.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {formData.medidas.map((m, i) => (
+                    <span
+                      key={i}
+                      className="inline-flex items-center gap-1 px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm"
+                    >
+                      {m}
+                      <button
+                        type="button"
+                        onClick={() => eliminarMedida(i)}
+                        className="text-pink-600 hover:text-pink-900 font-bold leading-none"
+                      >
+                        &times;
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div>

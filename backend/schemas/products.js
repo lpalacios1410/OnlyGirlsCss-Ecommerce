@@ -1,14 +1,5 @@
 import * as z from 'zod'
-// {
-//     "id": 1,
-//     "nombre": "Oso de Felpa Miel",
-//     "tipo": "peluche",
-//     "precio": 24.99,
-//     "descripcion": "Oso clásico extra suave con lazo decorativo.",
-//      "stock": 15,
-//      "image_url": "https://images.unsplash.com/photo-1559440666-3744383f9817?w=500"
-//     }
-//   },
+
 export const productSchema = z.object({
     nombre: z.string()
     .trim()
@@ -17,17 +8,19 @@ export const productSchema = z.object({
     .regex(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/, {message: "El nombre no puede contener números ni caracteres especiales"}),
     
     tipo: z.string()
-    .min(1, {message:'El nombre es requerido'})
-    .max(100, {message:'El nombre no puede exceder 100 caracteres'}),
+    .min(1, {message:'El tipo es requerido'})
+    .max(100, {message:'El tipo no puede exceder 100 caracteres'}),
 
     precio: z.number().positive({message: 'El precio debe ser un numero positivo o mayor a 0'}),
 
-    descripcion: z.string()
-    .min(1, {message:'El nombre es requerido'})
-    .max(100, {message:'El nombre no puede exceder 100 caracteres'}),
+    descripcion: z.string().optional()
+    .min(1, {message:'La descripcion es requerida'})
+    .max(500, {message:'La descripcion no puede exceder 500 caracteres'}),
 
-    stock: z.number().int().nonnegative({ message: 'El stock debe ser un entero positivo' }),
-    
+    disponible: z.boolean().default(true),
+
+    medidas: z.array(z.string()).default([]),
+
     image_url: z.string().url({ message: 'La imagen debe ser una URL válida' })
 })
 
