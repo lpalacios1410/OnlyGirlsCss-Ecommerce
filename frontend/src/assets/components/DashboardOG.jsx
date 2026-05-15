@@ -67,7 +67,7 @@ export default function DashboardOg() {
         e.target.reset();
         setFormData({
           nombre: "",
-          tipo: "peluche",
+          tipo: "producto",
           precio: "",
           descripcion: "",
           disponible: true,
@@ -131,7 +131,7 @@ export default function DashboardOg() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Nombre del Peluche
+                Nombre del Producto
               </label>
               <input
                 required
