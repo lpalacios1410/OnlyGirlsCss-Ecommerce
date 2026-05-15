@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function DashboardOg() {
   const [formData, setFormData] = useState({
     nombre: "",
-    tipo: "peluche",
+    tipo: "",
     precio: "",
     descripcion: "",
     disponible: true,
@@ -67,7 +67,7 @@ export default function DashboardOg() {
         e.target.reset();
         setFormData({
           nombre: "",
-          tipo: "producto",
+          tipo: "",
           precio: "",
           descripcion: "",
           disponible: true,
