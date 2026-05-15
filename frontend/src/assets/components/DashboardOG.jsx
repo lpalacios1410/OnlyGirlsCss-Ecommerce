@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function DashboardOg() {
   const [formData, setFormData] = useState({
     nombre: "",
-    tipo: "",
+    tipo: "Selecciona una categoría",
     precio: "",
     descripcion: "",
     disponible: true,
@@ -153,10 +153,10 @@ export default function DashboardOg() {
                 onChange={handleChange}
                 className="w-full border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none bg-white transition-all"
               >
-                <option value="Peluche">🧸 Peluche</option>
                 <option value="Bolso">👜 Bolso</option>
-                <option value="Termo">🎀 Termo</option>
                 <option value="Juguete">🎮 Juguete</option>
+                <option value="Peluche">🧸 Peluche</option>
+                <option value="Termo">🎀 Termo</option>
               </select>
             </div>
 
