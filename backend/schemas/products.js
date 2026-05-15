@@ -13,9 +13,7 @@ export const productSchema = z.object({
 
     precio: z.number().positive({message: 'El precio debe ser un numero positivo o mayor a 0'}),
 
-    descripcion: z.string().optional()
-    .min(1, {message:'La descripcion es requerida'})
-    .max(500, {message:'La descripcion no puede exceder 500 caracteres'}),
+    descripcion: z.string().max(500, {message:'La descripcion no puede exceder 500 caracteres'}).default(''),
 
     disponible: z.boolean().default(true),
 

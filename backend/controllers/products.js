@@ -25,10 +25,10 @@ export class ProductController{
     }
 
   static async create (req, res) {
-        const { nombre, tipo, precio, descripcion, medidas, image_url } = req.body;
+        const { nombre, tipo, precio, image_url } = req.body;
 
-        if (!nombre || !tipo || !precio || descripcion || !medidas || !image_url) {
-            return res.status(400).json({ error: "Faltan campos requeridos: nombre, tipo, precio, descripcion, image_url" });
+        if (!nombre || !tipo || !precio || !image_url) {
+            return res.status(400).json({ error: "Faltan campos requeridos: nombre, tipo, precio, image_url" });
         }
         
         try {
