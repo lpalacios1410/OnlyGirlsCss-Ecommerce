@@ -18,7 +18,11 @@ export default function DashboardOg() {
     const { name, value, type, checked } = e.target;
     const val =
       type === "checkbox" ? checked : name === "precio" ? Number(value) : value;
-    setFormData({ ...formData, [name]: val });
+    const newData = { ...formData, [name]: val };
+    if (name === "tipo" && value !== "Peluche") {
+      newData.medidas = [];
+    }
+    setFormData(newData);
   };
 
   const agregarMedida = () => {
@@ -187,52 +191,54 @@ export default function DashboardOg() {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Medidas disponibles
-              </label>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={medidaInput}
-                  onChange={(e) => setMedidaInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      agregarMedida();
-                    }
-                  }}
-                  className="flex-1 border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none"
-                  placeholder="Ej: S, M, L, XL..."
-                />
-                <button
-                  type="button"
-                  onClick={agregarMedida}
-                  className="px-4 py-2.5 bg-pink-100 text-pink-700 rounded-lg font-medium hover:bg-pink-200 transition-colors"
-                >
-                  Agregar
-                </button>
-              </div>
-              {formData.medidas.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {formData.medidas.map((m, i) => (
-                    <span
-                      key={i}
-                      className="inline-flex items-center gap-1 px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm"
-                    >
-                      {m}
-                      <button
-                        type="button"
-                        onClick={() => eliminarMedida(i)}
-                        className="text-pink-600 hover:text-pink-900 font-bold leading-none"
-                      >
-                        &times;
-                      </button>
-                    </span>
-                  ))}
+            {formData.tipo === "Peluche" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Medidas disponibles
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={medidaInput}
+                    onChange={(e) => setMedidaInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        agregarMedida();
+                      }
+                    }}
+                    className="flex-1 border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none"
+                    placeholder="Ej: 50CM, 70CM, 100CM"
+                  />
+                  <button
+                    type="button"
+                    onClick={agregarMedida}
+                    className="px-4 py-2.5 bg-pink-100 text-pink-700 rounded-lg font-medium hover:bg-pink-200 transition-colors"
+                  >
+                    Agregar
+                  </button>
                 </div>
-              )}
-            </div>
+                {formData.medidas.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {formData.medidas.map((m, i) => (
+                      <span
+                        key={i}
+                        className="inline-flex items-center gap-1 px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm"
+                      >
+                        {m}
+                        <button
+                          type="button"
+                          onClick={() => eliminarMedida(i)}
+                          className="text-pink-600 hover:text-pink-900 font-bold leading-none"
+                        >
+                          &times;
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -253,7 +259,6 @@ export default function DashboardOg() {
                 Descripción
               </label>
               <textarea
-                required
                 name="descripcion"
                 rows="3"
                 onChange={handleChange}
