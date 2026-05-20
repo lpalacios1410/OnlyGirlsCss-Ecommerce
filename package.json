@@ -11,8 +11,8 @@
     "backend"
   ],
   "scripts": {
-    "dev:backend": "npm run watch --workspace=backend",
-    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:backend": "pnpm --filter backend run watch",
+    "dev:frontend": "pnpm --filter frontend run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
