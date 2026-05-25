@@ -1,19 +1,74 @@
 import { useState } from "react";
 import { useRouter } from "../../hooks/useRouter";
+import type { Product } from "../../types";
+
+const CATEGORIES = ["peluche", "bolso", "juguete", "termo"];
 
 export function Hero() {
   const { navigateTo } = useRouter();
   const [isFocused, setIsFocused] = useState(false);
+  const [searching, setSearching] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const searchQuery = formData.get("search") as string | null;
+    const rawQuery = formData.get("search") as string | null;
+    if (!rawQuery?.trim()) {
+      navigateTo("/products");
+      return;
+    }
 
-    const url = searchQuery
-      ? `/products?text=${encodeURIComponent(searchQuery)}`
-      : "/products";
-    navigateTo(url);
+    const query = rawQuery.trim();
+    const words = query.toLowerCase().split(/\s+/);
+
+    let category = "";
+    let searchTerms = words;
+
+    for (const word of words) {
+      if (CATEGORIES.includes(word)) {
+        category = word;
+        searchTerms = words.filter((w) => w !== word);
+        break;
+      }
+    }
+
+    if (searchTerms.length === 0) {
+      const p = new URLSearchParams();
+      if (category) p.append("tipo", category);
+      navigateTo(`/products?${p.toString()}`);
+      return;
+    }
+
+    setSearching(true);
+
+    try {
+      const p = new URLSearchParams();
+      if (category) p.append("tipo", category);
+      p.append("limit", "50");
+
+      const res = await fetch(
+        `https://onlygirlsccs-ecommerce-backend.vercel.app/products?${p.toString()}`,
+      );
+      const json: { data: Product[] } = await res.json();
+
+      const matches = json.data.filter((product) => {
+        const name = product.nombre.toLowerCase();
+        return searchTerms.every((term) => name.includes(term));
+      });
+
+      if (matches.length === 1) {
+        navigateTo(`/products/${matches[0].id}`);
+      } else {
+        const sp = new URLSearchParams();
+        if (category) sp.append("tipo", category);
+        sp.append("text", query);
+        navigateTo(`/products?${sp.toString()}`);
+      }
+    } catch {
+      navigateTo(`/products?text=${encodeURIComponent(query)}`);
+    } finally {
+      setSearching(false);
+    }
   };
 
   return (
@@ -86,9 +141,10 @@ export function Hero() {
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-wine transition-all duration-200 hover:shadow-lg hover:shadow-primary/25 active:scale-95 cursor-pointer"
+              disabled={searching}
+              className="px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-wine transition-all duration-200 hover:shadow-lg hover:shadow-primary/25 active:scale-95 cursor-pointer disabled:opacity-60 disabled:cursor-wait"
             >
-              Buscar
+              {searching ? "Buscando..." : "Buscar"}
             </button>
           </div>
         </form>
