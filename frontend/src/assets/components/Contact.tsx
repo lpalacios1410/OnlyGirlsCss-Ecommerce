@@ -1,11 +1,39 @@
-import { useEffect } from "react";
-import { useContactForm } from "../../hooks/useContactForm";
+import { useEffect, useState } from "react";
+
+const PHONE = "+584241728767";
+const WA_LINK = `https://wa.me/${PHONE}`;
+
+const quickActions = [
+  {
+    label: "🛍️ Quiero hacer un pedido",
+    msg: "¡Hola! Quiero hacer un pedido. ¿Me puedes ayudar?",
+  },
+  {
+    label: "📋 Ver catálogo",
+    msg: "¡Hola! ¿Me podrían enviar el catálogo de productos?",
+  },
+  {
+    label: "💬 Consultar disponibilidad",
+    msg: "¡Hola! Quisiera saber si tienen disponibilidad de...",
+  },
+  {
+    label: "📦 Estado de mi pedido",
+    msg: "¡Hola! Quiero saber el estado de mi pedido.",
+  },
+];
 
 export default function ContactPage() {
-  const { handleSubmit, isLoading } = useContactForm();
+  const [showChat, setShowChat] = useState(false);
+  const [visibleActions, setVisibleActions] = useState(false);
 
   useEffect(() => {
     document.title = "OnlyGirlsCcs - Contacto";
+  }, []);
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setShowChat(true), 600);
+    const t2 = setTimeout(() => setVisibleActions(true), 1800);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
   return (
@@ -24,97 +52,92 @@ export default function ContactPage() {
 
       <div className="max-w-7xl mx-auto px-4 py-12 lg:py-20">
         <div className="grid lg:grid-cols-5 gap-12 items-start">
-          <div className="lg:col-span-3 bg-white p-8 rounded-2xl shadow-xl shadow-primary/10 border border-pinklight/20">
-            <form
-              className="space-y-7"
-              onSubmit={handleSubmit}
-              autoComplete="off"
-            >
-              <div className="grid sm:grid-cols-2 gap-6">
-                <label htmlFor="name" className="flex flex-col gap-2">
-                  <span className="text-sm font-bold ml-2 text-dark">
-                    Nombre
-                  </span>
-                  <input
-                    required
-                    id="name"
-                    name="name"
-                    className="w-full rounded-full border border-gray-200 bg-gray-50 p-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-gray-400"
-                    placeholder="Tu nombre completo"
-                    type="text"
-                    aria-label="Nombre"
-                  />
-                </label>
-                <label htmlFor="email" className="flex flex-col gap-2">
-                  <span className="text-sm font-bold ml-2 text-dark">
-                    Correo
-                  </span>
-                  <input
-                    required
-                    id="email"
-                    name="email"
-                    className="w-full rounded-full border border-gray-200 bg-gray-50 p-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-gray-400"
-                    placeholder="correo@ejemplo.com"
-                    type="email"
-                    aria-label="Correo electrónico"
-                  />
-                </label>
+          <div className="lg:col-span-3 mx-auto w-full max-w-md">
+            <div className="bg-white rounded-3xl shadow-2xl shadow-primary/10 border border-gray-200 overflow-hidden">
+              {/* Header */}
+              <div className="bg-primary p-4 flex items-center gap-3">
+                <div className="size-10 rounded-full bg-white/20 flex items-center justify-center text-white font-black text-sm">
+                  OG
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-white font-extrabold text-base">
+                    OnlyGirlsCcs
+                  </p>
+                  <p className="text-white/80 text-xs flex items-center gap-1">
+                    <span className="size-2 rounded-full bg-green-300 inline-block animate-pulse" />
+                    En línea
+                  </p>
+                </div>
+                <svg className="size-5 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                </svg>
               </div>
-              <label htmlFor="title" className="flex flex-col gap-2">
-                <span className="text-sm font-bold ml-2 text-dark">Asunto</span>
-                <input
-                  id="title"
-                  name="title"
-                  type="text"
-                  className="w-full rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-gray-400"
-                  placeholder="Escribe un título descriptivo de tu mensaje"
-                  aria-label="Asunto"
-                />
-              </label>
-              <label htmlFor="message" className="flex flex-col gap-2">
-                <span className="text-sm font-bold ml-2 text-dark">
-                  Mensaje
-                </span>
-                <textarea
-                  id="message"
-                  name="message"
-                  className="w-full rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-gray-400 min-h-30 resize-y"
-                  placeholder="Cuéntanos en detalle cómo podemos ayudarte"
-                  rows={5}
-                  aria-label="Mensaje"
-                ></textarea>
-              </label>
-              <button
-                className="w-full bg-primary text-white py-4 rounded-full font-extrabold text-lg shadow-lg shadow-primary/20 hover:bg-wine hover:scale-[1.02] transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
-                type="submit"
-                disabled={isLoading}
-                aria-busy={isLoading}
-              >
-                {isLoading && (
-                  <svg
-                    className="animate-spin h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                    ></path>
-                  </svg>
+
+              {/* Chat area */}
+              <div className="bg-[#e5ddd5] p-4 space-y-3 min-h-[400px] max-h-[420px] overflow-y-auto bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSIjZTBlMGUwIi8+PC9zdmc+')]">
+                {/* Welcome message */}
+                {showChat && (
+                  <div className="flex items-start gap-2 animate-fade-in">
+                    <div className="size-8 rounded-full bg-primary shrink-0 flex items-center justify-center text-white text-xs font-black shadow">
+                      OG
+                    </div>
+                    <div className="max-w-[80%]">
+                      <div className="bg-white rounded-2xl rounded-tl-none px-4 py-3 shadow-sm">
+                        <p className="text-sm text-gray-800 leading-relaxed">
+                          ¡Hola! 👋 Soy el asistente de <strong>OnlyGirlsCcs</strong>. ¿En qué puedo ayudarte hoy?
+                        </p>
+                      </div>
+                      <p className="text-[10px] text-gray-500 mt-1 ml-1">12:00</p>
+                    </div>
+                  </div>
                 )}
-                Enviar Mensaje
-              </button>
-            </form>
+
+                {/* Quick actions */}
+                {visibleActions && (
+                  <div className="flex flex-col items-end gap-2 animate-fade-in">
+                    <div className="max-w-[85%]">
+                      <div className="bg-green-100 rounded-2xl rounded-tr-none px-4 py-3 shadow-sm">
+                        <p className="text-sm text-gray-700 leading-relaxed">
+                          ¡Hola! Quisiera información 🙋
+                        </p>
+                      </div>
+                      <p className="text-[10px] text-gray-500 mt-1 mr-1 text-right">12:01</p>
+                    </div>
+                    <div className="w-full mt-2 space-y-2">
+                      {quickActions.map((action, i) => (
+                        <a
+                          key={i}
+                          href={`${WA_LINK}?text=${encodeURIComponent(action.msg)}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={`block w-full text-left bg-white hover:bg-primary/5 border border-gray-200 hover:border-primary/30 rounded-xl px-4 py-3 text-sm font-semibold text-gray-700 hover:text-primary transition-all shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95 animate-fade-in`}
+                          style={{ animationDelay: `${i * 150}ms` }}
+                        >
+                          {action.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Bottom bar */}
+              <div className="bg-gray-50 p-3 flex items-center gap-2">
+                <div className="flex-1 bg-white rounded-full border border-gray-200 px-4 py-2.5 text-sm text-gray-400">
+                  Escribe un mensaje...
+                </div>
+                <a
+                  href={WA_LINK}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="size-10 rounded-full bg-primary flex items-center justify-center text-white shadow-md hover:bg-wine transition-colors shrink-0"
+                >
+                  <svg className="size-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M1.5 22.5L4.07 17.2C2.76 14.9 2.04 12.3 2.04 9.56 2.04 4.2 6.36 0 11.76 0c2.56 0 4.96 1 6.76 2.8 1.8 1.8 2.8 4.2 2.8 6.76 0 5.4-4.2 9.72-9.72 9.72-2.24 0-4.36-.62-6.12-1.7L1.5 22.5zm5.6-7.16c-.44 0-.84-.16-1.14-.46-.34-.34-.54-.8-.54-1.3 0-.5.2-.96.54-1.3.3-.3.7-.46 1.14-.46.44 0 .84.16 1.14.46.34.34.54.8.54 1.3 0 .5-.2.96-.54 1.3-.3.3-.7.46-1.14.46zm5.6 0c-.44 0-.84-.16-1.14-.46-.34-.34-.54-.8-.54-1.3 0-.5.2-.96.54-1.3.3-.3.7-.46 1.14-.46.44 0 .84.16 1.14.46.34.34.54.8.54 1.3 0 .5-.2.96-.54 1.3-.3.3-.7.46-1.14.46zm5.6 0c-.44 0-.84-.16-1.14-.46-.34-.34-.54-.8-.54-1.3 0-.5.2-.96.54-1.3.3-.3.7-.46 1.14-.46.44 0 .84.16 1.14.46.34.34.54.8.54 1.3 0 .5-.2.96-.54 1.3-.3.3-.7.46-1.14.46z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
           </div>
 
           <div className="lg:col-span-2 space-y-8">
@@ -126,7 +149,7 @@ export default function ContactPage() {
                 <div className="space-y-6">
                   <a
                     className="flex items-center gap-4 group"
-                    href="https://wa.me/1234567890"
+                    href="https://wa.me/584241728767"
                     target="_blank"
                     rel="noreferrer"
                     aria-label="WhatsApp"
@@ -211,7 +234,7 @@ export default function ContactPage() {
               <img
                 className="w-full h-full object-cover"
                 alt="Ubicación en Caracas"
-                src="sambil.jpg"
+                src="/sambil.jpg"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[2px]">

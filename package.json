@@ -11,8 +11,8 @@
     "backend"
   ],
   "scripts": {
-    "dev:backend": "pnpm --filter backend run watch",
-    "dev:frontend": "pnpm --filter frontend run dev",
+    "dev:backend": "pnpm --filter ./backend run watch",
+    "dev:frontend": "pnpm --filter ./frontend run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
