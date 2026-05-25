@@ -236,7 +236,7 @@ export default function ContactPage() {
                     />
                   </svg>
                   <span className="text-xs font-extrabold uppercase text-dark">
-                    Basados en Caracas, VE
+                    Ubicados en Caracas, VE
                   </span>
                 </div>
               </div>
