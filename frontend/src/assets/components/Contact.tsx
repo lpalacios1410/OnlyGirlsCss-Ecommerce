@@ -211,7 +211,7 @@ export default function ContactPage() {
               <img
                 className="w-full h-full object-cover"
                 alt="Ubicación en Caracas"
-                src="https://images.unsplash.com/photo-1526778542025-1f16e2646acc?w=800&q=80"
+                src="../images/Sambil.jpg"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[2px]">
