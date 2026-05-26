@@ -1,10 +1,14 @@
+import { useEffect } from "react";
 import { Link } from "../assets/components/Link";
 
 export default function NotFoundPage() {
+  useEffect(() => {
+    document.title = "Pagina no encontrada | OnlyGirlsCcs";
+  }, []);
   return (
-    <main className="min-h-[80vh] flex items-center justify-center px-4">
+    <main id="main-content" className="min-h-[80vh] flex items-center justify-center px-4">
       <div className="text-center max-w-lg">
-        <div className="relative mb-8">
+        <div className="relative mb-8 overflow-hidden">
           <h1 className="text-[150px] sm:text-[200px] font-black text-pinklight/50 leading-none select-none">
             404
           </h1>

@@ -18,23 +18,23 @@ export function Header() {
   const inShoppingCartCount = countShoppingCart();
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-pinklight/30 shadow-sm">
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-pinklight/30 shadow-sm" role="banner">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-18 items-center justify-between">
-          <Link className="flex items-center gap-3 group" href="/">
+          <Link className="flex items-center gap-3 group" href="/" aria-label="Ir al inicio">
             <img
               src="/logo.jpg"
               alt="OnlyGirlsCcs Logo"
               width={50}
               height={50}
-              className="rounded-full ring-2 ring-pinklight/50 group-hover:ring-primary/50 transition-all duration-300"
+              className="rounded-full ring-2 ring-pinklight/50 group-hover:ring-primary/50 transition-all duration-300 group-hover:scale-105"
             />
             <span className="hidden sm:block font-bold text-lg tracking-tight text-dark">
               OnlyGirls<span className="text-primary">Ccs</span>
             </span>
           </Link>
 
-          <nav className="hidden md:block" aria-label="Global">
+          <nav className="hidden md:block" aria-label="Navegacion principal">
             <ul className="flex items-center gap-1">
               {[
                 { href: "/", label: "Inicio" },
@@ -142,12 +142,14 @@ export function Header() {
           </div>
         </div>
 
-        <div
+          <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
             mobileMenuOpen ? "max-h-80 pb-4" : "max-h-0"
           }`}
+          role="region"
+          aria-label="Menu de navegacion movil"
         >
-          <nav className="pt-2 border-t border-pinklight/30">
+          <nav className="pt-2 border-t border-pinklight/30" aria-label="Navegacion movil">
             <ul className="flex flex-col gap-1">
               {[
                 { href: "/", label: "Inicio" },

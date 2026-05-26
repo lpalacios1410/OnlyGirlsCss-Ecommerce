@@ -4,42 +4,122 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/jpeg" href="/logo.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#A9597E" />
+    <meta name="author" content="OnlyGirlsCcs" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="OnlyGirlsCcs, peluches, bolsos, juguetes, termos, tienda online, regalos, kawaii, Venezuela" />
+
     <title>OnlyGirlsCcs - Tienda Online de Productos Exclusivos</title>
-    <meta name="description" content="OnlyGirlsCcs: Tu tienda online de peluches, bolsos, juguetes y termos con diseños únicos. Compra fácil y rápido sin usar WhatsApp." />
+    <meta name="description" content="Compra peluches, bolsos, juguetes y termos con diseños únicos en OnlyGirlsCcs. Envíos a toda Venezuela. 🧸✨" />
+
+    <!-- Open Graph -->
     <meta property="og:title" content="OnlyGirlsCcs - Tienda Online de Productos Exclusivos" />
-    <meta property="og:description" content="OnlyGirlsCcs: Tu tienda online de peluches, bolsos, juguetes y termos con diseños únicos. Compra fácil y rápido sin usar WhatsApp." />
-    <meta property="og:image" content="/logo.jpg" />
+    <meta property="og:description" content="Compra peluches, bolsos, juguetes y termos con diseños únicos. Envíos a toda Venezuela." />
+    <meta property="og:image" content="https://onlygirlsccs.com/logo.jpg" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
     <meta property="og:url" content="https://onlygirlsccs.com" />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_VE" />
+    <meta property="og:site_name" content="OnlyGirlsCcs" />
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="OnlyGirlsCcs - Tienda Online de Productos Exclusivos" />
-    <meta name="twitter:description" content="OnlyGirlsCcs: Tu tienda online de peluches, bolsos, juguetes y termos con diseños únicos. Compra fácil y rápido sin usar WhatsApp." />
-    <meta name="twitter:image" content="/logo.jpg" />
+    <meta name="twitter:description" content="Compra peluches, bolsos, juguetes y termos con diseños únicos. Envíos a toda Venezuela." />
+    <meta name="twitter:image" content="https://onlygirlsccs.com/logo.jpg" />
+
     <link rel="canonical" href="https://onlygirlsccs.com" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://backendogc.vercel.app" />
     <link rel="preconnect" href="https://images.unsplash.com" />
     <link rel="preconnect" href="https://lh3.googleusercontent.com" />
+
     <!-- Font preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Structured Data: Organization -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "OnlyGirlsCcs",
         "url": "https://onlygirlsccs.com",
-        "logo": "/logo.jpg",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://onlygirlsccs.com/logo.jpg"
+        },
         "description": "Tienda online de productos exclusivos: peluches, bolsos, juguetes y termos.",
+        "foundingDate": "2024",
         "contactPoint": {
           "@type": "ContactPoint",
-          "contactType": "customer service"
+          "contactType": "customer service",
+          "telephone": "+58-424-1728767",
+          "email": "onlygirlsccs@gmail.com",
+          "availableLanguage": ["Español"]
+        },
+        "sameAs": [
+          "https://www.instagram.com/onlygirlsccs",
+          "https://www.tiktok.com/@onlygirlccs",
+          "https://wa.me/584241728767"
+        ]
+      }
+    </script>
+
+    <!-- Structured Data: BreadcrumbList -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://onlygirlsccs.com"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tienda",
+            "item": "https://onlygirlsccs.com/products"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Contacto",
+            "item": "https://onlygirlsccs.com/contact"
+          }
+        ]
+      }
+    </script>
+
+    <!-- Structured Data: WebSite -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "OnlyGirlsCcs",
+        "url": "https://onlygirlsccs.com",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://onlygirlsccs.com/products?text={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
         }
       }
     </script>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">
+      Saltar al contenido principal
+    </a>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

@@ -1,6 +1,11 @@
 export function SpinnerLoading() {
   return (
-    <div className="flex flex-col items-center justify-center gap-4 py-12">
+    <div
+      className="flex flex-col items-center justify-center gap-4 py-12"
+      role="status"
+      aria-live="polite"
+      aria-label="Cargando contenido"
+    >
       <div className="flex items-center gap-2">
         <span className="size-3 rounded-full bg-primary animate-bounce [animation-delay:0ms]" />
         <span className="size-3 rounded-full bg-pinklight animate-bounce [animation-delay:150ms]" />
@@ -10,6 +15,7 @@ export function SpinnerLoading() {
       <p className="text-muted text-sm font-medium animate-pulse">
         Cargando productos adorables...
       </p>
+      <span className="sr-only">Cargando, por favor espera</span>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /dashboardAdmin
 
-Sitemap: https://onlygirlsccs-ecommerce-frontend.vercel.app/sitemap.xml
+Sitemap: https://onlygirlsccs.com/sitemap.xml

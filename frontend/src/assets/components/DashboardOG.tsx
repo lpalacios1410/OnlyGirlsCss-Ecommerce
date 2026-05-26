@@ -107,7 +107,7 @@ export default function DashboardOg() {
   };
 
   return (
-    <div className="min-h-screen bg-pink-50 flex items-center justify-center p-6 font-sans">
+    <main id="main-content" className="min-h-screen bg-pink-50 flex items-center justify-center p-6 font-sans">
       <div className="bg-white w-full max-w-4xl rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 bg-pink-100 p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-pink-200">
           <h2 className="text-pink-600 font-bold mb-4 uppercase tracking-wider text-sm">
@@ -295,9 +295,9 @@ export default function DashboardOg() {
             >
               {loading ? "Guardando..." : "Publicar Producto"}
             </button>
-          </form>
+            </form>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

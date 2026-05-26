@@ -38,17 +38,17 @@ export default function ContactPage() {
 
   return (
     <main id="main-content" className="min-h-screen bg-white">
-      <div className="bg-linear-to-b from-pinklight/20 to-white py-16 lg:py-24">
+      <section className="bg-linear-to-b from-pinklight/20 to-white py-16 lg:py-24" aria-labelledby="contact-heading">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-4xl lg:text-6xl font-black mb-4 tracking-tight text-dark">
-            ¡Ponte en <span className="text-primary">Contacto!</span>
+          <h1 id="contact-heading" className="text-4xl lg:text-6xl font-black mb-4 tracking-tight text-dark">
+            Ponte en <span className="text-primary">Contacto</span>
           </h1>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            ¿Tienes dudas, sugerencias o quieres colaborar? ¡Escríbenos y te
+            Tienes dudas, sugerencias o quieres colaborar? Escribenos y te
             responderemos lo antes posible!
           </p>
         </div>
-      </div>
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 py-12 lg:py-20">
         <div className="grid lg:grid-cols-5 gap-12 items-start">

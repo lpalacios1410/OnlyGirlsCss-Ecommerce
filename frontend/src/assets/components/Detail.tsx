@@ -52,7 +52,7 @@ export default function ProductDetail() {
 
   if (error || !product) {
     return (
-      <main className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
+      <main id="main-content" className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
         <h1 className="text-2xl font-bold text-dark">Error</h1>
         <p className="text-muted">{error || "Producto no encontrado"}</p>
         <button
@@ -66,7 +66,24 @@ export default function ProductDetail() {
   }
 
   return (
-    <main>
+    <main id="main-content">
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": product.nombre,
+          "image": product.image,
+          "description": product.descripcion,
+          "offers": {
+            "@type": "Offer",
+            "price": product.precio,
+            "priceCurrency": "USD",
+            "availability": product.disponible
+              ? "https://schema.org/InStock"
+              : "https://schema.org/OutOfStock"
+          }
+        })}
+      </script>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <header className="flex items-center mb-12">
           <button
@@ -126,13 +143,14 @@ export default function ProductDetail() {
               <div className="mb-8">
                 <label
                   className="block text-sm font-medium text-dark mb-3"
-                  htmlFor="medida"
+                  htmlFor="medida-select"
                 >
                   Medida disponible
                 </label>
                 <select
-                  id="medida"
+                  id="medida-select"
                   className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-primary outline-none bg-white"
+                  aria-label="Seleccionar medida del producto"
                 >
                   <option value="">Selecciona una medida</option>
                   {product.medidas.map((m: string) => (

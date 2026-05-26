@@ -18,7 +18,7 @@ export function ProductCard({ product }: ProductCardProps) {
     >
       <div className="relative aspect-square overflow-hidden bg-soft-gray">
         <img
-          alt={product.nombre || "Producto"}
+          alt={product.nombre ? `${product.nombre} - OnlyGirlsCcs` : "Producto OnlyGirlsCcs"}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           src={product.image}
           loading="lazy"

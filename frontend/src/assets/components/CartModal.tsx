@@ -20,13 +20,17 @@ export function CartModal({ onClose, isOpen, product }: CartModalProps) {
         className={`fixed flex flex-col w-72 sm:w-80 h-[calc(100vh-4rem)] top-14 right-0 bg-white rounded-2xl z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Carrito de compras"
       >
         <div className="p-1 flex border-b">
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-full"
+            aria-label="Cerrar carrito"
           >
-            <span className="text-2xl">&times;</span>
+            <span className="text-2xl" aria-hidden="true">&times;</span>
           </button>
         </div>
 

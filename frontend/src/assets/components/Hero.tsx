@@ -83,10 +83,12 @@ export function Hero() {
               className="flex-1 py-3 px-2 text-dark placeholder:text-muted/60 bg-transparent focus:outline-none text-base"
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
+              aria-label="Buscar productos"
             />
             <button
               type="submit"
               className="px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-wine transition-all duration-200 hover:shadow-lg hover:shadow-primary/25 active:scale-95 cursor-pointer"
+              aria-label="Realizar busqueda"
             >
               Buscar
             </button>
