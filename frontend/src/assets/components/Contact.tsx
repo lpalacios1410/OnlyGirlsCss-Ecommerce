@@ -50,7 +50,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-12 lg:py-20">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="grid lg:grid-cols-5 gap-12 items-start">
           <div className="lg:col-span-3 mx-auto w-full max-w-md">
             <div className="bg-white rounded-3xl shadow-2xl shadow-primary/10 border border-gray-200 overflow-hidden">

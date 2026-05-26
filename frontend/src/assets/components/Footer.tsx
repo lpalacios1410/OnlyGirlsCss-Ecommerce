@@ -31,7 +31,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <div className="flex items-center justify-center p-3 bg-gray-900 rounded-full group-hover:scale-110 transition-transform group-hover:shadow-lg">
+                  <div className="size-12 flex items-center justify-center p-3 bg-gray-900 rounded-full group-hover:scale-110 transition-transform group-hover:shadow-lg">
                     <svg
                       className="size-5 fill-current text-white drop-shadow-[2px_0_0_rgba(255,0,80,1)] filter shadow-[ -2px_0_0_rgba(0,242,234,1)]"
                       viewBox="0 0 24 24"

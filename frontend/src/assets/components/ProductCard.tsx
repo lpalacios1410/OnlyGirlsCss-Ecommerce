@@ -43,7 +43,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {isLoggedIn ? <FavoriteApplyButton product={product} /> : ""}
       </div>
 
-      <div className="p-5">
+      <div className="p-5 flex flex-col gap-2">
         <h4 className="font-bold text-dark text-lg mb-1 group-hover:text-primary transition-colors line-clamp-1">
           {product.nombre}
         </h4>

@@ -26,7 +26,7 @@ export default function StoragePage() {
   return (
     <main
       id="main-content"
-      className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:flex xl:items-start xl:gap-8 py-8 bg-soft-gray"
+      className="mx-auto px-4 sm:px-6 lg:px-8 xl:flex xl:items-start xl:gap-8 py-8 bg-soft-gray"
     >
       <FiltersProducts
         activeCategory={categorySelected}
