@@ -2,6 +2,15 @@
 
 E-commerce platform for **OnlyGirlsCCS**, a Caracas-based store specializing in plushies, bags, toys, and thermoses. Built as a full-stack monorepo with a modern React frontend and Express API.
 
+## Screenshots 📸
+![image alt](https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce/blob/85599a5bd68d21f4849bd06935c80f629379cb23/frontend/public/ogc1.png)
+
+
+![image alt](https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce/blob/85599a5bd68d21f4849bd06935c80f629379cb23/frontend/public/ogc2.png)
+
+
+![image alt](https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce/blob/85599a5bd68d21f4849bd06935c80f629379cb23/frontend/public/ogc3.png)
+
 ## Description 📄
 
 This project was built with two goals in mind:
