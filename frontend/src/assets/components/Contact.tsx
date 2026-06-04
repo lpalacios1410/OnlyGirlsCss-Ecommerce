@@ -1,123 +1,208 @@
 import { useEffect } from "react";
-import { useContactForm } from "../../hooks/useContactForm";
 
 export default function ContactPage() {
-  const { handleSubmit, isLoading } = useContactForm();
-
   useEffect(() => {
     document.title = "OnlyGirlsCcs - Contacto";
   }, []);
 
   return (
     <main id="main-content" className="min-h-screen bg-white">
-      <div className="bg-linear-to-b from-pinklight/20 to-white py-16 lg:py-24">
+      <div className="bg-linear-to-b from-pinklight/20 to-white py-16 lg:py-18">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-4xl lg:text-6xl font-black mb-4 tracking-tight text-dark">
             ¡Ponte en <span className="text-primary">Contacto!</span>
           </h1>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            ¿Tienes dudas, sugerencias o quieres colaborar? ¡Escríbenos y te
-            responderemos lo antes posible!
+            ¿Tienes dudas o quieres hacer un pedido? ¡Llámanos o escríbenos por
+            WhatsApp y te atenderemos al instante!
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-12 lg:py-20">
+      <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-5 gap-12 items-start">
-          <div className="lg:col-span-3 bg-white p-8 rounded-2xl shadow-xl shadow-primary/10 border border-pinklight/20">
-            <form
-              className="space-y-7"
-              onSubmit={handleSubmit}
-              autoComplete="off"
-            >
-              <div className="grid sm:grid-cols-2 gap-6">
-                <label htmlFor="name" className="flex flex-col gap-2">
-                  <span className="text-sm font-bold ml-2 text-dark">
-                    Nombre
-                  </span>
-                  <input
-                    required
-                    id="name"
-                    name="name"
-                    className="w-full rounded-full border border-gray-200 bg-gray-50 p-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-gray-400"
-                    placeholder="Tu nombre completo"
-                    type="text"
-                    aria-label="Nombre"
-                  />
-                </label>
-                <label htmlFor="email" className="flex flex-col gap-2">
-                  <span className="text-sm font-bold ml-2 text-dark">
-                    Correo
-                  </span>
-                  <input
-                    required
-                    id="email"
-                    name="email"
-                    className="w-full rounded-full border border-gray-200 bg-gray-50 p-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-gray-400"
-                    placeholder="correo@ejemplo.com"
-                    type="email"
-                    aria-label="Correo electrónico"
-                  />
-                </label>
-              </div>
-              <label htmlFor="title" className="flex flex-col gap-2">
-                <span className="text-sm font-bold ml-2 text-dark">Asunto</span>
-                <input
-                  id="title"
-                  name="title"
-                  type="text"
-                  className="w-full rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-gray-400"
-                  placeholder="Escribe un título descriptivo de tu mensaje"
-                  aria-label="Asunto"
-                />
-              </label>
-              <label htmlFor="message" className="flex flex-col gap-2">
-                <span className="text-sm font-bold ml-2 text-dark">
-                  Mensaje
-                </span>
-                <textarea
-                  id="message"
-                  name="message"
-                  className="w-full rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-gray-400 min-h-30 resize-y"
-                  placeholder="Cuéntanos en detalle cómo podemos ayudarte"
-                  rows={5}
-                  aria-label="Mensaje"
-                ></textarea>
-              </label>
-              <button
-                className="w-full bg-primary text-white py-4 rounded-full font-extrabold text-lg shadow-lg shadow-primary/20 hover:bg-wine hover:scale-[1.02] transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
-                type="submit"
-                disabled={isLoading}
-                aria-busy={isLoading}
-              >
-                {isLoading && (
+          <div className="lg:col-span-3 flex justify-center">
+            <div className="relative inline-flex flex-col items-center">
+              
+              <div className="w-full max-w-sm bg-gray-900 p-3 rounded-[3rem] shadow-2xl shadow-primary/20 border-[3px] border-gray-800">
+                <div className="relative bg-gray-900 rounded-[2.5rem] overflow-hidden">
+                  
+                  <div className="bg-white flex flex-col">
+              <div className="bg-primary px-5 py-4 flex items-center gap-3">
+                <div className="size-10 rounded-full bg-white/20 flex items-center justify-center text-white font-black text-sm shrink-0">
+                  OG
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-white font-bold text-sm truncate">
+                    OnlyGirlsCCS
+                  </h2>
+                  <p className="text-white/70 text-xs flex items-center gap-1">
+                    <span className="size-1.5 bg-green-300 rounded-full inline-block" />
+                    En línea
+                  </p>
+                </div>
+                <a
+                  href="https://wa.me/584241728767"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="size-9 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors"
+                  aria-label="Abrir WhatsApp"
+                >
                   <svg
-                    className="animate-spin h-5 w-5 text-white"
                     xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="size-5"
+                    viewBox="0 0 16 16"
                   >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                    ></path>
+                    <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
                   </svg>
-                )}
-                Enviar Mensaje
-              </button>
-            </form>
-          </div>
+                </a>
+              </div>
 
-          <div className="lg:col-span-2 space-y-8">
+              <div className="flex-1 bg-[#efeae2] p-4 space-y-3 min-h-[400px] max-h-[400px] overflow-y-auto bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMCAwaDQwdjQwSDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTEwIDIwbDEwLTEwIDEwIDEwIiBzdHJva2U9InJnYigwLDAsMCwwLjA0KSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIi8+PC9zdmc+')]">
+                <div className="flex items-start gap-2.5">
+                  <div className="size-8 rounded-full bg-primary shrink-0 flex items-center justify-center text-white text-xs font-bold">
+                    OG
+                  </div>
+                  <div className="bg-white rounded-r-xl rounded-bl-xl px-4 py-2.5 shadow-sm max-w-[80%]">
+                    <p className="text-gray-800 text-sm leading-relaxed">
+                      ¡Hola! 🛍️ Soy el asistente de <strong>OnlyGirlsCCS</strong>. ¿En qué puedo ayudarte hoy?
+                    </p>
+                    <span className="text-[10px] text-gray-400 mt-1 block text-right">
+                      9:00 AM
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5">
+                  <div className="size-8 rounded-full bg-primary shrink-0 flex items-center justify-center text-white text-xs font-bold">
+                    OG
+                  </div>
+                  <div className="bg-white rounded-r-xl rounded-bl-xl px-4 py-2.5 shadow-sm max-w-[80%]">
+                    <p className="text-gray-800 text-sm leading-relaxed">
+                      Puedes ver nuestro catálogo, consultar precios o hacer un pedido directamente por aquí.
+                    </p>
+                    <span className="text-[10px] text-gray-400 mt-1 block text-right">
+                      9:00 AM
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex justify-end">
+                  <div className="bg-[#d9fdd3] rounded-l-xl rounded-br-xl px-4 py-2.5 shadow-sm max-w-[75%]">
+                    <p className="text-gray-800 text-sm leading-relaxed">
+                      Quiero ver los productos
+                    </p>
+                    <span className="text-[10px] text-gray-400 mt-1 block text-right">
+                      9:01 AM
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5">
+                  <div className="size-8 rounded-full bg-primary shrink-0 flex items-center justify-center text-white text-xs font-bold">
+                    OG
+                  </div>
+                  <div className="bg-white rounded-r-xl rounded-bl-xl px-4 py-2.5 shadow-sm max-w-[80%]">
+                    <p className="text-gray-800 text-sm leading-relaxed">
+                      ¡Claro! Tenemos estas categorías:
+                    </p>
+                    <div className="mt-2 space-y-1.5">
+                      {["🧸 Peluches", "👜 Bolsos", "🧩 Juguetes", "🫖 Termos"].map((cat) => (
+                        <a
+                          key={cat}
+                          href="/products"
+                          className="block bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 font-medium transition-colors"
+                        >
+                          {cat}
+                        </a>
+                      ))}
+                    </div>
+                    <span className="text-[10px] text-gray-400 mt-2 block text-right">
+                      9:01 AM
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex justify-end">
+                  <div className="bg-[#d9fdd3] rounded-l-xl rounded-br-xl px-4 py-2.5 shadow-sm max-w-[75%]">
+                    <p className="text-gray-800 text-sm leading-relaxed">
+                      Quiero hacer un pedido
+                    </p>
+                    <span className="text-[10px] text-gray-400 mt-1 block text-right">
+                      9:02 AM
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5">
+                  <div className="size-8 rounded-full bg-primary shrink-0 flex items-center justify-center text-white text-xs font-bold">
+                    OG
+                  </div>
+                  <div className="bg-white rounded-r-xl rounded-bl-xl px-4 py-2.5 shadow-sm max-w-[80%]">
+                    <p className="text-gray-800 text-sm leading-relaxed">
+                      ¡Perfecto! Escríbenos por WhatsApp con los productos que deseas y te confirmamos disponibilidad y precio. 🚀
+                    </p>
+                    <a
+                      href="https://wa.me/584241728767?text=¡Hola! Quiero hacer un pedido 🛍️"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-2 w-full bg-green-500 hover:bg-green-600 text-white text-sm font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        className="size-4"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+                      </svg>
+                      Abrir WhatsApp
+                    </a>
+                    <span className="text-[10px] text-gray-400 mt-1.5 block text-right">
+                      9:02 AM
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex justify-center">
+                  <div className="bg-white/80 rounded-full px-3 py-1 text-[11px] text-gray-500 shadow-sm">
+                    🕐 Respondemos en menos de 5 minutos
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 px-4 py-3 border-t border-gray-200">
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 bg-white rounded-full border border-gray-300 px-4 py-2.5 text-sm text-gray-400 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="size-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+                    </svg>
+                    Escribe un mensaje...
+                  </div>
+                  <a
+                    href="https://wa.me/584241728767"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="size-11 bg-primary hover:bg-primary/80 rounded-full flex items-center justify-center text-white transition-colors shrink-0"
+                    aria-label="Enviar mensaje por WhatsApp"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-center py-2 bg-white">
+              <div className="w-28 h-1 bg-gray-300 rounded-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="lg:col-span-2 space-y-8">
             <div className="bg-pinklight/20 p-8 rounded-2xl border-2 border-dashed border-pinklight/50 relative overflow-hidden">
               <div className="relative z-10">
                 <h3 className="text-2xl font-black mb-6 flex items-center gap-2 text-primary">
@@ -126,7 +211,7 @@ export default function ContactPage() {
                 <div className="space-y-6">
                   <a
                     className="flex items-center gap-4 group"
-                    href="https://wa.me/1234567890"
+                    href="https://wa.me/584241728767"
                     target="_blank"
                     rel="noreferrer"
                     aria-label="WhatsApp"
@@ -211,10 +296,10 @@ export default function ContactPage() {
               <img
                 className="w-full h-full object-cover"
                 alt="Ubicación en Caracas"
-                src="https://images.unsplash.com/photo-1526778542025-1f16e2646acc?w=800&q=80"
+                src="/sambil.jpg"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[2px]">
+              <div className="absolute inset-0  flex items-center justify-center ">
                 <div className="bg-white/90 px-4 py-2 rounded-full flex items-center gap-2 shadow-md">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -236,7 +321,7 @@ export default function ContactPage() {
                     />
                   </svg>
                   <span className="text-xs font-extrabold uppercase text-dark">
-                    Basados en Caracas, VE
+                    Ubicados en Caracas, VE
                   </span>
                 </div>
               </div>
