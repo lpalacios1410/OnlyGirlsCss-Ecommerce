@@ -1,6 +1,9 @@
 # OnlyGirlsCCS 🛍️
 
-E-commerce platform for **OnlyGirlsCCS**, a Caracas-based store specializing in plushies, bags, toys, and thermoses. Built as a full-stack monorepo with a modern React frontend and Express API.
+Full-stack ecommerce platform for **OnlyGirlsCCS**, a Caracas-based store specializing in plushies, bags, toys, and thermoses. Built as a bilingual SPA with React 19 + Express 5.
+
+🔗 [Live Demo](https://onlygirlsccs.vercel.app/) · `React 19` `TypeScript` `Tailwind CSS 4` `Express 5` `Supabase` `Playwright`
+
 
 ## Screenshots 📸
 ![image alt](https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce/blob/85599a5bd68d21f4849bd06935c80f629379cb23/frontend/public/ogc1.png)
