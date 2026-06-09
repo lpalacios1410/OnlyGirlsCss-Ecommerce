@@ -25,6 +25,7 @@
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce/issues"
-  }
+  },
+  "packageManager": "pnpm@11.3.0"
   
 }
