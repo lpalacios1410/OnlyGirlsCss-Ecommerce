@@ -5,12 +5,12 @@ import { Header } from "./assets/components/Header";
 import { Footer } from "./assets/components/Footer";
 import { SpinnerLoading } from "./assets/components/SpinnerLoading";
 
-const Home = lazy(() => import("./pages/Home"));
-const StoragePage = lazy(() => import("./pages/StoragePage"));
-const ContactPage = lazy(() => import("./assets/components/Contact"));
-const ProductDetail = lazy(() => import("./assets/components/Detail"));
-const NotFoundPage = lazy(() => import("./pages/404"));
-const DashboardOg = lazy(() => import("./assets/components/DashboardOG"));
+const Home = lazy(() => import("./pages/Home.jsx"));
+const StoragePage = lazy(() => import("./pages/StoragePage.jsx"));
+const ContactPage = lazy(() => import("./assets/components/Contact.jsx"));
+const ProductDetail = lazy(() => import("./assets/components/Detail.jsx"));
+const NotFoundPage = lazy(() => import("./pages/404.jsx"));
+const DashboardOg = lazy(() => import("./assets/components/DashboardOG.jsx"));
 
 function App() {
   return (

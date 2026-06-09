@@ -139,7 +139,7 @@ export default function DashboardOg() {
       };
 
       const response = await fetch(
-        "http://localhost:1234/products",
+        "https://onlygirlsccs-ecommerce-backend.vercel.app/products",
         {
           method: "POST",
           headers: {

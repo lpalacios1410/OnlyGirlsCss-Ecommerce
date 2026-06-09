@@ -38,7 +38,7 @@ export default function ProductDetail() {
 
   useEffect(() => {
     fetch(
-      `http://localhost:1234/products/${productId}`,
+      `https://onlygirlsccs-ecommerce-backend.vercel.app/products/${productId}`,
     )
       .then((res) => {
         if (!res.ok) throw new Error("Error al obtener el producto");
