@@ -1,4 +1,10 @@
 import { useState } from "react";
+import { supabase } from "../../lib/supabase";
+
+interface MedidaEntry {
+  medida: string;
+  precio: number;
+}
 
 interface DashboardFormData {
   nombre: string;
@@ -6,7 +12,7 @@ interface DashboardFormData {
   precio: string;
   descripcion: string;
   disponible: boolean;
-  medidas: string[];
+  medidas: MedidaEntry[];
   image_url: string;
 }
 
@@ -22,7 +28,10 @@ export default function DashboardOg() {
   });
 
   const [medidaInput, setMedidaInput] = useState("");
+  const [medidaPrecioInput, setMedidaPrecioInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -46,12 +55,27 @@ export default function DashboardOg() {
     setFormData(newData);
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setSelectedFile(file);
+    if (file) {
+      setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setPreviewUrl("");
+    }
+  };
+
   const agregarMedida = () => {
     const m = medidaInput.trim().toUpperCase();
-    if (m && !formData.medidas.includes(m)) {
-      setFormData({ ...formData, medidas: [...formData.medidas, m] });
+    const p = Number(medidaPrecioInput);
+    if (m && p > 0 && !formData.medidas.find((e) => e.medida === m)) {
+      setFormData({
+        ...formData,
+        medidas: [...formData.medidas, { medida: m, precio: p }],
+      });
     }
     setMedidaInput("");
+    setMedidaPrecioInput("");
   };
 
   const eliminarMedida = (idx: number) => {
@@ -63,16 +87,59 @@ export default function DashboardOg() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!selectedFile) {
+      alert("Debes seleccionar una imagen");
+      return;
+    }
+
+    if (formData.tipo === "Peluche") {
+      if (formData.medidas.length === 0) {
+        alert("Debes agregar al menos una medida con su precio");
+        return;
+      }
+    } else {
+      const precioVal = Number(formData.precio);
+      if (!precioVal || precioVal <= 0) {
+        alert("Debes ingresar un precio válido");
+        return;
+      }
+    }
+
     setLoading(true);
 
-    const payload = {
-      ...formData,
-      precio: Number(formData.precio),
-    };
-
     try {
+      const fileExt = selectedFile.name.split(".").pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("images-onlygirlsccs")
+        .upload(fileName, selectedFile);
+
+      if (uploadError) {
+        alert("Error al subir la imagen: " + uploadError.message);
+        return;
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("images-onlygirlsccs")
+        .getPublicUrl(fileName);
+
+      const imageUrl = publicUrlData.publicUrl;
+
+      const precio =
+        formData.tipo === "Peluche"
+          ? Math.min(...formData.medidas.map((m) => m.precio))
+          : Number(formData.precio);
+
+      const payload = {
+        ...formData,
+        image_url: imageUrl,
+        precio,
+      };
+
       const response = await fetch(
-        "https://onlygirlsccs-ecommerce-backend.vercel.app/products",
+        "http://localhost:1234/products",
         {
           method: "POST",
           headers: {
@@ -95,9 +162,14 @@ export default function DashboardOg() {
           medidas: [],
           image_url: "",
         });
+        setSelectedFile(null);
+        setPreviewUrl("");
       } else {
         const err = await response.json();
-        alert("Error: " + (err.error?.message || "Revisa los campos"));
+        const detalles = err.details
+          ? err.details.map((d: { path: string[]; message: string }) => `${d.path.join(".")}: ${d.message}`).join("\n")
+          : err.error || "";
+        alert("Error del servidor:\n" + detalles);
       }
     } catch (error) {
       alert("Hubo un problema con la conexión al servidor.");
@@ -114,16 +186,16 @@ export default function DashboardOg() {
             Vista Previa
           </h2>
           <div className="bg-white p-4 rounded-xl shadow-sm w-full aspect-square flex items-center justify-center overflow-hidden border-4 border-white">
-            {formData.image_url ? (
+            {previewUrl ? (
               <img
-                src={formData.image_url}
+                src={previewUrl}
                 alt="Preview"
                 className="w-full h-full object-contain"
               />
             ) : (
               <div className="text-pink-300 text-center text-sm">
                 <p className="text-4xl mb-2">🧸</p>
-                Añade una URL para ver el peluche
+                Selecciona una imagen para previsualizar
               </div>
             )}
           </div>
@@ -180,20 +252,22 @@ export default function DashboardOg() {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Precio ($)
-                </label>
-                <input
-                  required
-                  name="precio"
-                  type="number"
-                  step="0.01"
-                  onChange={handleChange}
-                  className="w-full border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none"
-                  placeholder="0.00"
-                />
-              </div>
+              {formData.tipo !== "Peluche" && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Precio ($)
+                  </label>
+                  <input
+                    required
+                    name="precio"
+                    type="number"
+                    step="0.01"
+                    onChange={handleChange}
+                    className="w-full border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none"
+                    placeholder="0.00"
+                  />
+                </div>
+              )}
               <div>
                 <label className="flex items-center gap-2 mt-6">
                   <input
@@ -229,24 +303,40 @@ export default function DashboardOg() {
                       }
                     }}
                     className="flex-1 border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none"
-                    placeholder="Ej: 50CM, 70CM, 100CM"
+                    placeholder="Ej: 50CM"
+                  />
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={medidaPrecioInput}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setMedidaPrecioInput(e.target.value)
+                    }
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        agregarMedida();
+                      }
+                    }}
+                    className="w-24 border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none"
+                    placeholder="$ Precio"
                   />
                   <button
                     type="button"
                     onClick={agregarMedida}
-                    className="px-4 py-2.5 bg-pink-100 text-pink-700 rounded-lg font-medium hover:bg-pink-200 transition-colors"
+                    className="px-4 py-2.5 bg-pink-100 text-pink-700 rounded-lg font-medium hover:bg-pink-200 transition-colors whitespace-nowrap"
                   >
                     Agregar
                   </button>
                 </div>
                 {formData.medidas.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {formData.medidas.map((m: string, i: number) => (
+                    {formData.medidas.map((m: MedidaEntry, i: number) => (
                       <span
                         key={i}
                         className="inline-flex items-center gap-1 px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm"
                       >
-                        {m}
+                        {m.medida} - ${m.precio}
                         <button
                           type="button"
                           onClick={() => eliminarMedida(i)}
@@ -263,15 +353,14 @@ export default function DashboardOg() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                URL de la Imagen (Supabase)
+                Imagen del Producto
               </label>
               <input
                 required
-                name="image_url"
-                type="text"
-                onChange={handleChange}
-                className="w-full border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none text-xs"
-                placeholder="https://..."
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="w-full border-gray-200 border p-2 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none text-sm file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:bg-pink-100 file:text-pink-700 file:font-medium hover:file:bg-pink-200 transition-all cursor-pointer"
               />
             </div>
 
@@ -293,7 +382,7 @@ export default function DashboardOg() {
               disabled={loading}
               className={`w-full py-3 rounded-lg font-bold text-white transition-all shadow-lg ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-pink-500 hover:bg-pink-600 active:scale-95"}`}
             >
-              {loading ? "Guardando..." : "Publicar Producto"}
+              {loading ? "Subiendo y publicando..." : "Publicar Producto"}
             </button>
           </form>
         </div>

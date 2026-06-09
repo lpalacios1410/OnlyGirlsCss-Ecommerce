@@ -25,6 +25,8 @@
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce/issues"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.106.1"
   }
-  
 }

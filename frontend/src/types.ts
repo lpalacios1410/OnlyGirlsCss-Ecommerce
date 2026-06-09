@@ -1,3 +1,8 @@
+export interface MedidaOption {
+  medida: string
+  precio: number
+}
+
 export interface Product {
   id: number
   nombre: string
@@ -5,8 +10,17 @@ export interface Product {
   precio: number
   descripcion?: string
   disponible: boolean
-  medidas: string[]
+  medidas: MedidaOption[]
   image: string
+}
+
+export interface CartItem {
+  key: string
+  productId: number
+  nombre: string
+  image: string
+  medida: MedidaOption | null
+  precio: number
 }
 
 export interface NavItem {

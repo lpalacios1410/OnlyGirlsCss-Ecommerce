@@ -1,6 +1,19 @@
 import { supabase } from '../config/supabaseClient.js';
 import type { Product, ProductInput } from '../schemas/products.js';
 
+interface MedidaOption {
+    medida: string
+    precio: number
+}
+
+function normalizeMedidas(medidas: unknown, basePrecio: number): MedidaOption[] {
+    if (!Array.isArray(medidas)) return []
+    return medidas.map((m: unknown) => {
+        if (typeof m === 'string') return { medida: m, precio: basePrecio }
+        return m as MedidaOption
+    })
+}
+
 export class ProductModel {
     static async getAll({limit = 10, offset = 0, tipo, nombre}: {
         limit?: number;
@@ -31,7 +44,7 @@ export class ProductModel {
             precio: p.precio,
             descripcion: p.descripcion,
             disponible: p.disponible,
-            medidas: p.medidas ?? [],
+            medidas: normalizeMedidas(p.medidas, p.precio),
             image: p.image_url,
             image_url: p.image_url
         }));
@@ -49,7 +62,7 @@ export class ProductModel {
         if (error) return null;
         return {
             ...data,
-            medidas: data.medidas ?? [],
+            medidas: normalizeMedidas(data.medidas, data.precio),
             image: data.image_url,
             image_url: data.image_url
         } as Product;
@@ -78,7 +91,7 @@ export class ProductModel {
 
         return {
             ...record,
-            medidas: record.medidas ?? [],
+            medidas: normalizeMedidas(record.medidas, record.precio),
             image: record.image_url,
             image_url: record.image_url
         } as Product;

@@ -47,7 +47,7 @@ export function Hero() {
       p.append("limit", "50");
 
       const res = await fetch(
-        `https://onlygirlsccs-ecommerce-backend.vercel.app/products?${p.toString()}`,
+        `http://localhost:1234/products?${p.toString()}`,
       );
       const json: { data: Product[] } = await res.json();
 

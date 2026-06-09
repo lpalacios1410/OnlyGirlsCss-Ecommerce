@@ -6,7 +6,11 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    dependencies:
+      '@supabase/supabase-js':
+        specifier: ^2.106.1
+        version: 2.106.1
 
   backend:
     dependencies:
@@ -44,6 +48,9 @@ importers:
 
   frontend:
     dependencies:
+      '@supabase/supabase-js':
+        specifier: ^2.106.1
+        version: 2.106.1
       '@tailwindcss/vite':
         specifier: ^4.1.17
         version: 4.3.0(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.3))

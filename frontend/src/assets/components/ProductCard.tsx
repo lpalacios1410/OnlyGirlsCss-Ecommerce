@@ -2,7 +2,11 @@ import { useAuthStore } from "../../store/authStore";
 import { AddShoppingCar } from "./AddShoppingCar";
 import { FavoriteApplyButton } from "./FavoriteApplyButton";
 import { Link } from "./Link";
-import type { Product } from "../../types";
+import type { Product, MedidaOption } from "../../types";
+
+function toMedidaOption(m: string | MedidaOption): MedidaOption {
+  return typeof m === "string" ? { medida: m, precio: 0 } : m;
+}
 
 interface ProductCardProps {
   product: Product;
@@ -10,6 +14,20 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { isLoggedIn } = useAuthStore();
+
+  const medidas = product.medidas?.map(toMedidaOption) ?? [];
+  const medidasConPrecio = medidas.filter((m) => m.precio > 0);
+  const minPrecio =
+    medidasConPrecio.length > 0
+      ? Math.min(...medidasConPrecio.map((m) => m.precio))
+      : product.precio;
+  const maxPrecio =
+    medidasConPrecio.length > 0
+      ? Math.max(...medidasConPrecio.map((m) => m.precio))
+      : product.precio;
+  const mostrarRango =
+    medidasConPrecio.length > 0 && minPrecio !== maxPrecio;
+
   return (
     <article
       key={product.id}
@@ -48,14 +66,15 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.nombre}
         </h4>
 
-        {product.medidas?.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-2">
-            {product.medidas.map((m: string) => (
+        {medidas.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mb-2">
+            {medidas.map((m) => (
               <span
-                key={m}
-                className="text-xs bg-pink-100 text-pink-800 px-2 py-0.5 rounded-full"
+                key={m.medida}
+                className="text-xs bg-pink-50 text-pink-800 px-2 py-0.5 rounded-full border border-pink-200"
               >
-                {m}
+                {m.medida}
+                <span className="font-semibold ml-1">${m.precio}</span>
               </span>
             ))}
           </div>
@@ -66,7 +85,9 @@ export function ProductCard({ product }: ProductCardProps) {
           </p>
         )}
         <div className="flex items-center justify-between">
-          <p className="text-xl font-black text-primary">${product.precio}</p>
+          <p className="text-xl font-black text-primary">
+            {mostrarRango ? `$${minPrecio} - $${maxPrecio}` : `$${minPrecio}`}
+          </p>
           <span
             className={`text-xs px-2 py-1 rounded-full ${product.disponible ? "text-green-700 bg-green-100" : "text-red-600 bg-red-100"}`}
           >
