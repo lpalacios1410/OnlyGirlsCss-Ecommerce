@@ -1,13 +1,12 @@
 import { create } from 'zustand'
-import type { Product } from '../types'
+import type { CartItem } from '../types'
 
 interface ShoppingState {
-  shoppingCart: Product[]
+  shoppingCart: CartItem[]
   clearToCart: () => void
-  addToCart: (product: Product) => void
-  removeToCart: (product: Product) => void
-  inCart: (product: Product) => boolean
-  toggleCart: (product: Product) => void
+  addToCart: (item: CartItem) => void
+  removeToCart: (item: CartItem) => void
+  inCart: (item: CartItem) => boolean
   countShoppingCart: () => number
 }
 
@@ -16,30 +15,22 @@ export const useShoppingStore = create<ShoppingState>((set, get) => ({
 
   clearToCart: () => set({ shoppingCart: [] }),
 
-  addToCart: (product) => {
+  addToCart: (item) => {
     set((state) => ({
-      shoppingCart: state.shoppingCart.includes(product)
+      shoppingCart: state.shoppingCart.some((i) => i.key === item.key)
         ? state.shoppingCart
-        : [...state.shoppingCart, product]
+        : [...state.shoppingCart, item]
     }))
   },
 
-  removeToCart: (product) => {
+  removeToCart: (item) => {
     set((state) => ({
-      shoppingCart: state.shoppingCart.filter((fav) => fav !== product)
+      shoppingCart: state.shoppingCart.filter((i) => i.key !== item.key)
     }))
   },
 
-  inCart: (product) => {
-    return get().shoppingCart.includes(product)
-  },
-
-  toggleCart: (product) => {
-    const { addToCart, removeToCart, inCart } = get()
-    const isInCart = inCart(product)
-    isInCart
-      ? removeToCart(product)
-      : addToCart(product)
+  inCart: (item) => {
+    return get().shoppingCart.some((i) => i.key === item.key)
   },
 
   countShoppingCart: () => {

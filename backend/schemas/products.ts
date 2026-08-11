@@ -1,5 +1,10 @@
 import { z } from 'zod'
 
+const medidaOptionSchema = z.object({
+    medida: z.string().min(1, {message: 'La medida es requerida'}),
+    precio: z.number().positive({message: 'El precio de la medida debe ser positivo'})
+})
+
 export const productSchema = z.object({
     nombre: z.string()
     .trim()
@@ -17,7 +22,7 @@ export const productSchema = z.object({
 
     disponible: z.boolean().default(true),
 
-    medidas: z.array(z.string()).default([]),
+    medidas: z.array(medidaOptionSchema).default([]),
 
     image_url: z.string().url({ message: 'La imagen debe ser una URL válida' })
 })

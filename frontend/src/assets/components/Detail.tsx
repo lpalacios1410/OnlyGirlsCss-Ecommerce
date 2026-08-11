@@ -2,11 +2,17 @@ import { useParams, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { SpinnerLoading } from "./SpinnerLoading";
 import { useAuthStore } from "../../store/authStore";
+import { useShoppingStore } from "../../store/shoppingStore";
 import { DetailFavoriteButton } from "./DetailFavoriteButton";
-import type { Product } from "../../types";
+import type { Product, MedidaOption } from "../../types";
+
+function toMedidaOption(m: string | MedidaOption): MedidaOption {
+  return typeof m === "string" ? { medida: m, precio: 0 } : m;
+}
 
 export default function ProductDetail() {
   const { isLoggedIn } = useAuthStore();
+  const { addToCart, inCart } = useShoppingStore();
 
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
@@ -22,6 +28,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedMedida, setSelectedMedida] = useState<MedidaOption | null>(null);
 
   useEffect(() => {
     document.title = product
@@ -39,6 +46,10 @@ export default function ProductDetail() {
       })
       .then((json) => {
         setProduct(json.data);
+        const medidas = (json.data.medidas ?? []).map(toMedidaOption);
+        if (medidas.length > 0) {
+          setSelectedMedida(medidas[0]);
+        }
       })
       .catch((error: Error) => {
         setError(error.message);
@@ -64,6 +75,23 @@ export default function ProductDetail() {
       </main>
     );
   }
+
+  const medidas = (product.medidas ?? []).map(toMedidaOption);
+
+  const cartKey = selectedMedida
+    ? `${product.id}-${selectedMedida.medida}`
+    : `${product.id}`;
+
+  const cartItem = {
+    key: cartKey,
+    productId: product.id,
+    nombre: product.nombre,
+    image: product.image,
+    medida: selectedMedida,
+    precio: selectedMedida ? selectedMedida.precio : product.precio,
+  };
+
+  const isInCart = inCart(cartItem);
 
   return (
     <main>
@@ -108,9 +136,22 @@ export default function ProductDetail() {
             <p className="text-muted mb-6 leading-relaxed">
               {product.descripcion}
             </p>
-            <p className="text-3xl font-black text-primary mb-8">
-              ${product.precio}
-            </p>
+            <div className="mb-8">
+              {selectedMedida ? (
+                <div className="flex items-baseline gap-2">
+                  <p className="text-3xl font-black text-primary">
+                    ${selectedMedida.precio}
+                  </p>
+                  <span className="text-sm text-muted">
+                    {selectedMedida.medida}
+                  </span>
+                </div>
+              ) : (
+                <p className="text-3xl font-black text-primary">
+                  ${product.precio}
+                </p>
+              )}
+            </div>
             <div className="mb-6">
               <span
                 className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${product.disponible ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
@@ -122,35 +163,52 @@ export default function ProductDetail() {
               </span>
             </div>
 
-            {product.medidas?.length > 0 && (
+            {medidas.length > 0 && (
               <div className="mb-8">
-                <label
-                  className="block text-sm font-medium text-dark mb-3"
-                  htmlFor="medida"
-                >
+                <label className="block text-sm font-medium text-dark mb-3">
                   Medida disponible
                 </label>
-                <select
-                  id="medida"
-                  className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-primary outline-none bg-white"
-                >
-                  <option value="">Selecciona una medida</option>
-                  {product.medidas.map((m: string) => (
-                    <option key={m} value={m}>
-                      {m}
-                    </option>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {medidas.map((m) => (
+                    <button
+                      key={m.medida}
+                      onClick={() => setSelectedMedida(m)}
+                      className={`flex flex-col items-center p-3 rounded-xl border-2 transition-all cursor-pointer ${
+                        selectedMedida?.medida === m.medida
+                          ? "border-primary bg-pinklight/40 text-primary"
+                          : "border-gray-200 bg-white text-dark hover:border-gray-300"
+                      }`}
+                    >
+                      <span className="text-sm font-semibold">{m.medida}</span>
+                      <span
+                        className={`text-sm font-black mt-1 ${
+                          selectedMedida?.medida === m.medida
+                            ? "text-primary"
+                            : "text-muted"
+                        }`}
+                      >
+                        ${m.precio}
+                      </span>
+                    </button>
                   ))}
-                </select>
+                </div>
               </div>
             )}
             <button
               disabled={!isLoggedIn || !product.disponible}
-              className="w-full text-white font-bold py-3.5 rounded-xl shadow-lg bg-primary hover:bg-wine transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
+              onClick={() => addToCart(cartItem)}
+              className={`w-full text-white font-bold py-3.5 rounded-xl shadow-lg transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500 ${
+                isInCart
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "bg-primary hover:bg-wine"
+              }`}
             >
               {!product.disponible
                 ? "Agotado"
                 : isLoggedIn
-                  ? "Agregar al carrito"
+                  ? isInCart
+                    ? "En el carrito ✓"
+                    : "Agregar al carrito"
                   : "Inicia sesión para comprar"}
             </button>
           </div>

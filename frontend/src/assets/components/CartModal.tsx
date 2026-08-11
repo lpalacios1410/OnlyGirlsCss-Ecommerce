@@ -1,9 +1,9 @@
-import type { Product } from "../../types";
+import type { CartItem } from "../../types";
 
 interface CartModalProps {
   onClose: () => void;
   isOpen: boolean;
-  product: Product[];
+  product: CartItem[];
 }
 
 export function CartModal({ onClose, isOpen, product }: CartModalProps) {
@@ -38,7 +38,7 @@ export function CartModal({ onClose, isOpen, product }: CartModalProps) {
           ) : (
             product.map((item) => (
               <div
-                key={item.id}
+                key={item.key}
                 className="flex gap-2 mb-5 items-center border-b pb-4"
               >
                 <img
@@ -51,6 +51,9 @@ export function CartModal({ onClose, isOpen, product }: CartModalProps) {
                   <h3 className="font-semibold text-black text-base">
                     {item.nombre}
                   </h3>
+                  {item.medida && (
+                    <p className="text-sm text-gray-500">{item.medida.medida}</p>
+                  )}
                   <p className="text-primary font-bold">${item.precio}</p>
                 </div>
               </div>
@@ -62,7 +65,7 @@ export function CartModal({ onClose, isOpen, product }: CartModalProps) {
           <div className="flex justify-between mb-2">
             <span className="text-black border-b">Total:</span>
             <span className="font-bold text-black/80 text-xl">
-              ${product.reduce((acc: number, curr: Product) => acc + curr.precio, 0)}
+              ${product.reduce((acc: number, curr: CartItem) => acc + curr.precio, 0)}
             </span>
           </div>
           <button className="w-full bg-primary/20 text-muted py-3 rounded-xl font-semibold hover:bg-primary/30 hover:text-primary cursor-pointer">

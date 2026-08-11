@@ -37,6 +37,8 @@ export function useFilters() {
         const queryParams = params.toString();
 
         const response = await fetch(
+          // `https://backendogc.vercel.app/products?${queryParams}`,
+          // `http://localhost:1234/products?${queryParams}`,
           `https://onlygirlsccs-ecommerce-backend.vercel.app/products?${queryParams}`,
         );
         const json: { data: Product[]; total: number } = await response.json();
