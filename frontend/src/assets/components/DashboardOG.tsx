@@ -171,7 +171,7 @@ export default function DashboardOg() {
           : err.error || "";
         alert("Error del servidor:\n" + detalles);
       }
-    } catch (error) {
+    } catch {
       alert("Hubo un problema con la conexión al servidor.");
     } finally {
       setLoading(false);

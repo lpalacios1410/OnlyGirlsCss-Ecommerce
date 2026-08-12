@@ -36,7 +36,11 @@ export const useFavoritesStore = create<FavoritesState>((set, get) => ({
   toggleFavorite: (productId) => {
     const { addFavorite, removeFavorite, isFavorite } = get()
     const isFav = isFavorite(productId)
-    isFav ? removeFavorite(productId) : addFavorite(productId)
+    if (isFav) {
+      removeFavorite(productId)
+    } else {
+      addFavorite(productId)
+    }
   },
 
   countFavorites: () => {
