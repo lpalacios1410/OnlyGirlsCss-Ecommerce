@@ -28,7 +28,7 @@ export function CartModal({ onClose, isOpen }: CartModalProps) {
       />
 
       <div
-        className={`fixed flex flex-col w-80 sm:w-96 h-[calc(100vh-4rem)] top-14 right-0 bg-white rounded-l-2xl z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
+        className={`fixed flex flex-col w-80 sm:w-96 h-[calc(100vh-4rem)] top-14 right-0 bg-white rounded-l-2xl z-50 shadow-2xl transform transition-transform duration-300 ease-in-out overflow-hidden ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         role="dialog"
@@ -73,7 +73,7 @@ export function CartModal({ onClose, isOpen }: CartModalProps) {
               {shoppingCart.map((item) => (
                 <li
                   key={item.key}
-                  className="flex gap-3 items-start border-b border-pinklight/20 pb-4"
+                  className="flex gap-3 items-start border-b border-pinklight/20 pb-4 min-w-0"
                 >
                   <img
                     src={item.image}

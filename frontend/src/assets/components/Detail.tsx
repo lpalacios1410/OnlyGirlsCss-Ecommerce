@@ -1,14 +1,18 @@
 import { useParams, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { SpinnerLoading } from "./SpinnerLoading";
+import { useAuthStore } from "../../store/authStore";
 import { useShoppingStore } from "../../store/shoppingStore";
 import { DetailFavoriteButton } from "./DetailFavoriteButton";
+import { Link } from "./Link";
 import { toMedidaOption } from "../../lib/medidas";
 import { getProductById } from "../../lib/api";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import type { Product, MedidaOption } from "../../types";
 
 export default function ProductDetail() {
+  const { user } = useAuthStore();
+  const isLoggedIn = !!user;
   const { addToCart, inCart } = useShoppingStore();
 
   const { productId } = useParams<{ productId: string }>();
@@ -126,7 +130,7 @@ export default function ProductDetail() {
                 className="w-full h-100 object-cover rounded-lg shadow-lg"
                 src={product.image}
               />
-              <DetailFavoriteButton product={product} />
+              {isLoggedIn && <DetailFavoriteButton product={product} />}
             </div>
           </div>
 
@@ -195,21 +199,30 @@ export default function ProductDetail() {
                 </div>
               </div>
             )}
-            <button
-              disabled={!product.disponible}
-              onClick={() => addToCart(cartItem)}
-              className={`w-full text-white font-bold py-3.5 rounded-xl shadow-lg transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500 ${
-                isInCart
-                  ? "bg-green-600 hover:bg-green-700"
-                  : "bg-primary hover:bg-wine"
-              }`}
-            >
-              {!product.disponible
-                ? "Agotado"
-                : isInCart
-                  ? "En el carrito ✓"
-                  : "Agregar al carrito"}
-            </button>
+            {isLoggedIn ? (
+              <button
+                disabled={!product.disponible}
+                onClick={() => addToCart(cartItem)}
+                className={`w-full text-white font-bold py-3.5 rounded-xl shadow-lg transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500 ${
+                  isInCart
+                    ? "bg-green-600 hover:bg-green-700"
+                    : "bg-primary hover:bg-wine"
+                }`}
+              >
+                {!product.disponible
+                  ? "Agotado"
+                  : isInCart
+                    ? "En el carrito ✓"
+                    : "Agregar al carrito"}
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="block w-full text-center text-white font-bold py-3.5 rounded-xl shadow-lg bg-primary hover:bg-wine transition-all"
+              >
+                Inicia sesión para comprar
+              </Link>
+            )}
           </div>
         </div>
       </div>
