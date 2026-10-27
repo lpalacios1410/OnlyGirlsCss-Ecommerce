@@ -10,7 +10,7 @@ export const productSchema = z.object({
     .trim()
     .min(1, {message:'El nombre es requerido'})
     .max(100, {message:'El nombre no puede exceder 100 caracteres'})
-    .regex(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/, {message: "El nombre no puede contener números ni caracteres especiales"}),
+    .regex(/^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-_.'"]+$/, {message: "El nombre contiene caracteres no permitidos"}),
     
     tipo: z.string()
     .min(1, {message:'El tipo es requerido'})

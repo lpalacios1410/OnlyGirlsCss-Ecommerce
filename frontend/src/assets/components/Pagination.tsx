@@ -13,31 +13,22 @@ export function Pagination({
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages;
 
-  const handlePrevClick = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handlePrevClick = () => {
     if (!isFirstPage) {
       onPageChange(currentPage - 1);
     }
   };
 
-  const handleNextClick = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleNextClick = () => {
     if (!isLastPage) {
       onPageChange(currentPage + 1);
     }
   };
 
-  const handleChangePage = (e: React.MouseEvent, page: number) => {
-    e.preventDefault();
+  const handleChangePage = (page: number) => {
     if (page !== currentPage) {
       onPageChange(page);
     }
-  };
-
-  const buildPageUrl = (page: number) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("page", String(page));
-    return `${url.pathname}?${url.searchParams.toString()}`;
   };
 
   const getVisiblePages = () => {
@@ -61,10 +52,10 @@ export function Pagination({
       <button
         onClick={handlePrevClick}
         disabled={isFirstPage}
-        className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 cursor-pointer ${
+        className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 ${
           isFirstPage
             ? "opacity-40 cursor-not-allowed bg-soft-gray text-muted"
-            : "bg-white text-dark border border-pinklight/50 hover:bg-pinklight/30 hover:border-primary/30 shadow-sm"
+            : "bg-white text-dark border border-pinklight/50 hover:bg-pinklight/30 hover:border-primary/30 shadow-sm cursor-pointer"
         }`}
         aria-label="Pagina anterior"
       >
@@ -74,7 +65,7 @@ export function Pagination({
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth={2}
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
@@ -85,7 +76,7 @@ export function Pagination({
         {currentPage > 3 && totalPages > 5 && (
           <>
             <button
-              onClick={(e) => handleChangePage(e, 1)}
+              onClick={() => handleChangePage(1)}
               className="size-10 rounded-xl text-sm font-medium text-muted hover:bg-pinklight/30 hover:text-dark transition-all duration-200 cursor-pointer"
             >
               1
@@ -95,11 +86,10 @@ export function Pagination({
         )}
 
         {visiblePages.map((page) => (
-          <a
+          <button
             key={page}
-            onClick={(e) => handleChangePage(e, page)}
-            href={buildPageUrl(page)}
-            className={`size-10 rounded-xl text-sm font-medium flex items-center justify-center transition-all duration-200 ${
+            onClick={() => handleChangePage(page)}
+            className={`size-10 rounded-xl text-sm font-medium flex items-center justify-center transition-all duration-200 cursor-pointer ${
               currentPage === page
                 ? "bg-primary text-white shadow-md shadow-primary/25"
                 : "text-muted hover:bg-pinklight/30 hover:text-dark"
@@ -107,14 +97,14 @@ export function Pagination({
             aria-current={currentPage === page ? "page" : undefined}
           >
             {page}
-          </a>
+          </button>
         ))}
 
         {currentPage < totalPages - 2 && totalPages > 5 && (
           <>
             <span className="px-2 text-muted">...</span>
             <button
-              onClick={(e) => handleChangePage(e, totalPages)}
+              onClick={() => handleChangePage(totalPages)}
               className="size-10 rounded-xl text-sm font-medium text-muted hover:bg-pinklight/30 hover:text-dark transition-all duration-200 cursor-pointer"
             >
               {totalPages}
@@ -126,10 +116,10 @@ export function Pagination({
       <button
         onClick={handleNextClick}
         disabled={isLastPage}
-        className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 cursor-pointer ${
+        className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 ${
           isLastPage
             ? "opacity-40 cursor-not-allowed bg-soft-gray text-muted"
-            : "bg-white text-dark border border-pinklight/50 hover:bg-pinklight/30 hover:border-primary/30 shadow-sm"
+            : "bg-white text-dark border border-pinklight/50 hover:bg-pinklight/30 hover:border-primary/30 shadow-sm cursor-pointer"
         }`}
         aria-label="Pagina siguiente"
       >
@@ -140,7 +130,7 @@ export function Pagination({
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth={2}
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>

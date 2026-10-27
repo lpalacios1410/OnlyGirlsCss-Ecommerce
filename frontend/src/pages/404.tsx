@@ -1,6 +1,8 @@
 import { Link } from "../assets/components/Link";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 export default function NotFoundPage() {
+  useDocumentTitle("OnlyGirlsCcs - Página no encontrada");
   return (
     <main className="min-h-[80vh] flex items-center justify-center px-4">
       <div className="text-center max-w-lg">
