@@ -12,6 +12,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/products', productsRouter)
 
+app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    console.error(err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+});
+
 if (!process.env.NODE_ENV){
     app.listen(PORT, () =>{
         console.log(`Server is running on port http://localhost:${PORT}`);

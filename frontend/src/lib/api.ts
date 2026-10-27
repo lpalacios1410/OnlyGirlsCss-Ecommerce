@@ -1,3 +1,4 @@
+import { supabase } from "./supabase";
 import type { Product } from "../types";
 
 const API_BASE = import.meta.env.VITE_API_URL ?? "/api";
@@ -62,4 +63,17 @@ export function getProducts(
 
 export function getProductById(id: string | number): Promise<{ data: Product }> {
   return request<{ data: Product }>(`/products/${id}`);
+}
+
+export async function createProduct(payload: object): Promise<Product> {
+  const { data: sessionData } = await supabase.auth.getSession();
+  const token = sessionData.session?.access_token;
+
+  const response = await request<{ product: Product }>("/products", {
+    method: "POST",
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    body: JSON.stringify(payload),
+  });
+
+  return response.product;
 }

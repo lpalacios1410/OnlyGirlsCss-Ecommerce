@@ -77,7 +77,6 @@ export class ProductController{
         res.status(404).json({ message: "Producto no encontrado" });
         return;
     }
-        console.log(`Producto ${id} actualizado con éxito`)
         res.json({ message: "Producto actualizado exitosamente", product: updatedProduct })
         
     }
