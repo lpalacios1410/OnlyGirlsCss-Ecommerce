@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "./Link";
 import { useAuthStore } from "../../store/authStore";
 import { useShoppingStore } from "../../store/shoppingStore";
+import { useFavoritesStore } from "../../store/favoritesStore";
 import { CartModal } from "./CartModal";
 
 const navItems = [
@@ -14,10 +15,12 @@ export function Header() {
   const { user, signOut } = useAuthStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { countShoppingCart } = useShoppingStore();
+  const { countFavorites } = useFavoritesStore();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const inShoppingCartCount = countShoppingCart();
+  const favoriteCount = countFavorites();
   const isLoggedIn = !!user;
 
   const handleLogout = async () => {
@@ -60,6 +63,33 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Favorites Button */}
+            <Link
+              href="/favorites"
+              className="relative p-2.5 rounded-full hover:bg-pinklight/30 transition-colors duration-200 text-muted hover:text-primary"
+              aria-label="Favoritos"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="size-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </svg>
+              {favoriteCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 size-4 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  {favoriteCount}
+                </span>
+              )}
+            </Link>
+
             {/* Shopping Cart Button */}
             <button
               className="relative p-2.5 rounded-full cursor-pointer hover:bg-pinklight/30 transition-colors duration-200 text-muted hover:text-primary"

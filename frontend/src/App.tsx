@@ -7,6 +7,7 @@ import { ProtectedRoute } from "./assets/components/ProtectedRoute";
 import { SpinnerLoading } from "./assets/components/SpinnerLoading";
 import { supabase } from "./lib/supabase";
 import { useAuthStore } from "./store/authStore";
+import { useUserDataSync } from "./hooks/useUserDataSync";
 
 const Home = lazy(() => import("./pages/Home"));
 const StoragePage = lazy(() => import("./pages/StoragePage"));
@@ -16,6 +17,7 @@ const NotFoundPage = lazy(() => import("./pages/404"));
 const DashboardOg = lazy(() => import("./assets/components/DashboardOG"));
 const LoginPage = lazy(() => import("./pages/Login"));
 const RegisterPage = lazy(() => import("./pages/Register"));
+const FavoritesPage = lazy(() => import("./pages/Favorites"));
 
 function AuthInitializer({ children }: { children: React.ReactNode }) {
   const setSession = useAuthStore((state) => state.setSession);
@@ -37,9 +39,15 @@ function AuthInitializer({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+function UserDataSync() {
+  useUserDataSync();
+  return null;
+}
+
 function App() {
   return (
     <AuthInitializer>
+      <UserDataSync />
       <Header />
       <Suspense fallback={<SpinnerLoading />}>
         <Routes>
@@ -47,6 +55,7 @@ function App() {
           <Route path="/products" element={<StoragePage />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route
