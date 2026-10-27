@@ -1,96 +1,156 @@
-import { useState, useEffect } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useSearchParams } from "react-router";
+import { getProducts } from "../lib/api";
 import type { Product } from "../types";
+
+export const RESULT_PER_PAGE = 6;
+export const VALID_TIPOS = ["todos", "peluche", "bolso", "juguete", "termo"] as const;
+export type Category = (typeof VALID_TIPOS)[number];
 
 export function useFilters() {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const [categorySelected, setCategorySelected] = useState<string>(() => {
-    return searchParams.get("tipo") || "todos";
-  });
   const [products, setProducts] = useState<Product[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
-  const [currentPage, setCurrentPage] = useState(() => {
-    const params = new URLSearchParams(window.location.search);
-    const page = Number(params.get("page"));
+  const categorySelected: Category = useMemo(() => {
+    const tipo = searchParams.get("tipo") ?? "todos";
+    return VALID_TIPOS.includes(tipo as Category) ? (tipo as Category) : "todos";
+  }, [searchParams]);
+
+  const searchQuery = useMemo(() => searchParams.get("q") ?? "", [searchParams]);
+
+  const disponible = useMemo(() => {
+    const value = searchParams.get("disponible");
+    if (value === "true") return true;
+    if (value === "false") return false;
+    return undefined;
+  }, [searchParams]);
+
+  const orden = useMemo(() => {
+    const value = searchParams.get("orden");
+    if (value === "precio-asc" || value === "precio-desc") return value;
+    return "nuevo";
+  }, [searchParams]);
+
+  const currentPage = useMemo(() => {
+    const page = Number(searchParams.get("page"));
     return Number.isNaN(page) || page < 1 ? 1 : page;
-  });
-
-  const RESULT_PER_PAGE = 6;
+  }, [searchParams]);
 
   useEffect(() => {
     async function fetchProducts() {
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+
       try {
         setLoading(true);
+        setError(null);
 
-        const params = new URLSearchParams();
-
-        if (categorySelected !== "todos") {
-          params.append("tipo", categorySelected);
-        }
-        const offset = (currentPage - 1) * RESULT_PER_PAGE;
-        params.append("limit", String(RESULT_PER_PAGE));
-        params.append("offset", String(offset));
-
-        const queryParams = params.toString();
-
-        const response = await fetch(
-          // `https://backendogc.vercel.app/products?${queryParams}`,
-          // `http://localhost:1234/products?${queryParams}`,
-          `https://onlygirlsccs-ecommerce-backend.vercel.app/products?${queryParams}`,
+        const response = await getProducts(
+          {
+            limit: RESULT_PER_PAGE,
+            offset: (currentPage - 1) * RESULT_PER_PAGE,
+            ...(categorySelected !== "todos" && { tipo: categorySelected }),
+            ...(searchQuery && { q: searchQuery }),
+            ...(disponible !== undefined && { disponible }),
+            orden,
+          },
+          controller.signal,
         );
-        const json: { data: Product[]; total: number } = await response.json();
 
-        setProducts(json.data);
-        setTotal(json.total);
-      } catch (e) {
-        console.error("error fetching products", e);
+        setProducts(response.data);
+        setTotal(response.total);
+      } catch (err) {
+        if ((err as Error).name !== "AbortError") {
+          setError((err as Error).message);
+          setProducts([]);
+          setTotal(0);
+        }
       } finally {
         setLoading(false);
       }
     }
+
     fetchProducts();
-  }, [categorySelected, currentPage]);
 
-  useEffect(() => {
-    setSearchParams((params) => {
-      if (categorySelected !== "todos") {
-        params.set("tipo", categorySelected);
-      } else {
-        params.delete("tipo");
-      }
+    return () => {
+      abortRef.current?.abort();
+    };
+  }, [categorySelected, currentPage, searchQuery, disponible, orden]);
 
-      if (currentPage > 1) {
-        params.set("page", String(currentPage));
-      } else {
-        params.delete("page");
-      }
+  const updateParam = (
+    key: string,
+    value: string | null,
+    resetPage = true,
+  ) => {
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        if (value === null || value === "" || value === "todos") {
+          next.delete(key);
+        } else {
+          next.set(key, value);
+        }
+        if (resetPage && key !== "page") {
+          next.delete("page");
+        }
+        return next;
+      },
+      { replace: true },
+    );
+  };
 
-      return params;
-    });
-  }, [currentPage, categorySelected, setSearchParams]);
+  const handleCategoryChange = (category: Category) => {
+    updateParam("tipo", category === "todos" ? null : category);
+  };
 
-  const totalPages = Math.ceil(total / RESULT_PER_PAGE);
+  const handleSearchChange = (query: string) => {
+    updateParam("q", query.trimStart());
+  };
 
-  const handleCategoryChange = (newCat: string) => {
-    setCategorySelected(newCat);
-    setCurrentPage(1);
+  const handleDisponibleChange = (value: boolean | undefined) => {
+    updateParam("disponible", value === undefined ? null : String(value));
+  };
+
+  const handleOrdenChange = (value: string) => {
+    updateParam("orden", value === "nuevo" ? null : value);
   };
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    updateParam("page", page <= 1 ? null : String(page), false);
   };
 
+  const clearFilters = () => {
+    setSearchParams(new URLSearchParams(), { replace: true });
+  };
+
+  const totalPages = Math.ceil(total / RESULT_PER_PAGE);
+
   return {
+    products,
     total,
     loading,
-    products,
+    error,
     currentPage,
     totalPages,
     categorySelected,
+    searchQuery,
+    disponible,
+    orden,
     handleCategoryChange,
+    handleSearchChange,
+    handleDisponibleChange,
+    handleOrdenChange,
     handlePageChange,
+    clearFilters,
   };
 }

@@ -6,6 +6,7 @@ import { useShoppingStore } from "../../store/shoppingStore";
 import { DetailFavoriteButton } from "./DetailFavoriteButton";
 import { toMedidaOption } from "../../lib/medidas";
 import { getProductById } from "../../lib/api";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import type { Product, MedidaOption } from "../../types";
 
 export default function ProductDetail() {
@@ -28,33 +29,37 @@ export default function ProductDetail() {
   const [error, setError] = useState<string | null>(null);
   const [selectedMedida, setSelectedMedida] = useState<MedidaOption | null>(null);
 
-  useEffect(() => {
-    document.title = product
-      ? `${product.nombre} | OnlyGirlsCcs`
-      : "Cargando producto...";
-  }, [product]);
+  useDocumentTitle(
+    product ? `${product.nombre} | OnlyGirlsCcs` : "Cargando producto...",
+  );
 
   useEffect(() => {
-    fetch(
-      `https://onlygirlsccs-ecommerce-backend.vercel.app/products/${productId}`,
-    )
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al obtener el producto");
-        return res.json() as Promise<{ data: Product }>;
-      })
-      .then((json) => {
-        setProduct(json.data);
-        const medidas = (json.data.medidas ?? []).map(toMedidaOption);
+    const controller = new AbortController();
+
+    async function loadProduct() {
+      try {
+        setLoading(true);
+        setError(null);
+        const { data } = await getProductById(productId!);
+        if (controller.signal.aborted) return;
+        setProduct(data);
+        const medidas = (data.medidas ?? []).map(toMedidaOption);
         if (medidas.length > 0) {
           setSelectedMedida(medidas[0]);
         }
-      })
-      .catch((error: Error) => {
-        setError(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      } catch (err) {
+        if (controller.signal.aborted) return;
+        setError((err as Error).message);
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadProduct();
+
+    return () => controller.abort();
   }, [productId]);
 
   if (loading) return <SpinnerLoading />;

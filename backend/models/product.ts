@@ -14,12 +14,16 @@ function normalizeMedidas(medidas: unknown, basePrecio: number): MedidaOption[] 
     })
 }
 
+type SortOption = 'nuevo' | 'precio-asc' | 'precio-desc'
+
 export class ProductModel {
-    static async getAll({limit = 10, offset = 0, tipo, nombre}: {
+    static async getAll({limit = 10, offset = 0, tipo, q, disponible, orden = 'nuevo'}: {
         limit?: number;
         offset?: number;
         tipo?: string;
-        nombre?: string;
+        q?: string;
+        disponible?: boolean;
+        orden?: SortOption;
     }): Promise<{ paginatedProducts: Product[]; total: number }> {
         const from = Number(offset);
         const to = from + Number(limit) - 1;
@@ -27,13 +31,19 @@ export class ProductModel {
         let query = supabase
         .from('products')
         .select('*', { count: 'exact' });
-        
-        if (tipo) query = query.ilike('tipo', tipo);
-        if (nombre) query = query.ilike('nombre', `%${nombre}%`);
 
-        const { data, count, error } = await query
-        .range(from, to)
-        .order('id', { ascending: true });
+        if (tipo) query = query.ilike('tipo', `%${tipo}%`);
+        if (disponible !== undefined) query = query.eq('disponible', disponible);
+        if (q) {
+            const term = `%${q}%`
+            query = query.or(`nombre.ilike.${term},descripcion.ilike.${term},tipo.ilike.${term}`)
+        }
+
+        if (orden === 'precio-asc') query = query.order('precio', { ascending: true });
+        else if (orden === 'precio-desc') query = query.order('precio', { ascending: false });
+        else query = query.order('id', { ascending: false });
+
+        const { data, count, error } = await query.range(from, to);
 
         if (error) throw new Error(error.message);
 

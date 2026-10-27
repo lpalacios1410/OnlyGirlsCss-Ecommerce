@@ -1,40 +1,62 @@
+import type { Category } from "../../hooks/useFilters";
+
 interface FiltersProductsProps {
-  onCategoryChange: (category: string) => void;
-  activeCategory: string;
+  onCategoryChange: (category: Category) => void;
+  activeCategory: Category;
+  disponible?: boolean;
+  onDisponibleChange: (value?: boolean) => void;
+  orden: string;
+  onOrdenChange: (value: string) => void;
 }
+
+const categories = [
+  {
+    key: "todos",
+    label: "Todos",
+    icon: "M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z",
+  },
+  {
+    key: "peluche",
+    label: "Peluches",
+    icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+  },
+  {
+    key: "bolso",
+    label: "Bolsos",
+    icon: "M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z",
+  },
+  {
+    key: "juguete",
+    label: "Juguetes",
+    icon: "M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  {
+    key: "termo",
+    label: "Termos",
+    icon: "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z",
+  },
+];
+
+const disponibilidadOptions = [
+  { value: undefined, label: "Todos" },
+  { value: true, label: "En stock" },
+  { value: false, label: "Agotado" },
+];
+
+const ordenOptions = [
+  { value: "nuevo", label: "Novedades" },
+  { value: "precio-asc", label: "Precio: menor a mayor" },
+  { value: "precio-desc", label: "Precio: mayor a menor" },
+];
 
 export function FiltersProducts({
   onCategoryChange,
   activeCategory,
+  disponible,
+  onDisponibleChange,
+  orden,
+  onOrdenChange,
 }: FiltersProductsProps) {
-  const categories = [
-    {
-      key: "todos",
-      label: "Todos",
-      icon: "M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z",
-    },
-    {
-      key: "peluche",
-      label: "Peluches",
-      icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
-    },
-    {
-      key: "bolso",
-      label: "Bolsos",
-      icon: "M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z",
-    },
-    {
-      key: "juguete",
-      label: "Juguetes",
-      icon: "M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
-    },
-    {
-      key: "termo",
-      label: "Termos",
-      icon: "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z",
-    },
-  ];
-
   return (
     <aside className="w-full lg:w-72 shrink-0">
       <div className="sticky top-24 space-y-6">
@@ -46,7 +68,7 @@ export function FiltersProducts({
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth={2}
             >
               <path
                 strokeLinecap="round"
@@ -60,7 +82,7 @@ export function FiltersProducts({
             {categories.map((cat) => (
               <button
                 key={cat.key}
-                onClick={() => onCategoryChange(cat.key)}
+                onClick={() => onCategoryChange(cat.key as Category)}
                 className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left transition-all duration-200 cursor-pointer ${
                   activeCategory === cat.key
                     ? "bg-primary text-white shadow-md shadow-primary/25"
@@ -73,7 +95,7 @@ export function FiltersProducts({
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  strokeWidth="1.5"
+                  strokeWidth={1.5}
                 >
                   <path
                     strokeLinecap="round"
@@ -85,6 +107,40 @@ export function FiltersProducts({
               </button>
             ))}
           </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-pinklight/30">
+          <h3 className="font-bold text-dark text-lg mb-4">Disponibilidad</h3>
+          <div className="flex flex-wrap gap-2">
+            {disponibilidadOptions.map((opt) => (
+              <button
+                key={String(opt.value)}
+                onClick={() => onDisponibleChange(opt.value)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
+                  disponible === opt.value
+                    ? "bg-primary text-white"
+                    : "bg-soft-gray text-muted hover:bg-pinklight/30 hover:text-dark"
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-pinklight/30">
+          <h3 className="font-bold text-dark text-lg mb-4">Ordenar por</h3>
+          <select
+            value={orden}
+            onChange={(e) => onOrdenChange(e.target.value)}
+            className="w-full p-2.5 rounded-xl border border-pinklight/30 bg-white text-dark outline-none focus:border-primary"
+          >
+            {ordenOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </aside>
