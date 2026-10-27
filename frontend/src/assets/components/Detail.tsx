@@ -4,11 +4,9 @@ import { SpinnerLoading } from "./SpinnerLoading";
 import { useAuthStore } from "../../store/authStore";
 import { useShoppingStore } from "../../store/shoppingStore";
 import { DetailFavoriteButton } from "./DetailFavoriteButton";
+import { toMedidaOption } from "../../lib/medidas";
+import { getProductById } from "../../lib/api";
 import type { Product, MedidaOption } from "../../types";
-
-function toMedidaOption(m: string | MedidaOption): MedidaOption {
-  return typeof m === "string" ? { medida: m, precio: 0 } : m;
-}
 
 export default function ProductDetail() {
   const { isLoggedIn } = useAuthStore();

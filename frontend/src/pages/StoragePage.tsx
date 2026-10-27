@@ -1,8 +1,8 @@
-import { useEffect } from "react";
 import { FiltersProducts } from "../assets/components/FiltersProducts";
 import { ProductListing } from "../assets/components/ProductListing";
 import { Pagination } from "../assets/components/Pagination";
 import { SpinnerLoading } from "../assets/components/SpinnerLoading";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 import { useFilters } from "../hooks/useFilters";
 
@@ -16,13 +16,16 @@ export default function StoragePage() {
     loading,
     total,
     products,
+    searchQuery,
+    handleSearchChange,
+    clearFilters,
   } = useFilters();
 
-  useEffect(() => {
-    document.title = loading
+  useDocumentTitle(
+    loading
       ? "Cargando..."
-      : `OnlyGirlsCcs - Tienda (Página ${currentPage})`;
-  }, [loading, currentPage]);
+      : `OnlyGirlsCcs - Tienda (Página ${currentPage})`,
+  );
   return (
     <main
       id="main-content"

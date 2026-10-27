@@ -1,11 +1,9 @@
-import { useEffect } from "react";
 import { Category } from "../assets/components/Category";
 import { Hero } from "../assets/components/Hero";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 export default function Home() {
-  useEffect(() => {
-    document.title = "OnlyGirlsCcs - Home";
-  }, []);
+  useDocumentTitle("OnlyGirlsCcs - Home");
   return (
     <main id="main-content">
       <Hero />

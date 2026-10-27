@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "./Link.jsx";
-import { useAuthStore } from "../../store/authStore.js";
+import { useAuthStore } from "../../store/authStore";
 // import { useFavoritesStore } from "../../store/favoritesStore.js";
 import { useShoppingStore } from "../../store/shoppingStore.js";
 import { CartModal } from "./CartModal.jsx";

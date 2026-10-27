@@ -1,9 +1,6 @@
 import { useShoppingStore } from "../../store/shoppingStore";
-import type { Product, MedidaOption } from "../../types";
-
-function toMedidaOption(m: string | MedidaOption): MedidaOption {
-  return typeof m === "string" ? { medida: m, precio: 0 } : m;
-}
+import { toMedidaOption } from "../../lib/medidas";
+import type { Product } from "../../types";
 
 interface AddShoppingCarProps {
   product: Product;

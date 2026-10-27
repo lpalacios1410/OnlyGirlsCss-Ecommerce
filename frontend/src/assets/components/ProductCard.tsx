@@ -1,12 +1,9 @@
 import { useAuthStore } from "../../store/authStore";
+import { toMedidaOption } from "../../lib/medidas";
 import { AddShoppingCar } from "./AddShoppingCar";
 import { FavoriteApplyButton } from "./FavoriteApplyButton";
 import { Link } from "./Link";
-import type { Product, MedidaOption } from "../../types";
-
-function toMedidaOption(m: string | MedidaOption): MedidaOption {
-  return typeof m === "string" ? { medida: m, precio: 0 } : m;
-}
+import type { Product } from "../../types";
 
 interface ProductCardProps {
   product: Product;
