@@ -1,39 +1,87 @@
-import { create } from 'zustand'
-import type { CartItem } from '../types'
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import type { CartItem } from "../types";
 
 interface ShoppingState {
-  shoppingCart: CartItem[]
-  clearToCart: () => void
-  addToCart: (item: CartItem) => void
-  removeToCart: (item: CartItem) => void
-  inCart: (item: CartItem) => boolean
-  countShoppingCart: () => number
+  shoppingCart: CartItem[];
+  isLoading: boolean;
+  addToCart: (item: Omit<CartItem, "quantity">) => void;
+  removeFromCart: (key: string) => void;
+  updateQuantity: (key: string, quantity: number) => void;
+  clearCart: () => void;
+  inCart: (key: string) => boolean;
+  countShoppingCart: () => number;
+  totalCart: () => number;
+  setLoading: (loading: boolean) => void;
+  resetCart: (items: CartItem[]) => void;
 }
 
-export const useShoppingStore = create<ShoppingState>((set, get) => ({
-  shoppingCart: [],
+const GUEST_STORAGE_KEY = "ogc:cart:guest";
 
-  clearToCart: () => set({ shoppingCart: [] }),
+export const useShoppingStore = create<ShoppingState>()(
+  persist(
+    (set, get) => ({
+      shoppingCart: [],
+      isLoading: false,
 
-  addToCart: (item) => {
-    set((state) => ({
-      shoppingCart: state.shoppingCart.some((i) => i.key === item.key)
-        ? state.shoppingCart
-        : [...state.shoppingCart, item]
-    }))
-  },
+      addToCart: (item) => {
+        set((state) => {
+          const existing = state.shoppingCart.find((i) => i.key === item.key);
+          if (existing) {
+            return {
+              shoppingCart: state.shoppingCart.map((i) =>
+                i.key === item.key ? { ...i, quantity: i.quantity + 1 } : i,
+              ),
+            };
+          }
+          return {
+            shoppingCart: [...state.shoppingCart, { ...item, quantity: 1 }],
+          };
+        });
+      },
 
-  removeToCart: (item) => {
-    set((state) => ({
-      shoppingCart: state.shoppingCart.filter((i) => i.key !== item.key)
-    }))
-  },
+      removeFromCart: (key) => {
+        set((state) => ({
+          shoppingCart: state.shoppingCart.filter((i) => i.key !== key),
+        }));
+      },
 
-  inCart: (item) => {
-    return get().shoppingCart.some((i) => i.key === item.key)
-  },
+      updateQuantity: (key, quantity) => {
+        if (quantity < 1) {
+          get().removeFromCart(key);
+          return;
+        }
+        set((state) => ({
+          shoppingCart: state.shoppingCart.map((i) =>
+            i.key === key ? { ...i, quantity } : i,
+          ),
+        }));
+      },
 
-  countShoppingCart: () => {
-    return get().shoppingCart.length
-  }
-}))
+      clearCart: () => set({ shoppingCart: [] }),
+
+      inCart: (key) => {
+        return get().shoppingCart.some((i) => i.key === key);
+      },
+
+      countShoppingCart: () => {
+        return get().shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
+      },
+
+      totalCart: () => {
+        return get().shoppingCart.reduce(
+          (sum, item) => sum + item.precio * item.quantity,
+          0,
+        );
+      },
+
+      setLoading: (loading) => set({ isLoading: loading }),
+
+      resetCart: (items) => set({ shoppingCart: items }),
+    }),
+    {
+      name: GUEST_STORAGE_KEY,
+      partialize: (state) => ({ shoppingCart: state.shoppingCart }),
+    },
+  ),
+);

@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { SpinnerLoading } from "./SpinnerLoading";
-import { useAuthStore } from "../../store/authStore";
 import { useShoppingStore } from "../../store/shoppingStore";
 import { DetailFavoriteButton } from "./DetailFavoriteButton";
 import { toMedidaOption } from "../../lib/medidas";
@@ -10,7 +9,6 @@ import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import type { Product, MedidaOption } from "../../types";
 
 export default function ProductDetail() {
-  const { isLoggedIn } = useAuthStore();
   const { addToCart, inCart } = useShoppingStore();
 
   const { productId } = useParams<{ productId: string }>();
@@ -94,7 +92,7 @@ export default function ProductDetail() {
     precio: selectedMedida ? selectedMedida.precio : product.precio,
   };
 
-  const isInCart = inCart(cartItem);
+  const isInCart = inCart(cartItem.key);
 
   return (
     <main>
@@ -128,7 +126,7 @@ export default function ProductDetail() {
                 className="w-full h-100 object-cover rounded-lg shadow-lg"
                 src={product.image}
               />
-              {isLoggedIn ? <DetailFavoriteButton product={product} /> : ""}
+              <DetailFavoriteButton product={product} />
             </div>
           </div>
 
@@ -198,7 +196,7 @@ export default function ProductDetail() {
               </div>
             )}
             <button
-              disabled={!isLoggedIn || !product.disponible}
+              disabled={!product.disponible}
               onClick={() => addToCart(cartItem)}
               className={`w-full text-white font-bold py-3.5 rounded-xl shadow-lg transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500 ${
                 isInCart
@@ -208,11 +206,9 @@ export default function ProductDetail() {
             >
               {!product.disponible
                 ? "Agotado"
-                : isLoggedIn
-                  ? isInCart
-                    ? "En el carrito ✓"
-                    : "Agregar al carrito"
-                  : "Inicia sesión para comprar"}
+                : isInCart
+                  ? "En el carrito ✓"
+                  : "Agregar al carrito"}
             </button>
           </div>
         </div>

@@ -1,4 +1,3 @@
-import { useAuthStore } from "../../store/authStore";
 import { toMedidaOption } from "../../lib/medidas";
 import { AddShoppingCar } from "./AddShoppingCar";
 import { FavoriteApplyButton } from "./FavoriteApplyButton";
@@ -10,7 +9,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { isLoggedIn } = useAuthStore();
 
   const medidas = product.medidas?.map(toMedidaOption) ?? [];
   const medidasConPrecio = medidas.filter((m) => m.precio > 0);
@@ -39,23 +37,19 @@ export function ProductCard({ product }: ProductCardProps) {
           loading="lazy"
         />
 
-        {isLoggedIn ? (
-          <div className="absolute inset-0 bg-dark/10 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3">
-            <AddShoppingCar product={product} />
-            <Link
-              data-testid="viewButton"
-              href={`/products/${product.id}`}
-              className="px-6 py-2.5 bg-primary/90 text-white rounded-full font-semibold text-sm shadow-lg hover:bg-wine transition-all duration-200 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 delay-75"
-              aria-label={`Ver detalles de ${product.nombre}`}
-            >
-              Ver Detalles
-            </Link>
-          </div>
-        ) : (
-          ""
-        )}
+        <div className="absolute inset-0 bg-dark/10 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3">
+          <AddShoppingCar product={product} />
+          <Link
+            data-testid="viewButton"
+            href={`/products/${product.id}`}
+            className="px-6 py-2.5 bg-primary/90 text-white rounded-full font-semibold text-sm shadow-lg hover:bg-wine transition-all duration-200 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 delay-75"
+            aria-label={`Ver detalles de ${product.nombre}`}
+          >
+            Ver Detalles
+          </Link>
+        </div>
 
-        {isLoggedIn ? <FavoriteApplyButton product={product} /> : ""}
+        <FavoriteApplyButton product={product} />
       </div>
 
       <div className="p-5">
