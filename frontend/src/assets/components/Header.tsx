@@ -4,14 +4,26 @@ import { useAuthStore } from "../../store/authStore";
 import { useShoppingStore } from "../../store/shoppingStore";
 import { CartModal } from "./CartModal";
 
+const navItems = [
+  { href: "/", label: "Inicio" },
+  { href: "/products", label: "Tienda" },
+  { href: "/contact", label: "Contacto" },
+];
+
 export function Header() {
-  const { isLoggedIn, login, logout } = useAuthStore();
+  const { user, signOut } = useAuthStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { countShoppingCart } = useShoppingStore();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const inShoppingCartCount = countShoppingCart();
+  const isLoggedIn = !!user;
+
+  const handleLogout = async () => {
+    await signOut();
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-pinklight/30 shadow-sm">
@@ -32,11 +44,7 @@ export function Header() {
 
           <nav className="hidden md:block" aria-label="Global">
             <ul className="flex items-center gap-1">
-              {[
-                { href: "/", label: "Inicio" },
-                { href: "/products", label: "Tienda" },
-                { href: "/contact", label: "Contacto" },
-              ].map((item) => (
+              {navItems.map((item) => (
                 <li key={item.label}>
                   <Link
                     className="relative px-4 py-2 text-sm font-medium text-muted hover:text-primary transition-colors duration-200 rounded-full hover:bg-pinklight/30"
@@ -51,7 +59,7 @@ export function Header() {
           </nav>
 
           {/* Actions */}
-          <div className="flex relative items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Shopping Cart Button */}
             <button
               className="relative p-2.5 rounded-full cursor-pointer hover:bg-pinklight/30 transition-colors duration-200 text-muted hover:text-primary"
@@ -84,24 +92,35 @@ export function Header() {
               onClose={() => setIsCartOpen(false)}
             />
 
-            {/* Auth Button / IN PRODUCTION */}
-            <div className="hidden sm:block">
-              {isLoggedIn ? (
+            {/* Auth */}
+            {isLoggedIn ? (
+              <div className="hidden sm:flex items-center gap-2">
+                <span className="text-sm text-muted max-w-[120px] truncate">
+                  {user.email}
+                </span>
                 <button
-                  className="px-5 py-2.5 rounded-full bg-soft-gray text-dark font-medium text-sm hover:bg-pinklight/50 transition-all duration-200 cursor-pointer"
-                  onClick={logout}
+                  onClick={handleLogout}
+                  className="px-4 py-2 rounded-full bg-soft-gray text-dark font-medium text-sm hover:bg-pinklight/50 transition-all duration-200 cursor-pointer"
                 >
-                  Cerrar Sesion
+                  Salir
                 </button>
-              ) : (
-                <button
-                  className="px-5 py-2.5 rounded-full bg-primary text-white font-medium text-sm hover:bg-wine hover:shadow-lg hover:shadow-primary/25 transition-all duration-200 cursor-pointer active:scale-95"
-                  onClick={login}
+              </div>
+            ) : (
+              <div className="hidden sm:flex items-center gap-2">
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-sm font-medium text-muted hover:text-primary transition-colors"
                 >
-                  Iniciar Sesion
-                </button>
-              )}
-            </div>
+                  Entrar
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-4 py-2 rounded-full bg-primary text-white font-medium text-sm hover:bg-wine transition-all duration-200"
+                >
+                  Registrarse
+                </Link>
+              </div>
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -116,7 +135,7 @@ export function Header() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth={2}
               >
                 {mobileMenuOpen ? (
                   <path
@@ -138,16 +157,12 @@ export function Header() {
 
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            mobileMenuOpen ? "max-h-80 pb-4" : "max-h-0"
+            mobileMenuOpen ? "max-h-96 pb-4" : "max-h-0"
           }`}
         >
           <nav className="pt-2 border-t border-pinklight/30">
             <ul className="flex flex-col gap-1">
-              {[
-                { href: "/", label: "Inicio" },
-                { href: "/products", label: "Tienda" },
-                { href: "/contact", label: "Contacto" },
-              ].map((item) => (
+              {navItems.map((item) => (
                 <li key={item.label}>
                   <Link
                     className="block px-4 py-3 text-sm font-medium text-muted hover:text-primary hover:bg-pinklight/20 rounded-xl transition-colors duration-200"
@@ -163,23 +178,27 @@ export function Header() {
                 {isLoggedIn ? (
                   <button
                     className="w-full py-3 rounded-xl bg-soft-gray text-dark font-medium text-sm hover:bg-pinklight/50 transition-all duration-200"
-                    onClick={() => {
-                      logout();
-                      setMobileMenuOpen(false);
-                    }}
+                    onClick={handleLogout}
                   >
-                    Cerrar Sesion
+                    Cerrar Sesión ({user?.email})
                   </button>
                 ) : (
-                  <button
-                    className="w-full py-3 rounded-xl bg-primary text-white font-medium text-sm hover:bg-wine transition-all duration-200"
-                    onClick={() => {
-                      login();
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    Iniciar Sesion
-                  </button>
+                  <div className="flex flex-col gap-2">
+                    <Link
+                      href="/login"
+                      className="w-full text-center py-3 rounded-xl bg-soft-gray text-dark font-medium text-sm hover:bg-pinklight/50 transition-all duration-200"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Iniciar Sesión
+                    </Link>
+                    <Link
+                      href="/register"
+                      className="w-full text-center py-3 rounded-xl bg-primary text-white font-medium text-sm hover:bg-wine transition-all duration-200"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Crear Cuenta
+                    </Link>
+                  </div>
                 )}
               </li>
             </ul>
