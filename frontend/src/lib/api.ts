@@ -88,15 +88,50 @@ export function getProductById(id: string | number): Promise<{ data: Product }> 
   return request<{ data: Product }>(`/products/${id}`);
 }
 
-export async function createProduct(payload: object): Promise<Product> {
+/**
+ * Obtiene los headers de autenticación con la sesión actual de Supabase.
+ * Las rutas de escritura del backend (POST/PUT/DELETE) exigen `requireAdmin`,
+ * que valida este token.
+ */
+async function getAdminHeaders(): Promise<
+  Record<string, string> | undefined
+> {
   const { data: sessionData } = await supabase.auth.getSession();
   const token = sessionData.session?.access_token;
 
+  return token ? { Authorization: `Bearer ${token}` } : undefined;
+}
+
+export async function createProduct(payload: object): Promise<Product> {
   const response = await request<{ product: Product }>("/products", {
     method: "POST",
-    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    headers: await getAdminHeaders(),
     body: JSON.stringify(payload),
   });
 
   return response.product;
+}
+
+export async function updateProduct(
+  id: string | number,
+  payload: object,
+): Promise<Product> {
+  const response = await request<{ product: Product }>(`/products/${id}`, {
+    method: "PUT",
+    headers: await getAdminHeaders(),
+    body: JSON.stringify(payload),
+  });
+
+  return response.product;
+}
+
+export async function deleteProduct(
+  id: string | number,
+): Promise<string> {
+  const response = await request<{ message: string }>(`/products/${id}`, {
+    method: "DELETE",
+    headers: await getAdminHeaders(),
+  });
+
+  return response.message;
 }
