@@ -22,9 +22,11 @@ interface AuthState {
 
 function checkAdminRole(user: User | null): boolean {
   if (!user) return false;
-  const hasAdminRole =
-    user.app_metadata?.role === ADMIN_ROLE ||
-    user.user_metadata?.role === ADMIN_ROLE;
+  // Solo app_metadata (controlado por el servidor). user_metadata es editable
+  // por el propio usuario, así que no sirve como control de acceso.
+  // Debe coincidir con requireAdmin del backend y con las políticas RLS de
+  // storage para el bucket de imágenes de productos.
+  const hasAdminRole = user.app_metadata?.role === ADMIN_ROLE;
   const isAdminEmail = user.email?.toLowerCase() === ADMIN_EMAIL;
   return hasAdminRole || isAdminEmail;
 }
