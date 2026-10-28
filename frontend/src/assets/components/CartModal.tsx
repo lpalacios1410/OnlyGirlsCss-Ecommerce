@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import { useShoppingStore } from "../../store/shoppingStore";
 
 interface CartModalProps {
@@ -17,7 +18,10 @@ export function CartModal({ onClose, isOpen }: CartModalProps) {
   const total = totalCart();
   const count = countShoppingCart();
 
-  return (
+  // Se renderiza en document.body con un portal: el header aplica backdrop-blur,
+  // lo que crea un "containing block" para los descendentes position:fixed y
+  // provocaba scroll horizontal con el panel fuera de pantalla (translate-x-full).
+  return createPortal(
     <>
       <div
         className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${
@@ -159,6 +163,7 @@ export function CartModal({ onClose, isOpen }: CartModalProps) {
           </p>
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 }

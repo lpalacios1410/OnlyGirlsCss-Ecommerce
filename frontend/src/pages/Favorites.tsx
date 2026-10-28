@@ -4,7 +4,7 @@ import { useAuthStore } from "../store/authStore";
 import { ProductListing } from "../assets/components/ProductListing";
 import { SpinnerLoading } from "../assets/components/SpinnerLoading";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import { supabase } from "../lib/supabase";
+import { getProducts } from "../lib/api";
 import type { Product } from "../types";
 
 export default function FavoritesPage() {
@@ -16,6 +16,8 @@ export default function FavoritesPage() {
   useDocumentTitle("OnlyGirlsCcs - Favoritos");
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function loadFavorites() {
       if (favorites.length === 0) {
         setProducts([]);
@@ -24,31 +26,27 @@ export default function FavoritesPage() {
       }
 
       setLoading(true);
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .in("id", favorites);
-
-      if (error) {
-        console.error("Error loading favorites:", error.message);
-        setProducts([]);
-      } else {
-        const mapped: Product[] = (data ?? []).map((p) => ({
-          id: p.id,
-          nombre: p.nombre,
-          tipo: p.tipo,
-          precio: p.precio,
-          descripcion: p.descripcion,
-          disponible: p.disponible,
-          medidas: Array.isArray(p.medidas) ? p.medidas : [],
-          image: p.image_url,
-        }));
-        setProducts(mapped);
+      try {
+        // Se pide al backend en lugar de consultar Supabase directamente:
+        // asi respeta las politicas RLS del rol authenticated y usa el
+        // mismo mapeo de productos que el resto de la tienda.
+        const { data } = await getProducts(
+          { ids: favorites, limit: favorites.length, offset: 0 },
+          controller.signal,
+        );
+        setProducts(data);
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.error("Error loading favorites:", error);
+          setProducts([]);
+        }
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
       }
-      setLoading(false);
     }
 
     loadFavorites();
+    return () => controller.abort();
   }, [favorites]);
 
   return (
@@ -68,6 +66,13 @@ export default function FavoritesPage() {
           <div className="bg-white rounded-2xl p-8 text-center border border-pinklight/30 shadow-sm">
             <p className="text-muted text-lg">
               No tienes productos en favoritos.
+            </p>
+          </div>
+        ) : products.length === 0 ? (
+          <div className="bg-white rounded-2xl p-8 text-center border border-pinklight/30 shadow-sm">
+            <p className="text-muted text-lg">
+              No se pudieron cargar tus favoritos. Revisa que el servidor
+              este en marcha o recarga la pagina.
             </p>
           </div>
         ) : (

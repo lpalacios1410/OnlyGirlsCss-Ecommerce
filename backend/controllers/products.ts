@@ -5,10 +5,14 @@ import { ProductModel } from "../models/product.js";
 export class ProductController{
     static async getAll (req: Request, res: Response): Promise<void>{
 
-    const { limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET, tipo, q, disponible, orden } = req.query
+    const { limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET, tipo, q, disponible, orden, ids } = req.query
 
     const limitNumber = Number(limit)
     const offsetNumber = Number(offset)
+
+    const idsNumber = typeof ids === 'string' && ids.length > 0
+        ? ids.split(',').map(Number).filter((n) => Number.isFinite(n))
+        : undefined
 
     if (!Number.isFinite(limitNumber) || limitNumber < 1) {
         res.status(400).json({ error: 'limit debe ser un número positivo' })
@@ -31,6 +35,7 @@ export class ProductController{
         q: q as string | undefined,
         disponible: disponibleValue,
         orden: ordenValue,
+        ids: idsNumber,
     })
 
     res.json({data: paginatedProducts, total, limit:limitNumber, offset:offsetNumber})

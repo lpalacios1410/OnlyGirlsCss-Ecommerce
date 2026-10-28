@@ -20,7 +20,10 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:1234',
-        changeOrigin: true
+        changeOrigin: true,
+        // El backend monta sus rutas en /products, no /api/products:
+        // se elimina el prefijo /api antes de reenviar la petición.
+        rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
   }

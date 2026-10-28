@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "./Link";
 import { useAuthStore } from "../../store/authStore";
 import { useShoppingStore } from "../../store/shoppingStore";
@@ -12,7 +13,7 @@ const navItems = [
 ];
 
 export function Header() {
-  const { user, signOut } = useAuthStore();
+  const { user, signOut, isAdmin } = useAuthStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { countShoppingCart } = useShoppingStore();
   const { countFavorites } = useFavoritesStore();
@@ -29,6 +30,7 @@ export function Header() {
   };
 
   return (
+    <>
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-pinklight/30 shadow-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-18 items-center justify-between">
@@ -240,5 +242,33 @@ export function Header() {
         </div>
       </div>
     </header>
+
+      {isAdmin &&
+        createPortal(
+          <Link
+            href="/dashboardAdmin"
+            ariaLabel="Agregar producto nuevo"
+            className="fixed bottom-6 right-6 z-[60] flex items-center gap-2 rounded-full bg-primary px-5 py-4 font-semibold text-white shadow-xl hover:bg-wine hover:scale-105 transition-all duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="size-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2.5}
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            <span className="hidden sm:inline">Agregar producto</span>
+          </Link>,
+          document.body
+        )}
+    </>
   );
 }

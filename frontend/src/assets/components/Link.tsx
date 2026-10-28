@@ -8,6 +8,7 @@ interface LinkCustomProps {
   activeClassName?: string;
   exact?: boolean;
   onClick?: () => void;
+  ariaLabel?: string;
 }
 
 export function Link({
@@ -17,12 +18,14 @@ export function Link({
   activeClassName = "active",
   exact = true,
   onClick,
+  ariaLabel,
 }: LinkCustomProps) {
   return (
     <NavLink
       to={href}
       end={exact}
       onClick={onClick}
+      aria-label={ariaLabel}
       className={({ isActive }) =>
         `${className} ${isActive ? activeClassName : ""}`.trim()
       }
