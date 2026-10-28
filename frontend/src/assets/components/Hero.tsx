@@ -2,7 +2,10 @@ import { useState } from "react";
 import { useRouter } from "../../hooks/useRouter";
 import { VALID_TIPOS, type Category } from "../../hooks/useFilters";
 
-const CATEGORIES = VALID_TIPOS.filter((c) => c !== "todos");
+type ProductCategory = Exclude<Category, "todos">;
+const CATEGORIES: ProductCategory[] = VALID_TIPOS.filter(
+  (c): c is ProductCategory => c !== "todos",
+);
 
 export function Hero() {
   const { navigateTo } = useRouter();
@@ -21,8 +24,8 @@ export function Hero() {
 
     const words = query.toLowerCase().split(/\s+/);
     const category = words.find((word) =>
-      CATEGORIES.includes(word as Category),
-    ) as Category | undefined;
+      CATEGORIES.includes(word as ProductCategory),
+    ) as ProductCategory | undefined;
     const searchTerms = category
       ? words.filter((word) => word !== category)
       : words;
