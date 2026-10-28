@@ -12,13 +12,6 @@ import {
 } from "../../../lib/storage";
 import type { MedidaOption, Product } from "../../../types";
 
-const CATEGORIAS = [
-  { value: "Bolso", label: "👜 Bolso" },
-  { value: "Juguete", label: "🎮 Juguete" },
-  { value: "Peluche", label: "🧸 Peluche" },
-  { value: "Termo", label: "🎀 Termo" },
-];
-
 // Misma regla que el schema del backend (backend/schemas/products.ts)
 const NOMBRE_REGEX = /^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ0-9\s\-_.'"]+$/;
 
