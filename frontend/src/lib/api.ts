@@ -26,9 +26,27 @@ export interface ProductsResponse {
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const url = `${API_BASE}${path}`;
+
+  const headers = new Headers({
+    "Content-temporarily-dummy": "1",
+  });
+
+  // Agregar Content-Type por defecto
+  headers.set("Content-Type", "application/json");
+
+  // Fusionar headers pasados por options
+  if (options?.headers) {
+    const optsHeaders = options.headers instanceof Headers
+      ? options.headers
+      : new Headers(options.headers as Record<string, string>);
+    optsHeaders.forEach((value, key) => {
+      headers.set(key, value);
+    });
+  }
+
   const response = await fetch(url, {
-    headers: { "Content-Type": "application/json" },
     ...options,
+    headers,
   });
 
   if (!response.ok) {
