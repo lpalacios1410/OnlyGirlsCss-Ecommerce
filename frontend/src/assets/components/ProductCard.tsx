@@ -2,6 +2,7 @@ import { useAuthStore } from "../../store/authStore";
 import { toMedidaOption } from "../../lib/medidas";
 import { AddShoppingCar } from "./AddShoppingCar";
 import { FavoriteApplyButton } from "./FavoriteApplyButton";
+import { QuickAddToCartButton } from "./QuickAddToCartButton";
 import { Link } from "./Link";
 import type { Product } from "../../types";
 
@@ -57,6 +58,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
 
             <FavoriteApplyButton product={product} />
+            <QuickAddToCartButton product={product} />
           </>
         )}
       </div>

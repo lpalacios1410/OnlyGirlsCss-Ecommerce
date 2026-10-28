@@ -1,5 +1,5 @@
 import { useShoppingStore } from "../../store/shoppingStore";
-import { toMedidaOption } from "../../lib/medidas";
+import { buildDefaultCartItem } from "../../lib/cart";
 import type { Product } from "../../types";
 
 interface AddShoppingCarProps {
@@ -9,20 +9,7 @@ interface AddShoppingCarProps {
 export function AddShoppingCar({ product }: AddShoppingCarProps) {
   const { inCart, addToCart, removeFromCart } = useShoppingStore();
 
-  const medidas = product.medidas?.map(toMedidaOption) ?? [];
-  const primeraMedida = medidas.length > 0 ? medidas[0] : null;
-
-  const cartItem = {
-    key: primeraMedida
-      ? `${product.id}-${primeraMedida.medida}`
-      : `${product.id}`,
-    productId: product.id,
-    nombre: product.nombre,
-    image: product.image,
-    medida: primeraMedida,
-    precio: primeraMedida ? primeraMedida.precio : product.precio,
-  };
-
+  const cartItem = buildDefaultCartItem(product);
   const isInCart = inCart(cartItem.key);
 
   return (
