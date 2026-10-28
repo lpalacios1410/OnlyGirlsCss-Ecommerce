@@ -1,16 +1,13 @@
 import { useShoppingStore } from "../../store/shoppingStore";
-import type { Product, MedidaOption } from "../../types";
-
-function toMedidaOption(m: string | MedidaOption): MedidaOption {
-  return typeof m === "string" ? { medida: m, precio: 0 } : m;
-}
+import { toMedidaOption } from "../../lib/medidas";
+import type { Product } from "../../types";
 
 interface AddShoppingCarProps {
   product: Product;
 }
 
 export function AddShoppingCar({ product }: AddShoppingCarProps) {
-  const { inCart, addToCart, removeToCart } = useShoppingStore();
+  const { inCart, addToCart, removeFromCart } = useShoppingStore();
 
   const medidas = product.medidas?.map(toMedidaOption) ?? [];
   const primeraMedida = medidas.length > 0 ? medidas[0] : null;
@@ -26,7 +23,7 @@ export function AddShoppingCar({ product }: AddShoppingCarProps) {
     precio: primeraMedida ? primeraMedida.precio : product.precio,
   };
 
-  const isInCart = inCart(cartItem);
+  const isInCart = inCart(cartItem.key);
 
   return (
     <button
@@ -34,7 +31,7 @@ export function AddShoppingCar({ product }: AddShoppingCarProps) {
         ${isInCart ? "bg-gray-300 text-black" : "bg-white text-primary hover:bg-primary hover:text-white"}
       `}
       aria-label={isInCart ? "Quitar del carrito" : "Agregar al carrito"}
-      onClick={() => (isInCart ? removeToCart(cartItem) : addToCart(cartItem))}
+      onClick={() => (isInCart ? removeFromCart(cartItem.key) : addToCart(cartItem))}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -11,8 +11,8 @@
     "backend"
   ],
   "scripts": {
-    "dev:backend": "pnpm --filter ./backend run watch",
-    "dev:frontend": "pnpm --filter ./frontend run dev",
+    "dev:backend": "pnpm -C backend run watch",
+    "dev:frontend": "pnpm -C frontend run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,5 +27,4 @@
     "url": "https://github.com/lpalacios1410/OnlyGirlsCss-Ecommerce/issues"
   },
   "packageManager": "pnpm@11.3.0"
-
 }

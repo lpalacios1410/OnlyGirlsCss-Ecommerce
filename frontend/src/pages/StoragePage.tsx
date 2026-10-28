@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { EmptyResults } from "../assets/components/EmptyResults";
 import { FiltersProducts } from "../assets/components/FiltersProducts";
-import { ProductListing } from "../assets/components/ProductListing";
 import { Pagination } from "../assets/components/Pagination";
+import { ProductListing } from "../assets/components/ProductListing";
+import { SearchInput } from "../assets/components/SearchInput";
 import { SpinnerLoading } from "../assets/components/SpinnerLoading";
-
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { useFilters } from "../hooks/useFilters";
 
 export default function StoragePage() {
@@ -16,13 +17,24 @@ export default function StoragePage() {
     loading,
     total,
     products,
+    searchQuery,
+    handleSearchChange,
+    disponible,
+    handleDisponibleChange,
+    orden,
+    handleOrdenChange,
+    clearFilters,
   } = useFilters();
 
-  useEffect(() => {
-    document.title = loading
+  useDocumentTitle(
+    loading
       ? "Cargando..."
-      : `OnlyGirlsCcs - Tienda (Página ${currentPage})`;
-  }, [loading, currentPage]);
+      : `OnlyGirlsCcs - Tienda (Página ${currentPage})`,
+  );
+
+  const hasActiveFilters =
+    searchQuery || categorySelected !== "todos" || disponible !== undefined;
+
   return (
     <main
       id="main-content"
@@ -31,23 +43,49 @@ export default function StoragePage() {
       <FiltersProducts
         activeCategory={categorySelected}
         onCategoryChange={handleCategoryChange}
+        disponible={disponible}
+        onDisponibleChange={handleDisponibleChange}
+        orden={orden}
+        onOrdenChange={handleOrdenChange}
       />
-      <div className="w-full">
+      <div className="w-full min-w-0">
         <div className="flex flex-col gap-6 w-full">
-          <p className="text-dark font-medium">
-            Mostrando {products.length} de {total} resultados
-          </p>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <p className="text-dark font-medium">
+              {loading ? "Buscando..." : `Mostrando ${products.length} de ${total} resultados`}
+            </p>
+            {hasActiveFilters && !loading && (
+              <button
+                onClick={clearFilters}
+                className="text-sm text-primary hover:text-wine font-medium underline-offset-2 hover:underline self-start"
+              >
+                Limpiar filtros
+              </button>
+            )}
+          </div>
+
+          <SearchInput
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Busca peluches, bolsos y más..."
+          />
+
           {loading ? (
             <SpinnerLoading />
+          ) : products.length === 0 ? (
+            <EmptyResults query={searchQuery} onClear={clearFilters} />
           ) : (
             <ProductListing products={products} />
           )}
         </div>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+
+        {totalPages > 1 && !loading && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </main>
   );

@@ -1,74 +1,41 @@
 import { useState } from "react";
 import { useRouter } from "../../hooks/useRouter";
-import type { Product } from "../../types";
+import { VALID_TIPOS, type Category } from "../../hooks/useFilters";
 
-const CATEGORIES = ["peluche", "bolso", "juguete", "termo"];
+type ProductCategory = Exclude<Category, "todos">;
+const CATEGORIES: ProductCategory[] = VALID_TIPOS.filter(
+  (c): c is ProductCategory => c !== "todos",
+);
 
 export function Hero() {
   const { navigateTo } = useRouter();
   const [isFocused, setIsFocused] = useState(false);
-  const [searching, setSearching] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const rawQuery = formData.get("search") as string | null;
-    if (!rawQuery?.trim()) {
+    const rawQuery = (formData.get("search") as string | null) ?? "";
+    const query = rawQuery.trim();
+
+    if (!query) {
       navigateTo("/products");
       return;
     }
 
-    const query = rawQuery.trim();
     const words = query.toLowerCase().split(/\s+/);
+    const category = words.find((word) =>
+      CATEGORIES.includes(word as ProductCategory),
+    ) as ProductCategory | undefined;
+    const searchTerms = category
+      ? words.filter((word) => word !== category)
+      : words;
 
-    let category = "";
-    let searchTerms = words;
+    const params = new URLSearchParams();
+    if (category) params.set("tipo", category);
+    if (searchTerms.length > 0) params.set("q", searchTerms.join(" "));
 
-    for (const word of words) {
-      if (CATEGORIES.includes(word)) {
-        category = word;
-        searchTerms = words.filter((w) => w !== word);
-        break;
-      }
-    }
-
-    if (searchTerms.length === 0) {
-      const p = new URLSearchParams();
-      if (category) p.append("tipo", category);
-      navigateTo(`/products?${p.toString()}`);
-      return;
-    }
-
-    setSearching(true);
-
-    try {
-      const p = new URLSearchParams();
-      if (category) p.append("tipo", category);
-      p.append("limit", "50");
-
-      const res = await fetch(
-        `https://onlygirlsccs-ecommerce-backend.vercel.app/products?${p.toString()}`,
-      );
-      const json: { data: Product[] } = await res.json();
-
-      const matches = json.data.filter((product) => {
-        const name = product.nombre.toLowerCase();
-        return searchTerms.every((term) => name.includes(term));
-      });
-
-      if (matches.length === 1) {
-        navigateTo(`/products/${matches[0].id}`);
-      } else {
-        const sp = new URLSearchParams();
-        if (category) sp.append("tipo", category);
-        sp.append("text", query);
-        navigateTo(`/products?${sp.toString()}`);
-      }
-    } catch {
-      navigateTo(`/products?text=${encodeURIComponent(query)}`);
-    } finally {
-      setSearching(false);
-    }
+    const queryString = params.toString();
+    navigateTo(`/products${queryString ? `?${queryString}` : ""}`);
   };
 
   return (
@@ -141,10 +108,9 @@ export function Hero() {
             />
             <button
               type="submit"
-              disabled={searching}
-              className="px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-wine transition-all duration-200 hover:shadow-lg hover:shadow-primary/25 active:scale-95 cursor-pointer disabled:opacity-60 disabled:cursor-wait"
+              className="px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-wine transition-all duration-200 hover:shadow-lg hover:shadow-primary/25 active:scale-95 cursor-pointer"
             >
-              {searching ? "Buscando..." : "Buscar"}
+              Buscar
             </button>
           </div>
         </form>
@@ -154,7 +120,9 @@ export function Hero() {
           {["Peluches", "Bolsos", "Termos", "Juguetes"].map((tag) => (
             <button
               key={tag}
-              onClick={() => navigateTo(`/products?text=${tag.toLowerCase()}`)}
+              onClick={() =>
+                navigateTo(`/products?tipo=${tag.toLowerCase().slice(0, -1)}`)
+              }
               className="px-4 py-1.5 rounded-full bg-soft-gray hover:bg-pinklight/50 text-muted hover:text-primary transition-all duration-200 cursor-pointer"
             >
               {tag}

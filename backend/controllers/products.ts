@@ -5,17 +5,34 @@ import { ProductModel } from "../models/product.js";
 export class ProductController{
     static async getAll (req: Request, res: Response): Promise<void>{
 
-    const { limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET, tipo, nombre } = req.query
+    const { limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET, tipo, q, disponible, orden } = req.query
 
-    const {paginatedProducts, total} = await ProductModel.getAll({
-        limit: Number(limit),
-        offset: Number(offset),
-        tipo: tipo as string | undefined,
-        nombre: nombre as string | undefined,
-    })
     const limitNumber = Number(limit)
     const offsetNumber = Number(offset)
-    console.log({ limit, tipo, nombre })
+
+    if (!Number.isFinite(limitNumber) || limitNumber < 1) {
+        res.status(400).json({ error: 'limit debe ser un número positivo' })
+        return
+    }
+    if (!Number.isFinite(offsetNumber) || offsetNumber < 0) {
+        res.status(400).json({ error: 'offset debe ser un número mayor o igual a 0' })
+        return
+    }
+
+    const disponibleValue = disponible === 'true' ? true : disponible === 'false' ? false : undefined
+    const ordenValue = ['precio-asc', 'precio-desc', 'nuevo'].includes(orden as string)
+        ? (orden as 'precio-asc' | 'precio-desc' | 'nuevo')
+        : undefined
+
+    const {paginatedProducts, total} = await ProductModel.getAll({
+        limit: limitNumber,
+        offset: offsetNumber,
+        tipo: tipo as string | undefined,
+        q: q as string | undefined,
+        disponible: disponibleValue,
+        orden: ordenValue,
+    })
+
     res.json({data: paginatedProducts, total, limit:limitNumber, offset:offsetNumber})
     }
 
@@ -60,7 +77,6 @@ export class ProductController{
         res.status(404).json({ message: "Producto no encontrado" });
         return;
     }
-        console.log(`Producto ${id} actualizado con éxito`)
         res.json({ message: "Producto actualizado exitosamente", product: updatedProduct })
         
     }

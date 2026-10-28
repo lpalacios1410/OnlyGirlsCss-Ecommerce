@@ -21,6 +21,7 @@ export interface CartItem {
   image: string
   medida: MedidaOption | null
   precio: number
+  quantity: number
 }
 
 export interface NavItem {

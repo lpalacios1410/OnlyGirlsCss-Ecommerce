@@ -1,6 +1,5 @@
 import { type ReactNode } from "react";
-import { Link as NavLink } from "react-router";
-import { useRouter } from "../../hooks/useRouter";
+import { NavLink } from "react-router";
 
 interface LinkCustomProps {
   href: string;
@@ -19,23 +18,14 @@ export function Link({
   exact = true,
   onClick,
 }: LinkCustomProps) {
-  const { navigateTo, currentPath } = useRouter();
-
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    navigateTo(href);
-    onClick?.();
-  };
-
-  const isActive = exact ? currentPath === href : currentPath.startsWith(href);
-  const lastClassName =
-    `${className} ${isActive ? activeClassName : ""}`.trim();
-
   return (
     <NavLink
-      className={lastClassName}
       to={href}
-      onClick={handleClick}
+      end={exact}
+      onClick={onClick}
+      className={({ isActive }) =>
+        `${className} ${isActive ? activeClassName : ""}`.trim()
+      }
     >
       {children}
     </NavLink>

@@ -1,19 +1,17 @@
 import { useAuthStore } from "../../store/authStore";
+import { toMedidaOption } from "../../lib/medidas";
 import { AddShoppingCar } from "./AddShoppingCar";
 import { FavoriteApplyButton } from "./FavoriteApplyButton";
 import { Link } from "./Link";
-import type { Product, MedidaOption } from "../../types";
-
-function toMedidaOption(m: string | MedidaOption): MedidaOption {
-  return typeof m === "string" ? { medida: m, precio: 0 } : m;
-}
+import type { Product } from "../../types";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { isLoggedIn } = useAuthStore();
+  const { user } = useAuthStore();
+  const isLoggedIn = !!user;
 
   const medidas = product.medidas?.map(toMedidaOption) ?? [];
   const medidasConPrecio = medidas.filter((m) => m.precio > 0);
@@ -35,30 +33,32 @@ export function ProductCard({ product }: ProductCardProps) {
       className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-transparent hover:border-pinklight/50"
     >
       <div className="relative aspect-square overflow-hidden bg-soft-gray">
-        <img
-          alt={product.nombre || "Producto"}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          src={product.image}
-          loading="lazy"
-        />
+        <Link href={`/products/${product.id}`} className="block w-full h-full">
+          <img
+            alt={product.nombre || "Producto"}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            src={product.image}
+            loading="lazy"
+          />
+        </Link>
 
-        {isLoggedIn ? (
-          <div className="absolute inset-0 bg-dark/10 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3">
-            <AddShoppingCar product={product} />
-            <Link
-              data-testid="viewButton"
-              href={`/products/${product.id}`}
-              className="px-6 py-2.5 bg-primary/90 text-white rounded-full font-semibold text-sm shadow-lg hover:bg-wine transition-all duration-200 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 delay-75"
-              aria-label={`Ver detalles de ${product.nombre}`}
-            >
-              Ver Detalles
-            </Link>
-          </div>
-        ) : (
-          ""
+        {isLoggedIn && (
+          <>
+            <div className="absolute inset-0 bg-dark/10 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3">
+              <AddShoppingCar product={product} />
+              <Link
+                data-testid="viewButton"
+                href={`/products/${product.id}`}
+                className="px-6 py-2.5 bg-primary/90 text-white rounded-full font-semibold text-sm shadow-lg hover:bg-wine transition-all duration-200 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 delay-75"
+                aria-label={`Ver detalles de ${product.nombre}`}
+              >
+                Ver Detalles
+              </Link>
+            </div>
+
+            <FavoriteApplyButton product={product} />
+          </>
         )}
-
-        {isLoggedIn ? <FavoriteApplyButton product={product} /> : ""}
       </div>
 
       <div className="p-5">

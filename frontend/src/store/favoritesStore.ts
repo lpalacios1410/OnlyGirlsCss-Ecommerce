@@ -1,49 +1,68 @@
-import { create } from 'zustand'
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface FavoritesState {
-  favorites: number[]
-  clearFavorites: () => void
-  addFavorite: (productId: number) => void
-  removeFavorite: (productId: number) => void
-  isFavorite: (productId: number) => boolean
-  toggleFavorite: (productId: number) => void
-  countFavorites: () => number
+  favorites: number[];
+  isLoading: boolean;
+  clearFavorites: () => void;
+  addFavorite: (productId: number) => void;
+  removeFavorite: (productId: number) => void;
+  isFavorite: (productId: number) => boolean;
+  toggleFavorite: (productId: number) => void;
+  countFavorites: () => number;
+  resetFavorites: (productIds: number[]) => void;
+  setLoading: (loading: boolean) => void;
 }
 
-export const useFavoritesStore = create<FavoritesState>((set, get) => ({
-  favorites: [],
+const GUEST_STORAGE_KEY = "ogc:favorites:guest";
 
-  clearFavorites: () => set({ favorites: [] }),
+export const useFavoritesStore = create<FavoritesState>()(
+  persist(
+    (set, get) => ({
+      favorites: [],
+      isLoading: false,
 
-  addFavorite: (productId) => {
-    set((state) => ({
-      favorites: state.favorites.includes(productId)
-        ? state.favorites
-        : [...state.favorites, productId]
-    }))
-  },
+      clearFavorites: () => set({ favorites: [] }),
 
-  removeFavorite: (productId) => {
-    set((state) => ({
-      favorites: state.favorites.filter((fav) => fav !== productId)
-    }))
-  },
+      addFavorite: (productId) => {
+        set((state) => ({
+          favorites: state.favorites.includes(productId)
+            ? state.favorites
+            : [...state.favorites, productId],
+        }));
+      },
 
-  isFavorite: (productId) => {
-    return get().favorites.includes(productId)
-  },
+      removeFavorite: (productId) => {
+        set((state) => ({
+          favorites: state.favorites.filter((fav) => fav !== productId),
+        }));
+      },
 
-  toggleFavorite: (productId) => {
-    const { addFavorite, removeFavorite, isFavorite } = get()
-    const isFav = isFavorite(productId)
-    if (isFav) {
-      removeFavorite(productId)
-    } else {
-      addFavorite(productId)
-    }
-  },
+      isFavorite: (productId) => {
+        return get().favorites.includes(productId);
+      },
 
-  countFavorites: () => {
-    return get().favorites.length
-  }
-}))
+      toggleFavorite: (productId) => {
+        const { addFavorite, removeFavorite, isFavorite } = get();
+        const isFav = isFavorite(productId);
+        if (isFav) {
+          removeFavorite(productId);
+        } else {
+          addFavorite(productId);
+        }
+      },
+
+      countFavorites: () => {
+        return get().favorites.length;
+      },
+
+      resetFavorites: (productIds) => set({ favorites: productIds }),
+
+      setLoading: (loading) => set({ isLoading: loading }),
+    }),
+    {
+      name: GUEST_STORAGE_KEY,
+      partialize: (state) => ({ favorites: state.favorites }),
+    },
+  ),
+);

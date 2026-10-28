@@ -4,14 +4,15 @@ import { SpinnerLoading } from "./SpinnerLoading";
 import { useAuthStore } from "../../store/authStore";
 import { useShoppingStore } from "../../store/shoppingStore";
 import { DetailFavoriteButton } from "./DetailFavoriteButton";
+import { Link } from "./Link";
+import { toMedidaOption } from "../../lib/medidas";
+import { getProductById } from "../../lib/api";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import type { Product, MedidaOption } from "../../types";
 
-function toMedidaOption(m: string | MedidaOption): MedidaOption {
-  return typeof m === "string" ? { medida: m, precio: 0 } : m;
-}
-
 export default function ProductDetail() {
-  const { isLoggedIn } = useAuthStore();
+  const { user } = useAuthStore();
+  const isLoggedIn = !!user;
   const { addToCart, inCart } = useShoppingStore();
 
   const { productId } = useParams<{ productId: string }>();
@@ -30,33 +31,37 @@ export default function ProductDetail() {
   const [error, setError] = useState<string | null>(null);
   const [selectedMedida, setSelectedMedida] = useState<MedidaOption | null>(null);
 
-  useEffect(() => {
-    document.title = product
-      ? `${product.nombre} | OnlyGirlsCcs`
-      : "Cargando producto...";
-  }, [product]);
+  useDocumentTitle(
+    product ? `${product.nombre} | OnlyGirlsCcs` : "Cargando producto...",
+  );
 
   useEffect(() => {
-    fetch(
-      `https://onlygirlsccs-ecommerce-backend.vercel.app/products/${productId}`,
-    )
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al obtener el producto");
-        return res.json() as Promise<{ data: Product }>;
-      })
-      .then((json) => {
-        setProduct(json.data);
-        const medidas = (json.data.medidas ?? []).map(toMedidaOption);
+    const controller = new AbortController();
+
+    async function loadProduct() {
+      try {
+        setLoading(true);
+        setError(null);
+        const { data } = await getProductById(productId!);
+        if (controller.signal.aborted) return;
+        setProduct(data);
+        const medidas = (data.medidas ?? []).map(toMedidaOption);
         if (medidas.length > 0) {
           setSelectedMedida(medidas[0]);
         }
-      })
-      .catch((error: Error) => {
-        setError(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      } catch (err) {
+        if (controller.signal.aborted) return;
+        setError((err as Error).message);
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadProduct();
+
+    return () => controller.abort();
   }, [productId]);
 
   if (loading) return <SpinnerLoading />;
@@ -91,7 +96,7 @@ export default function ProductDetail() {
     precio: selectedMedida ? selectedMedida.precio : product.precio,
   };
 
-  const isInCart = inCart(cartItem);
+  const isInCart = inCart(cartItem.key);
 
   return (
     <main>
@@ -125,7 +130,7 @@ export default function ProductDetail() {
                 className="w-full h-100 object-cover rounded-lg shadow-lg"
                 src={product.image}
               />
-              {isLoggedIn ? <DetailFavoriteButton product={product} /> : ""}
+              {isLoggedIn && <DetailFavoriteButton product={product} />}
             </div>
           </div>
 
@@ -194,23 +199,30 @@ export default function ProductDetail() {
                 </div>
               </div>
             )}
-            <button
-              disabled={!isLoggedIn || !product.disponible}
-              onClick={() => addToCart(cartItem)}
-              className={`w-full text-white font-bold py-3.5 rounded-xl shadow-lg transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500 ${
-                isInCart
-                  ? "bg-green-600 hover:bg-green-700"
-                  : "bg-primary hover:bg-wine"
-              }`}
-            >
-              {!product.disponible
-                ? "Agotado"
-                : isLoggedIn
-                  ? isInCart
+            {isLoggedIn ? (
+              <button
+                disabled={!product.disponible}
+                onClick={() => addToCart(cartItem)}
+                className={`w-full text-white font-bold py-3.5 rounded-xl shadow-lg transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500 ${
+                  isInCart
+                    ? "bg-green-600 hover:bg-green-700"
+                    : "bg-primary hover:bg-wine"
+                }`}
+              >
+                {!product.disponible
+                  ? "Agotado"
+                  : isInCart
                     ? "En el carrito ✓"
-                    : "Agregar al carrito"
-                  : "Inicia sesión para comprar"}
-            </button>
+                    : "Agregar al carrito"}
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="block w-full text-center text-white font-bold py-3.5 rounded-xl shadow-lg bg-primary hover:bg-wine transition-all"
+              >
+                Inicia sesión para comprar
+              </Link>
+            )}
           </div>
         </div>
       </div>

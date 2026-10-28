@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../../lib/supabase";
+import { createProduct } from "../../lib/api";
 
 interface MedidaEntry {
   medida: string;
@@ -138,41 +139,24 @@ export default function DashboardOg() {
         precio,
       };
 
-      const response = await fetch(
-        "https://onlygirlsccs-ecommerce-backend.vercel.app/products",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-admin-key": import.meta.env.VITE_ADMIN_SECRET_KEY as string,
-          },
-          body: JSON.stringify(payload),
-        },
-      );
-
-      if (response.ok) {
-        alert("Producto creado con éxito en OnlyGirlsCcs!");
-        (e.target as HTMLFormElement).reset();
-        setFormData({
-          nombre: "",
-          tipo: "",
-          precio: "",
-          descripcion: "",
-          disponible: true,
-          medidas: [],
-          image_url: "",
-        });
-        setSelectedFile(null);
-        setPreviewUrl("");
-      } else {
-        const err = await response.json();
-        const detalles = err.details
-          ? err.details.map((d: { path: string[]; message: string }) => `${d.path.join(".")}: ${d.message}`).join("\n")
-          : err.error || "";
-        alert("Error del servidor:\n" + detalles);
-      }
-    } catch {
-      alert("Hubo un problema con la conexión al servidor.");
+      await createProduct(payload);
+      alert("Producto creado con éxito en OnlyGirlsCcs!");
+      (e.target as HTMLFormElement).reset();
+      setFormData({
+        nombre: "",
+        tipo: "Selecciona una categoría",
+        precio: "",
+        descripcion: "",
+        disponible: true,
+        medidas: [],
+        image_url: "",
+      });
+      setSelectedFile(null);
+      setPreviewUrl("");
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Error del servidor";
+      alert("Error del servidor:\n" + message);
     } finally {
       setLoading(false);
     }
