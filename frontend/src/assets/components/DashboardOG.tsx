@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { createProduct } from "../../lib/api";
+import {
+  CATEGORIAS,
+  tipoUsaMedidas,
+  unidadMedida,
+} from "../../lib/categorias";
 
 interface MedidaEntry {
   medida: string;
@@ -20,7 +25,7 @@ interface DashboardFormData {
 export default function DashboardOg() {
   const [formData, setFormData] = useState<DashboardFormData>({
     nombre: "",
-    tipo: "Selecciona una categoría",
+    tipo: "",
     precio: "",
     descripcion: "",
     disponible: true,
@@ -49,11 +54,15 @@ export default function DashboardOg() {
           ? Number(value)
           : value;
 
-    const newData = { ...formData, [name]: val };
-    if (name === "tipo" && value !== "Peluche") {
-      newData.medidas = [];
-    }
-    setFormData(newData);
+    setFormData((prev) => {
+      const newData = { ...prev, [name]: val };
+      if (name === "tipo") {
+        // Al cambiar de categoría se limpian las medidas: cada categoría
+        // usa su propia unidad (CM para peluches, ML para termos).
+        newData.medidas = [];
+      }
+      return newData;
+    });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,12 +98,17 @@ export default function DashboardOg() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!formData.tipo) {
+      alert("Debes seleccionar una categoría");
+      return;
+    }
+
     if (!selectedFile) {
       alert("Debes seleccionar una imagen");
       return;
     }
 
-    if (formData.tipo === "Peluche") {
+    if (tipoUsaMedidas(formData.tipo)) {
       if (formData.medidas.length === 0) {
         alert("Debes agregar al menos una medida con su precio");
         return;
@@ -128,10 +142,9 @@ export default function DashboardOg() {
 
       const imageUrl = publicUrlData.publicUrl;
 
-      const precio =
-        formData.tipo === "Peluche"
-          ? Math.min(...formData.medidas.map((m) => m.precio))
-          : Number(formData.precio);
+      const precio = tipoUsaMedidas(formData.tipo)
+        ? Math.min(...formData.medidas.map((m) => m.precio))
+        : Number(formData.precio);
 
       const payload = {
         ...formData,
@@ -144,7 +157,7 @@ export default function DashboardOg() {
       (e.target as HTMLFormElement).reset();
       setFormData({
         nombre: "",
-        tipo: "Selecciona una categoría",
+        tipo: "",
         precio: "",
         descripcion: "",
         disponible: true,
@@ -161,6 +174,11 @@ export default function DashboardOg() {
       setLoading(false);
     }
   };
+
+  const precioPreview =
+    tipoUsaMedidas(formData.tipo) && formData.medidas.length > 0
+      ? Math.min(...formData.medidas.map((m) => m.precio))
+      : formData.precio;
 
   return (
     <div className="min-h-screen bg-pink-50 flex items-center justify-center p-6 font-sans">
@@ -188,7 +206,7 @@ export default function DashboardOg() {
               {formData.nombre || "Nombre del Producto"}
             </p>
             <p className="text-pink-500 font-semibold text-lg">
-              {formData.precio ? `$${formData.precio}` : "$0.00"}
+              {precioPreview ? `$${precioPreview}` : "$0.00"}
             </p>
           </div>
         </div>
@@ -228,15 +246,19 @@ export default function DashboardOg() {
                 onChange={handleChange}
                 className="w-full border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none bg-white transition-all"
               >
-                <option value="Bolso">👜 Bolso</option>
-                <option value="Juguete">🎮 Juguete</option>
-                <option value="Peluche">🧸 Peluche</option>
-                <option value="Termo">🎀 Termo</option>
+                <option value="" disabled>
+                  Selecciona una categoría
+                </option>
+                {CATEGORIAS.map((categoria) => (
+                  <option key={categoria.value} value={categoria.value}>
+                    {categoria.label}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              {formData.tipo !== "Peluche" && (
+              {!tipoUsaMedidas(formData.tipo) && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Precio ($)
@@ -268,10 +290,10 @@ export default function DashboardOg() {
               </div>
             </div>
 
-            {formData.tipo === "Peluche" && (
+            {tipoUsaMedidas(formData.tipo) && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Medidas disponibles
+                  Medidas disponibles ({unidadMedida(formData.tipo)})
                 </label>
                 <div className="flex gap-2">
                   <input
@@ -287,7 +309,9 @@ export default function DashboardOg() {
                       }
                     }}
                     className="flex-1 border-gray-200 border p-2.5 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none"
-                    placeholder="Ej: 50CM"
+                    placeholder={`Ej: ${
+                      unidadMedida(formData.tipo) === "ML" ? "500ML" : "50CM"
+                    }`}
                   />
                   <input
                     type="number"
