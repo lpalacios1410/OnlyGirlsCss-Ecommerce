@@ -1,7 +1,11 @@
 import { supabase } from "./supabase";
 import type { Product } from "../types";
 
-const API_BASE = import.meta.env.VITE_API_URL ?? "/api";
+const API_BASE =
+  import.meta.env.VITE_API_URL ??
+  (import.meta.env.PROD
+    ? "https://onlygirlsccs-ecommerce-backend.vercel.app"
+    : "/api");
 
 export interface ProductQuery {
   limit?: number;
@@ -10,6 +14,7 @@ export interface ProductQuery {
   q?: string;
   disponible?: boolean;
   orden?: "precio-asc" | "precio-desc" | "nuevo";
+  ids?: number[];
 }
 
 export interface ProductsResponse {
@@ -53,6 +58,7 @@ export function getProducts(
   if (query.disponible !== undefined)
     params.set("disponible", String(query.disponible));
   if (query.orden) params.set("orden", query.orden);
+  if (query.ids && query.ids.length > 0) params.set("ids", query.ids.join(","));
 
   const queryString = params.toString();
   return request<ProductsResponse>(

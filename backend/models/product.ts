@@ -17,13 +17,14 @@ function normalizeMedidas(medidas: unknown, basePrecio: number): MedidaOption[] 
 type SortOption = 'nuevo' | 'precio-asc' | 'precio-desc'
 
 export class ProductModel {
-    static async getAll({limit = 10, offset = 0, tipo, q, disponible, orden = 'nuevo'}: {
+    static async getAll({limit = 10, offset = 0, tipo, q, disponible, orden = 'nuevo', ids}: {
         limit?: number;
         offset?: number;
         tipo?: string;
         q?: string;
         disponible?: boolean;
         orden?: SortOption;
+        ids?: number[];
     }): Promise<{ paginatedProducts: Product[]; total: number }> {
         const from = Number(offset);
         const to = from + Number(limit) - 1;
@@ -32,6 +33,7 @@ export class ProductModel {
         .from('products')
         .select('*', { count: 'exact' });
 
+        if (ids && ids.length > 0) query = query.in('id', ids);
         if (tipo) query = query.ilike('tipo', `%${tipo}%`);
         if (disponible !== undefined) query = query.eq('disponible', disponible);
         if (q) {

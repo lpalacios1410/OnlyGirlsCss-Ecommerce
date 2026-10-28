@@ -3,6 +3,7 @@ import { supabase } from "../lib/supabase";
 import type { Session, User } from "@supabase/supabase-js";
 
 const ADMIN_ROLE = "admin";
+const ADMIN_EMAIL = "luisarmando20092009@gmail.com";
 
 interface AuthState {
   user: User | null;
@@ -21,10 +22,11 @@ interface AuthState {
 
 function checkAdminRole(user: User | null): boolean {
   if (!user) return false;
-  return (
+  const hasAdminRole =
     user.app_metadata?.role === ADMIN_ROLE ||
-    user.user_metadata?.role === ADMIN_ROLE
-  );
+    user.user_metadata?.role === ADMIN_ROLE;
+  const isAdminEmail = user.email?.toLowerCase() === ADMIN_EMAIL;
+  return hasAdminRole || isAdminEmail;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
