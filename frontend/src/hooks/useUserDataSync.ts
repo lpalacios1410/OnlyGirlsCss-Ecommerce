@@ -51,20 +51,20 @@ export function useUserDataSync() {
 
     if (userId === lastUserId.current) return;
 
-    async function sync() {
+    async function sync(id: string) {
       useShoppingStore.setState({ isLoading: true });
       useFavoritesStore.setState({ isLoading: true });
 
       try {
         const [remoteCart, remoteFavorites] = await Promise.all([
-          loadCartItems(userId),
-          loadFavoriteIds(userId),
+          loadCartItems(id),
+          loadFavoriteIds(id),
         ]);
 
         resetCart(mergeCarts(shoppingCart, remoteCart));
         resetFavorites(mergeFavorites(favorites, remoteFavorites));
 
-        lastUserId.current = userId;
+        lastUserId.current = id;
       } catch (error) {
         console.error("Error syncing user data:", error);
       } finally {
@@ -73,7 +73,7 @@ export function useUserDataSync() {
       }
     }
 
-    sync();
+    sync(userId);
   }, [isInitialized, user?.id, resetCart, resetFavorites, shoppingCart, favorites]);
 
   // Save cart changes
