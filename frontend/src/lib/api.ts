@@ -2,7 +2,7 @@ import { supabase } from "./supabase";
 import type { Product } from "../types";
 
 const API_BASE =
-  import.meta.env.VITE_API_URL ??
+  import.meta.env.API_URL ??
   (import.meta.env.PROD
     ? "https://onlygirlsccs-ecommerce-backend.vercel.app"
     : "/api");

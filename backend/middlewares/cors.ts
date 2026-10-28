@@ -1,26 +1,34 @@
 import cors from 'cors';
 
 const DEFAULT_ORIGINS = [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'http://localhost:1234',
-]
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:1234',
+];
 
-const FRONTEND_URL = process.env.FRONTEND_URL
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 export const corsMiddleware = () => {
-  const acceptedOrigins = FRONTEND_URL
-    ? [...DEFAULT_ORIGINS, FRONTEND_URL]
-    : DEFAULT_ORIGINS
+  const acceptedOrigins = [
+    ...DEFAULT_ORIGINS,
+    ...(FRONTEND_URL ? [FRONTEND_URL] : []),
+  ];
 
   return cors({
-    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    origin: (
+      origin: string | undefined,
+      callback: (err: Error | null, allow?: boolean) => void,
+    ) => {
       if (!origin) return callback(null, true);
       if (acceptedOrigins.includes(origin)) return callback(null, true);
+      // Permitir previews y dominios de Vercel
+      if (origin.endsWith('.vercel.app')) {
+        return callback(null, true);
+      }
       return callback(new Error('Not allowed by CORS'));
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
+    credentials: true,
   });
 };
