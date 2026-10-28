@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { updateProduct } from "../../../lib/api";
 import {
+  CATEGORIAS,
+  tipoUsaMedidas,
+  unidadMedida,
+} from "../../../lib/categorias";
+import {
   safeDeleteProductImage,
   uploadProductImage,
 } from "../../../lib/storage";
@@ -81,8 +86,9 @@ export function EditProductModal({
 
     setFormData((prev) => {
       const next = { ...prev, [name]: val };
-      // Al dejar de ser Peluche se limpian las medidas (como en DashboardOG)
-      if (name === "tipo" && value !== "Peluche") next.medidas = [];
+      // Al cambiar de categoría se limpian las medidas: cada categoría usa
+      // su propia unidad (CM para peluches, ML para termos).
+      if (name === "tipo") next.medidas = [];
       return next;
     });
   };
@@ -136,7 +142,7 @@ export function EditProductModal({
       return;
     }
 
-    if (formData.tipo === "Peluche") {
+    if (tipoUsaMedidas(formData.tipo)) {
       if (formData.medidas.length === 0) {
         setError("Debes agregar al menos una medida con su precio.");
         return;
@@ -162,10 +168,9 @@ export function EditProductModal({
         image_url = await uploadProductImage(selectedFile);
       }
 
-      const precio =
-        formData.tipo === "Peluche"
-          ? Math.min(...formData.medidas.map((m) => m.precio))
-          : Number(formData.precio);
+      const precio = tipoUsaMedidas(formData.tipo)
+        ? Math.min(...formData.medidas.map((m) => m.precio))
+        : Number(formData.precio);
 
       const updated = await updateProduct(product.id, {
         nombre,
@@ -173,7 +178,7 @@ export function EditProductModal({
         precio,
         descripcion: formData.descripcion.trim(),
         disponible: formData.disponible,
-        medidas: formData.tipo === "Peluche" ? formData.medidas : [],
+        medidas: tipoUsaMedidas(formData.tipo) ? formData.medidas : [],
         image_url,
       });
 
@@ -292,6 +297,10 @@ export function EditProductModal({
               disabled={loading}
               className="w-full border border-pinklight/40 p-2.5 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-white transition-all disabled:bg-soft-gray"
             >
+              {/* Categoría existente que no está en el catálogo actual */}
+              {!CATEGORIAS.some((c) => c.value === formData.tipo) && (
+                <option value={formData.tipo}>{formData.tipo}</option>
+              )}
               {CATEGORIAS.map((c) => (
                 <option key={c.value} value={c.value}>
                   {c.label}
@@ -301,7 +310,7 @@ export function EditProductModal({
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            {formData.tipo !== "Peluche" && (
+            {!tipoUsaMedidas(formData.tipo) && (
               <div>
                 <label
                   htmlFor="edit-precio"
@@ -340,10 +349,10 @@ export function EditProductModal({
             </div>
           </div>
 
-          {formData.tipo === "Peluche" && (
+          {tipoUsaMedidas(formData.tipo) && (
             <div>
               <label className="block text-sm font-medium text-dark mb-1">
-                Medidas disponibles
+                Medidas disponibles ({unidadMedida(formData.tipo)})
               </label>
               <div className="flex gap-2">
                 <input
@@ -358,7 +367,9 @@ export function EditProductModal({
                   }}
                   disabled={loading}
                   className="flex-1 border border-pinklight/40 p-2.5 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
-                  placeholder="Ej: 50CM"
+                  placeholder={`Ej: ${
+                    unidadMedida(formData.tipo) === "ML" ? "500ML" : "50CM"
+                  }`}
                 />
                 <input
                   type="number"
