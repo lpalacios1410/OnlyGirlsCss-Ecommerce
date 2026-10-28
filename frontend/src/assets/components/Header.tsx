@@ -247,7 +247,7 @@ export function Header() {
         createPortal(
           <Link
             href="/dashboardAdmin"
-            ariaLabel="Agregar producto nuevo"
+            ariaLabel="Gestionar productos de la tienda"
             className="fixed bottom-6 right-6 z-[60] flex items-center gap-2 rounded-full bg-primary px-5 py-4 font-semibold text-white shadow-xl hover:bg-wine hover:scale-105 transition-all duration-200"
           >
             <svg
@@ -256,16 +256,16 @@ export function Header() {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              strokeWidth={2.5}
+              strokeWidth={2}
               aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M12 4v16m8-8H4"
+                d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
               />
             </svg>
-            <span className="hidden sm:inline">Agregar producto</span>
+            <span className="hidden sm:inline">Gestionar Productos</span>
           </Link>,
           document.body
         )}

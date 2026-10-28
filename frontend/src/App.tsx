@@ -14,7 +14,7 @@ const StoragePage = lazy(() => import("./pages/StoragePage"));
 const ContactPage = lazy(() => import("./assets/components/Contact"));
 const ProductDetail = lazy(() => import("./assets/components/Detail"));
 const NotFoundPage = lazy(() => import("./pages/404"));
-const DashboardOg = lazy(() => import("./assets/components/DashboardOG"));
+const AdminPanel = lazy(() => import("./assets/components/admin/AdminPanel"));
 const LoginPage = lazy(() => import("./pages/Login"));
 const RegisterPage = lazy(() => import("./pages/Register"));
 const FavoritesPage = lazy(() => import("./pages/Favorites"));
@@ -62,7 +62,7 @@ function App() {
             path="/dashboardAdmin"
             element={
               <ProtectedRoute requireAdmin>
-                <DashboardOg />
+                <AdminPanel />
               </ProtectedRoute>
             }
           />

@@ -12,6 +12,7 @@ export interface Product {
   disponible: boolean
   medidas: MedidaOption[]
   image: string
+  image_url?: string
 }
 
 export interface CartItem {
