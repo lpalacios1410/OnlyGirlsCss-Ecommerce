@@ -56,7 +56,7 @@ export function DeleteProductModal({
   return createPortal(
     <>
       <div
-        className="fixed inset-0 bg-black/50 z-[70]"
+        className="fixed inset-0 bg-black/50 z-70"
         onClick={loading ? undefined : onClose}
         aria-hidden="true"
       />
@@ -65,7 +65,7 @@ export function DeleteProductModal({
         role="alertdialog"
         aria-modal="true"
         aria-label={`Eliminar producto ${product.nombre}`}
-        className="fixed z-[80] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+        className="fixed z-80 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col"
       >
         <div className="p-5 flex items-center justify-between border-b border-pinklight/30">
           <h2 className="font-bold text-dark text-lg">Eliminar producto</h2>
