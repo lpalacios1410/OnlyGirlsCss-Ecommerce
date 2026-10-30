@@ -19,8 +19,6 @@ export default function StoragePage() {
     products,
     searchQuery,
     handleSearchChange,
-    disponible,
-    handleDisponibleChange,
     orden,
     handleOrdenChange,
     clearFilters,
@@ -33,7 +31,7 @@ export default function StoragePage() {
   );
 
   const hasActiveFilters =
-    searchQuery || categorySelected !== "todos" || disponible !== undefined;
+    searchQuery || categorySelected !== "todos";
 
   return (
     <main
@@ -43,8 +41,6 @@ export default function StoragePage() {
       <FiltersProducts
         activeCategory={categorySelected}
         onCategoryChange={handleCategoryChange}
-        disponible={disponible}
-        onDisponibleChange={handleDisponibleChange}
         orden={orden}
         onOrdenChange={handleOrdenChange}
       />

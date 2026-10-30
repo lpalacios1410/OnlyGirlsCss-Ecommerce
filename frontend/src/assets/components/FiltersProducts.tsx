@@ -3,8 +3,6 @@ import type { Category } from "../../hooks/useFilters";
 interface FiltersProductsProps {
   onCategoryChange: (category: Category) => void;
   activeCategory: Category;
-  disponible?: boolean;
-  onDisponibleChange: (value?: boolean) => void;
   orden: string;
   onOrdenChange: (value: string) => void;
 }
@@ -37,12 +35,6 @@ const categories = [
   },
 ];
 
-const disponibilidadOptions = [
-  { value: undefined, label: "Todos" },
-  { value: true, label: "En stock" },
-  { value: false, label: "Agotado" },
-];
-
 const ordenOptions = [
   { value: "nuevo", label: "Novedades" },
   { value: "precio-asc", label: "Precio: menor a mayor" },
@@ -52,8 +44,6 @@ const ordenOptions = [
 export function FiltersProducts({
   onCategoryChange,
   activeCategory,
-  disponible,
-  onDisponibleChange,
   orden,
   onOrdenChange,
 }: FiltersProductsProps) {
@@ -104,25 +94,6 @@ export function FiltersProducts({
                   />
                 </svg>
                 <span className="font-medium">{cat.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-pinklight/30">
-          <h3 className="font-bold text-dark text-lg mb-4">Disponibilidad</h3>
-          <div className="flex flex-wrap gap-2">
-            {disponibilidadOptions.map((opt) => (
-              <button
-                key={String(opt.value)}
-                onClick={() => onDisponibleChange(opt.value)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
-                  disponible === opt.value
-                    ? "bg-primary text-white"
-                    : "bg-soft-gray text-muted hover:bg-pinklight/30 hover:text-dark"
-                }`}
-              >
-                {opt.label}
               </button>
             ))}
           </div>
