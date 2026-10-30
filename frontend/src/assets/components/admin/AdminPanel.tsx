@@ -39,8 +39,8 @@ export default function AdminPanel() {
               onClick={() => setTab(id)}
               className={`flex-1 sm:flex-none px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
                 tab === id
-                  ? "bg-primary text-white shadow"
-                  : "text-muted hover:bg-pinklight/40 hover:text-dark"
+                  ? "bg-primary text-white shadow hover:cursor-pointer"
+                  : "text-muted hover:bg-pinklight/40 hover:text-dark hover:cursor-pointer"
               }`}
             >
               {label}
